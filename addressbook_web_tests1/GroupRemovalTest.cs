@@ -7,18 +7,17 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactCreationTests : TestBase
+    public class GroupRemovalTests : TestBase
     {
         [Test]
-        public void ContactCreationTest()
+        public void GroupRemovalTest()
         {
             GoToHomePage();
             Login(new AccountData("admin", "secret"));
-            GoToAddContactPage();
-            ContactData contact = new ContactData("Ivan", "Petrov");
-            FillContactForm(contact);
-            SubmitContactCreation();
-            ReturnToHomePage();
+            GoToGroupsPage();
+            SelectGroup(1);
+            RemoveGroup();
+            ReturnToGroupsPage();
         }
     }
 }
