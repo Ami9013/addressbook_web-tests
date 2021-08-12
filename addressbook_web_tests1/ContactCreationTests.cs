@@ -13,7 +13,7 @@ namespace WebAddressbookTests
         public void ContactCreationTest()
         {
             GoToHomePage();
-            Login(new AccountData("admin", "secret"));
+            loginHelper.Login(new AccountData("admin", "secret"));
             GoToAddContactPage();
             ContactData contact = new ContactData("Ivan", "Petrov");
             FillContactForm(contact);
