@@ -27,7 +27,7 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
-        /// Заполняет форму создания группы переданными значениями
+        /// Заполняет форму создания/редактирования группы переданными значениями
         /// </summary>
         public void FillGroupForm(GroupData group)
         {
@@ -65,6 +65,22 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("delete")).Click();
         }
 
+        /// <summary>
+        /// Открывает форму редактирования группы
+        /// </summary>
+        public void EditGroup()
+        {
+            driver.FindElement(By.Name("edit")).Click();
+        }
+
+        /// <summary>
+        /// Сохраняет форму редактирования группы
+        /// </summary>
+        public void SubmitGroupEdit()
+        {
+            driver.FindElement(By.Name("update")).Click();
+        }
+
         ///// <summary>
         ///// Возвращает на вкладку "Группы"
         ///// </summary>
@@ -72,5 +88,7 @@ namespace WebAddressbookTests
         {
             driver.FindElement(By.LinkText("group page")).Click();
         }
+
+
     }
 }

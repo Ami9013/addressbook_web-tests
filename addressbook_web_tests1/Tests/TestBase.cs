@@ -22,6 +22,18 @@ namespace WebAddressbookTests
         {
             appManager.Stop();
         }
-        // abc
+
+
+
+        //TODO
+        // Которых нет
+        // Группы: Модификация + GroupModifyTests комменты ок - тесты ок
+        //
+        // Контакты: Удаление - -------
+        // модификация + ContactModifyTests комменты ок - тесты ок
+        // 
+        // 
+        // 
+        // 
     }
 }

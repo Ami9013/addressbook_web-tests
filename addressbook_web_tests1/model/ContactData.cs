@@ -10,11 +10,19 @@ namespace WebAddressbookTests
     {
         private string firstName;
         private string lastName;
+        private string nickName = "";
 
         public ContactData(string firstName, string lastName)
         {
             this.firstName = firstName;
             this.lastName = lastName;
+        }
+
+        public ContactData(string firstName, string lastName, string nickName)
+        {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.nickName = nickName;
         }
 
         public string FirstName
@@ -38,6 +46,18 @@ namespace WebAddressbookTests
             set
             {
                 lastName = value;
+            }
+        }
+
+        public string NickName
+        {
+            get
+            {
+                return nickName;
+            }
+            set
+            {
+                nickName = value;
             }
         }
     }
