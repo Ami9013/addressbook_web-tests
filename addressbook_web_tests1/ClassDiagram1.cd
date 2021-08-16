@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WebAddressbookTests.ApplicationManager">
+    <Position X="14.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAEAEAABAAAAAAAAAAAAASAAAAAAAAAIBCAABAAACA=</HashCode>
+      <FileName>appmanager\ApplicationManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="contactHelper" />
+      <Field Name="groupHelper" />
+      <Field Name="loginHelper" />
+      <Field Name="navigator" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebAddressbookTests.ContactHelper" Collapsed="true">
+    <Position X="8.5" Y="7.5" Width="1.5" />
+    <InheritanceLine Type="WebAddressbookTests.HelperBase" FixedFromPoint="true">
+      <Path>
+        <Point X="6" Y="7.25" />
+        <Point X="6.375" Y="7.25" />
+        <Point X="6.375" Y="7.846" />
+        <Point X="8.5" Y="7.846" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AABAAAAACAQEAAAAAAIAAAAAAhAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>appmanager\ContactHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAddressbookTests.GroupHelper" Collapsed="true">
+    <Position X="12" Y="5.5" Width="1.5" />
+    <InheritanceLine Type="WebAddressbookTests.HelperBase" FixedFromPoint="true">
+      <Path>
+        <Point X="6" Y="7.25" />
+        <Point X="6.375" Y="7.25" />
+        <Point X="6.375" Y="5.846" />
+        <Point X="12" Y="5.846" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>QAACAAAAAABAAAAAAAAAAAAAAAABMAAAAAAAAABAAAI=</HashCode>
+      <FileName>appmanager\GroupHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAddressbookTests.HelperBase" Collapsed="true">
+    <Position X="4.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>appmanager\HelperBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAddressbookTests.LoginHelper" Collapsed="true">
+    <Position X="7.25" Y="8.5" Width="1.5" />
+    <InheritanceLine Type="WebAddressbookTests.HelperBase" FixedFromPoint="true">
+      <Path>
+        <Point X="6" Y="7.25" />
+        <Point X="6.375" Y="7.25" />
+        <Point X="6.375" Y="8.846" />
+        <Point X="7.25" Y="8.846" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>appmanager\LoginHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAddressbookTests.NavigationHelper" Collapsed="true">
+    <Position X="10.25" Y="6.5" Width="1.5" />
+    <InheritanceLine Type="WebAddressbookTests.HelperBase" FixedFromPoint="true">
+      <Path>
+        <Point X="6" Y="7.25" />
+        <Point X="6.375" Y="7.25" />
+        <Point X="6.375" Y="6.846" />
+        <Point X="10.25" Y="6.846" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAaA=</HashCode>
+      <FileName>appmanager\NavigationHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAddressbookTests.ContactRemovalTests">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>ContactRemovalTests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAddressbookTests.AccountData" Collapsed="true">
+    <Position X="17" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAEAAAAAAAACAAAAAgAAAAA=</HashCode>
+      <FileName>model\AccountData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAddressbookTests.ContactData" Collapsed="true">
+    <Position X="17" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAABAAAAAAAAAAAAAAQAAAAEAAAAACAAAAAg=</HashCode>
+      <FileName>model\ContactData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAddressbookTests.GroupData" Collapsed="true">
+    <Position X="17" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAQAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>model\GroupData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAddressbookTests.ContactCreationTests">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Tests\ContactCreationTests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAddressbookTests.ContactModifyTests">
+    <Position X="10.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Tests\ContactModifyTests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAddressbookTests.GroupCreationTests">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tests\GroupCreationTests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAddressbookTests.GroupModifyTests">
+    <Position X="3.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tests\GroupModifyTests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAddressbookTests.GroupRemovalTests">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tests\GroupRemovalTests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAddressbookTests.TestBase">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAIAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tests\TestBase.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="appManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

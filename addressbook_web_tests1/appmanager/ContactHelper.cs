@@ -68,6 +68,19 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
+        /// Удаляет отмеченный чек-боксом контакт
+        /// </summary>
+        public void RemoveContact()
+        {
+            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+        }
+
+        public void ContactCloseAlert()
+        {
+            driver.SwitchTo().Alert().Accept();
+        }
+
+        /// <summary>
         /// Возвращает на домашнюю страницу переходя по ссылке из сообщения после редактирования
         /// </summary>
         public void ReturnToHomePageafterUpd()

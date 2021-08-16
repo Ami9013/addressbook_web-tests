@@ -49,7 +49,7 @@ namespace WebAddressbookTests
         /// </summary>
         public void ReturnToHomePage()
         {
-            driver.FindElement(By.LinkText("home"));
+            driver.FindElement(By.LinkText("home")).Click();
         }
 
     }
