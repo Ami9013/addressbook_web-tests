@@ -14,22 +14,65 @@ namespace WebAddressbookTests
     /// </summary>
     public class GroupHelper : HelperBase
     {
-        public GroupHelper(IWebDriver driver) : base(driver)
+        public GroupHelper(ApplicationManager manager) : base(manager)
         {
+        }
+
+        /// <summary>
+        /// Создает группу
+        /// Высокоуровневый метод. Содержит в себе все необходимые методы для создания группы. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper
+        /// </summary>
+        public GroupHelper CreateGroup(GroupData group)
+        {
+            manager.Navigator.GoToGroupsPage();
+            InitGroupCreation();
+            FillGroupForm(group);
+            SubmitGroupCreation();
+            ReturnToGroupsPage();
+            return this;
+        }
+
+        /// <summary>
+        /// Удаляет группу
+        /// Высокоуровневый метод. Содержит в себе все необходимые методы для удаления группы. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper
+        /// </summary>
+        public GroupHelper Remove(int p) 
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(1);
+            RemoveGroup();
+            ReturnToGroupsPage();
+            return this;
+        }
+
+        /// <summary>
+        /// Изменяет группу
+        /// Высокоуровневый метод. Содержит в себе все необходимые методы для изменения группы. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper
+        /// </summary>
+        public GroupHelper Modify(GroupData group)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(1);
+            EditGroup();
+            FillGroupForm(group);
+            SubmitGroupEdit();
+            ReturnToGroupsPage();
+            return this;
         }
 
         /// <summary>
         /// Открывает форму создания группы
         /// </summary>
-        public void InitGroupCreation()
+        public GroupHelper InitGroupCreation()
         {
             driver.FindElement(By.Name("new")).Click();
+            return this;
         }
 
         /// <summary>
         /// Заполняет форму создания/редактирования группы переданными значениями
         /// </summary>
-        public void FillGroupForm(GroupData group)
+        public GroupHelper FillGroupForm(GroupData group)
         {
             driver.FindElement(By.Name("group_name")).Click();
             driver.FindElement(By.Name("group_name")).Clear();
@@ -39,56 +82,61 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("group_header")).SendKeys(group.Header);
             driver.FindElement(By.Name("group_footer")).Clear();
             driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
+            return this;
         }
 
         /// <summary>
         /// Сохраняет форму создания группы
         /// </summary>
-        public void SubmitGroupCreation()
+        public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
+            return this;
         }
 
         /// <summary>
         /// Отмечает(выбирает) группу
         /// </summary>
-        public void SelectGroup(int index)
+        public GroupHelper SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            return this;
         }
 
         /// <summary>
         /// Удаляет выбранную группу
         /// </summary>
-        public void RemoveGroup()
+        public GroupHelper RemoveGroup()
         {
             driver.FindElement(By.Name("delete")).Click();
+            return this;
         }
 
         /// <summary>
         /// Открывает форму редактирования группы
         /// </summary>
-        public void EditGroup()
+        public GroupHelper EditGroup()
         {
             driver.FindElement(By.Name("edit")).Click();
+            return this;
         }
 
         /// <summary>
         /// Сохраняет форму редактирования группы
         /// </summary>
-        public void SubmitGroupEdit()
+        public GroupHelper SubmitGroupEdit()
         {
             driver.FindElement(By.Name("update")).Click();
+            return this;
         }
 
         ///// <summary>
         ///// Возвращает на вкладку "Группы"
         ///// </summary>
-        public void ReturnToGroupsPage()
+        public GroupHelper ReturnToGroupsPage()
         {
             driver.FindElement(By.LinkText("group page")).Click();
+            return this;
         }
-
-
     }
 }

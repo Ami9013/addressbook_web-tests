@@ -12,14 +12,8 @@ namespace WebAddressbookTests
         [Test]
         public void ContactModifyTest()
         {
-            appManager.Navigator.GoToHomePage();
-            appManager.Auth.Login(new AccountData("admin", "secret"));
-            appManager.Contacts.ModifyContact(1);
             ContactData contact = new ContactData("updIvan", "updPetrov", "updNick");
-            appManager.Contacts.FillContactForm(contact);
-            appManager.Contacts.SubmitContactModify();
-            appManager.Contacts.ReturnToHomePageafterUpd();
-
+            appManager.Contacts.Modify(contact);
         }
     }
 }

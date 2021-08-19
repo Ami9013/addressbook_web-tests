@@ -12,17 +12,10 @@ namespace WebAddressbookTests
         [Test]
         public void GroupModifyTest()
         {
-            appManager.Navigator.GoToHomePage();
-            appManager.Auth.Login(new AccountData("admin", "secret"));
-            appManager.Navigator.GoToGroupsPage();
-            appManager.Groups.SelectGroup(1);
-            appManager.Groups.EditGroup();
             GroupData group = new GroupData("name after update");
             group.Header = "header after update";
             group.Footer = "footer after update";
-            appManager.Groups.FillGroupForm(group);
-            appManager.Groups.SubmitGroupEdit();
-            appManager.Groups.ReturnToGroupsPage();
+            appManager.Groups.Modify(group);
         }
     }
 }

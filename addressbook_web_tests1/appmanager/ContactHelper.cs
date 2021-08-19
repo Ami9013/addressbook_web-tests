@@ -14,15 +14,52 @@ namespace WebAddressbookTests
     /// </summary>
     public class ContactHelper : HelperBase
     {
-        public ContactHelper(IWebDriver driver) : base(driver)
+        public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
+        /// <summary>
+        /// Создает контакт
+        /// Высокоуровневый метод. Содержит в себе все необходимые методы для создания контакта. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper
+        /// </summary>
+        public ContactHelper ContactCreate(ContactData contact)
+        {
+            manager.Navigator.GoToAddContactPage();
+            FillContactForm(contact);
+            SubmitContactCreation();
+            manager.Navigator.ReturnToHomePage();
+            return this;
+        }
 
+        /// <summary>
+        /// Удаляет контакт
+        /// Высокоуровневый метод. Содержит в себе все необходимые методы для удаления контакта. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper
+        /// </summary>
+        public ContactHelper Remove()
+        {
+            SelectContact(1);
+            RemoveContact();
+            ContactCloseAlert();
+            manager.Navigator.ReturnToHomePage();
+            return this;
+        }
+
+        /// <summary>
+        /// Изменяет контакт
+        /// Высокоуровневый метод. Содержит в себе все необходимые методы для изменения контакта. Обращается к вспомогательным методам своего класса
+        /// </summary>
+        public ContactHelper Modify(ContactData contact)
+        {
+            ModifyContact(1);
+            FillContactForm(contact);
+            SubmitContactModify();
+            ReturnToHomePageafterUpd();
+            return this;
+        }
 
         /// <summary>
         /// Заполняет форму создания/редактирования контакта переданными значениями
         /// </summary>
-        public void FillContactForm(ContactData contact)
+        public ContactHelper FillContactForm(ContactData contact)
         {
             driver.FindElement(By.Name("firstname")).Click();
             driver.FindElement(By.Name("firstname")).Clear();
@@ -33,59 +70,68 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("nickname")).Click();
             driver.FindElement(By.Name("nickname")).Clear();
             driver.FindElement(By.Name("nickname")).SendKeys(contact.NickName);
+            return this;
         }
 
         /// <summary>
         /// Сохраняет форму создания контакта 
         /// </summary>
-        public void SubmitContactCreation()
+        public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
+            return this;
         }
 
         /// <summary>
         /// Отмечает(выбирает) контакт
         /// </summary>
-        public void SelectContact(int index)
+        public ContactHelper SelectContact(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            return this;
         }
 
         /// <summary>
         /// Открывает форму редактирования контакта (без захода в Details)
         /// </summary>
-        public void ModifyContact(int index)
+        public ContactHelper ModifyContact(int index)
         {
             driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + index + "]")).Click();
+            return this;
         }
 
         /// <summary>
         /// Сохраняет форму редактирования контакта
         /// </summary>
-        public void SubmitContactModify()
+        public ContactHelper SubmitContactModify()
         {
             driver.FindElement(By.Name("update")).Click();
+            return this;
         }
 
         /// <summary>
         /// Удаляет отмеченный чек-боксом контакт
         /// </summary>
-        public void RemoveContact()
+        public ContactHelper RemoveContact()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            return this;
         }
 
-        public void ContactCloseAlert()
+        public ContactHelper ContactCloseAlert()
         {
             driver.SwitchTo().Alert().Accept();
+            return this;
         }
+
 
         /// <summary>
         /// Возвращает на домашнюю страницу переходя по ссылке из сообщения после редактирования
         /// </summary>
-        public void ReturnToHomePageafterUpd()
+        public ContactHelper ReturnToHomePageafterUpd()
         {
             driver.FindElement(By.XPath("//a[contains(text(),'home page')]")).Click();
+            return this;
         }
 
     }
