@@ -23,7 +23,13 @@ namespace WebAddressbookTests
         [TearDown]
         public void TeardownTest()
         {
+            appManager.Auth.Logout();
             appManager.Stop();
         }
+
+        //TODO
+        // Если -  ОК, то переписать везде геттеры и сеттеры: ContactData и GroupData
+        // Если -  ОК, то переписать везде где есть findelement под идентификаторы, а не под текст
+        // что делать с username и password если они нигде не используются
     }
 }
