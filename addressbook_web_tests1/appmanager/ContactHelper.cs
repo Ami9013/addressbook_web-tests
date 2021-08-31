@@ -6,7 +6,6 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-
 namespace WebAddressbookTests
 {
     /// <summary>
@@ -29,7 +28,6 @@ namespace WebAddressbookTests
             manager.Navigator.ReturnToHomePage();
             return this;
         }
-
         /// <summary>
         /// Удаляет контакт
         /// Высокоуровневый метод. Содержит в себе все необходимые методы для удаления контакта. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper
@@ -42,7 +40,6 @@ namespace WebAddressbookTests
             manager.Navigator.ReturnToHomePage();
             return this;
         }
-
         /// <summary>
         /// Изменяет контакт
         /// Высокоуровневый метод. Содержит в себе все необходимые методы для изменения контакта. Обращается к вспомогательным методам своего класса
@@ -55,24 +52,19 @@ namespace WebAddressbookTests
             ReturnToHomePageafterUpd();
             return this;
         }
-
         /// <summary>
         /// Заполняет форму создания/редактирования контакта переданными значениями
         /// </summary>
         public ContactHelper FillContactForm(ContactData contact)
         {
-            driver.FindElement(By.Name("firstname")).Click();
             driver.FindElement(By.Name("firstname")).Clear();
             driver.FindElement(By.Name("firstname")).SendKeys(contact.FirstName);
-            driver.FindElement(By.Name("lastname")).Click();
             driver.FindElement(By.Name("lastname")).Clear();
             driver.FindElement(By.Name("lastname")).SendKeys(contact.LastName);
-            driver.FindElement(By.Name("nickname")).Click();
             driver.FindElement(By.Name("nickname")).Clear();
             driver.FindElement(By.Name("nickname")).SendKeys(contact.NickName);
             return this;
         }
-
         /// <summary>
         /// Сохраняет форму создания контакта 
         /// </summary>
@@ -81,7 +73,6 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("submit")).Click();
             return this;
         }
-
         /// <summary>
         /// Отмечает(выбирает) контакт
         /// </summary>
@@ -90,7 +81,6 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
             return this;
         }
-
         /// <summary>
         /// Открывает форму редактирования контакта (без захода в Details)
         /// </summary>
@@ -99,7 +89,6 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + index + "]")).Click();
             return this;
         }
-
         /// <summary>
         /// Сохраняет форму редактирования контакта
         /// </summary>
@@ -108,7 +97,6 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("update")).Click();
             return this;
         }
-
         /// <summary>
         /// Удаляет отмеченный чек-боксом контакт
         /// </summary>
@@ -117,14 +105,11 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             return this;
         }
-
         public ContactHelper ContactCloseAlert()
         {
             driver.SwitchTo().Alert().Accept();
             return this;
         }
-
-
         /// <summary>
         /// Возвращает на домашнюю страницу переходя по ссылке из сообщения после редактирования
         /// </summary>
@@ -133,6 +118,5 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("//a[contains(text(),'home page')]")).Click();
             return this;
         }
-
     }
 }

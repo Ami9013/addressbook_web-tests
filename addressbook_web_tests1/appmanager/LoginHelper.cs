@@ -6,11 +6,10 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-
 namespace WebAddressbookTests
 {
     /// <summary>
-    /// Хранит в себе вспомогательные методы по логину
+    /// Хранит в себе вспомогательные методы по логину и разлогину
     /// </summary>
     public class LoginHelper : HelperBase
     {
@@ -27,6 +26,11 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("pass")).Clear();
             driver.FindElement(By.Name("pass")).SendKeys(account.Password);
             driver.FindElement(By.XPath("//input[@value='Login']")).Click();
+        }
+
+        public void Logout()
+        {
+            driver.FindElement(By.XPath("//div[@id='top']/form/a")).Click();
         }
     }
 }
