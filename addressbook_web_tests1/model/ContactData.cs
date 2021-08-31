@@ -25,19 +25,19 @@ namespace WebAddressbookTests
             this.nickName = nickName;
         }
 
-        public string FirstName 
+        public string FirstName
         {
             get
             {
                 return firstName;
             }
-    set
+            set
             {
                 firstName = value;
             }
         }
 
-        public string LastName 
+        public string LastName
         {
             get
             {

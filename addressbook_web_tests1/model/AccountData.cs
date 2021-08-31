@@ -11,35 +11,34 @@ namespace WebAddressbookTests
         private string username;
         private string password;
 
-        public string Username {get;set;}
-        public string Password {get;set;}
-
         public AccountData(string username, string password)
         {
-            Username = username;
-            Password = password;
+            this.username = username;
+            this.password = password;
         }
 
-        //{
-        //    get
-        //    {
-        //        return username;
-        //    }
-        //    set
-        //    {
-        //        username = value;
-        //    }
-        //}
+        public string Username
+        {
+            get
+            {
+                return username;
+            }
+            set
+            {
+                username = value;
+            }
+        }
 
-        //{
-        //    get
-        //    {
-        //        return password;
-        //    }
-        //    set
-        //    {
-        //        password = value;
-        //    }
-        //}
+        public string Password
+        {
+            get
+            {
+                return password;
+            }
+            set
+            {
+                password = value;
+            }
+        }
     }
 }
