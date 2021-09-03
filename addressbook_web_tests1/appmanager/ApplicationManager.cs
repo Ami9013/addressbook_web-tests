@@ -40,20 +40,14 @@ namespace WebAddressbookTests
             }
         }
 
+
         public void Stop()
         {
-            try
-            {
-                driver.Quit();
-            }
-            catch (Exception)
-            {
-                // Ignore errors if unable to close the browser
-            }
+            driver.Quit();
         }
 
 
-        public LoginHelper Auth
+        public LoginHelper Auth 
         {
             get
             {
@@ -61,7 +55,7 @@ namespace WebAddressbookTests
             }
         }
 
-        public NavigationHelper Navigator
+public NavigationHelper Navigator
         {
             get
             {

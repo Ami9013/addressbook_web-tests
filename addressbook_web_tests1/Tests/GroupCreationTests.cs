@@ -17,6 +17,7 @@ namespace WebAddressbookTests
             group.Footer = "fff";
 
             appManager.Groups.CreateGroup(group);
+            appManager.Auth.Logout();
         }
 
         [Test]
@@ -27,6 +28,7 @@ namespace WebAddressbookTests
             group.Footer = "";
             
             appManager.Groups.CreateGroup(group);
+            appManager.Auth.Logout();
         }
     }
 }

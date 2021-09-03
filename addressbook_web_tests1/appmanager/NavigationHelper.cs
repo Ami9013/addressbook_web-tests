@@ -33,7 +33,7 @@ namespace WebAddressbookTests
         /// </summary>
         public void GoToGroupsPage()
         {
-            driver.FindElement(By.LinkText("groups")).Click();
+            driver.FindElement(By.XPath("//div[@id='nav']//a[contains(@href,'group.php')]")).Click();
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace WebAddressbookTests
         /// </summary>
         public void GoToAddContactPage()
         {
-            driver.FindElement(By.LinkText("add new")).Click();
+            driver.FindElement(By.XPath("//div[@id='nav']//a[contains(@href,'edit.php')]")).Click();
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace WebAddressbookTests
         /// </summary>
         public void ReturnToHomePage()
         {
-            driver.FindElement(By.LinkText("home")).Click();
+            driver.FindElement(By.XPath("//div[@id='nav']//a[contains(@href,'./')]")).Click();
         }
 
     }

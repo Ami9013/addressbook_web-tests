@@ -14,6 +14,7 @@ namespace WebAddressbookTests
         {
             ContactData contact = new ContactData("Ivan", "Petrov");
             appManager.Contacts.ContactCreate(contact);
+            appManager.Auth.Logout();
         }
     }
 }

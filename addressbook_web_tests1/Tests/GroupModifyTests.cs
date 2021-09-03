@@ -16,6 +16,7 @@ namespace WebAddressbookTests
             group.Header = "header after update";
             group.Footer = "footer after update";
             appManager.Groups.Modify(group);
+            appManager.Auth.Logout();
         }
     }
 }
