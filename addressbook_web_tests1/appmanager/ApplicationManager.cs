@@ -55,7 +55,7 @@ namespace WebAddressbookTests
             }
         }
 
-public NavigationHelper Navigator
+        public NavigationHelper Navigator
         {
             get
             {

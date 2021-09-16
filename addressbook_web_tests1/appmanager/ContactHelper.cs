@@ -26,6 +26,14 @@ namespace WebAddressbookTests
         {
             manager.Navigator.GoToAddContactPage();
             FillContactForm(contact);
+            FillDayOfBirth(7);
+            FillMonthOfBirth(10);
+            FillYearOfBirth(contact);
+            FillDayOfAnniversary(7);
+            FillMonthOfAnniversary(10);
+            FillYearOfAnniversary(contact);
+            SelectGroupForContact(1);
+            FillSecondaryContactForm(contact);
             SubmitContactCreation();
             manager.Navigator.ReturnToHomePage();
             return this;
@@ -50,7 +58,7 @@ namespace WebAddressbookTests
         /// </summary>
         public ContactHelper Modify(ContactData contact)
         {
-            ModifyContact(1);
+            ModifyContact(5);
             FillContactForm(contact);
             SubmitContactModify();
             ReturnToHomePageafterUpd();
@@ -62,12 +70,103 @@ namespace WebAddressbookTests
         /// </summary>
         public ContactHelper FillContactForm(ContactData contact)
         {
-            driver.FindElement(By.XPath("//div[@id='content']//input[@type='text' and @name='firstname']")).Clear();
-            driver.FindElement(By.XPath("//div[@id='content']//input[@type='text' and @name='firstname']")).SendKeys(contact.FirstName);
-            driver.FindElement(By.XPath("//div[@id='content']//input[@type='text' and @name='lastname']")).Clear();
-            driver.FindElement(By.XPath("//div[@id='content']//input[@type='text' and @name='lastname']")).SendKeys(contact.LastName);
-            driver.FindElement(By.XPath("//div[@id='content']//input[@type='text' and @name='nickname']")).Clear();
-            driver.FindElement(By.XPath("//div[@id='content']//input[@type='text' and @name='nickname']")).SendKeys(contact.NickName);
+            driver.FindElement(By.CssSelector("div#content input[name='firstname']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='firstname']")).SendKeys(contact.FirstName);
+            driver.FindElement(By.CssSelector("div#content input[name='lastname']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='lastname']")).SendKeys(contact.LastName);
+            driver.FindElement(By.CssSelector("div#content input[name='nickname']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='nickname']")).SendKeys(contact.NickName);
+            driver.FindElement(By.CssSelector("div#content input[name='middlename']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='middlename']")).SendKeys(contact.MiddleName);
+            driver.FindElement(By.CssSelector("div#content input[name='title']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='title']")).SendKeys(contact.Title);
+            driver.FindElement(By.CssSelector("div#content input[name='company']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='company']")).SendKeys(contact.Company);
+            driver.FindElement(By.CssSelector("div#content textarea[name='address']")).Clear();
+            driver.FindElement(By.CssSelector("div#content textarea[name='address']")).SendKeys(contact.FirstAddress);
+            driver.FindElement(By.CssSelector("div#content input[name='home']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='home']")).SendKeys(contact.FirstHome);
+            driver.FindElement(By.CssSelector("div#content input[name='mobile']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='mobile']")).SendKeys(contact.Mobile);
+            driver.FindElement(By.CssSelector("div#content input[name='work']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='work']")).SendKeys(contact.Work);
+            driver.FindElement(By.CssSelector("div#content input[name='fax']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='fax']")).SendKeys(contact.Fax);
+            driver.FindElement(By.CssSelector("div#content input[name='email']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='email']")).SendKeys(contact.Email);
+            driver.FindElement(By.CssSelector("div#content input[name='email2']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='email2']")).SendKeys(contact.Email2);
+            driver.FindElement(By.CssSelector("div#content input[name='email3']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='email3']")).SendKeys(contact.Email3);
+            driver.FindElement(By.CssSelector("div#content input[name='homepage']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='homepage']")).SendKeys(contact.Homepage);
+            return this;
+        }
+
+        public ContactHelper FillSecondaryContactForm(ContactData contact)
+        {
+            driver.FindElement(By.CssSelector("div#content textarea[name='address2']")).Clear();
+            driver.FindElement(By.CssSelector("div#content textarea[name='address2']")).SendKeys(contact.SecondAddress);
+            driver.FindElement(By.CssSelector("div#content input[name='phone2']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='phone2']")).SendKeys(contact.SecondHome);
+            driver.FindElement(By.CssSelector("div#content textarea[name='notes']")).Clear();
+            driver.FindElement(By.CssSelector("div#content textarea[name='notes']")).SendKeys(contact.SecondNotes);
+            return this;
+        }
+
+        // Заполняем дату, месяц и год рождения
+        public ContactHelper FillDayOfBirth(int index)
+        {
+            driver.FindElement(By.CssSelector("div#content select[name='bday']")).Click();
+            new SelectElement(driver.FindElement(By.CssSelector("div#content select[name='bday']"))).SelectByIndex(index);
+            return this;
+        }
+
+        public ContactHelper FillMonthOfBirth(int index)
+        {
+            driver.FindElement(By.CssSelector("div#content select[name='bmonth']")).Click();
+            new SelectElement(driver.FindElement(By.CssSelector("div#content select[name='bmonth']"))).SelectByIndex(index);
+            return this;
+        }
+
+        public ContactHelper FillYearOfBirth(ContactData contact)
+        {
+            driver.FindElement(By.CssSelector("div#content input[name='byear']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='byear']")).SendKeys(contact.YearOfBirth);
+            return this;
+        }
+
+
+        // Заполняем дату, месяц и год годовщины
+        public ContactHelper FillDayOfAnniversary(int index)
+        {
+            driver.FindElement(By.CssSelector("div#content select[name='aday']")).Click();
+            new SelectElement(driver.FindElement(By.CssSelector("div#content select[name='aday']"))).SelectByIndex(index);
+            return this;
+        }
+
+        public ContactHelper FillMonthOfAnniversary(int index)
+        {
+            driver.FindElement(By.CssSelector("div#content select[name='amonth']")).Click();
+            new SelectElement(driver.FindElement(By.CssSelector("div#content select[name='amonth']"))).SelectByIndex(index);
+            return this;
+        }
+
+        public ContactHelper FillYearOfAnniversary(ContactData contact)
+        {
+            driver.FindElement(By.CssSelector("div#content input[name='ayear']")).Clear();
+            driver.FindElement(By.CssSelector("div#content input[name='ayear']")).SendKeys(contact.YearOfAnniversary);
+            return this;
+        }
+
+
+        /// <summary>
+        /// Выбирает группу для контакта
+        /// </summary>
+        public ContactHelper SelectGroupForContact(int index)
+        {
+            driver.FindElement(By.CssSelector("div#content select[name='new_group']")).Click();
+            new SelectElement(driver.FindElement(By.CssSelector("div#content select[name='new_group']"))).SelectByIndex(index);
             return this;
         }
 
@@ -76,7 +175,7 @@ namespace WebAddressbookTests
         /// </summary>
         public ContactHelper SubmitContactCreation()
         {
-            driver.FindElement(By.XPath("//div[@id='content']/form[@name='theform']/input[@type='submit' and @name='submit' and @value='Enter']")).Click();
+            driver.FindElement(By.CssSelector("form[name='theform'] input[name='submit']")).Click();
             return this;
         }
 
@@ -85,7 +184,7 @@ namespace WebAddressbookTests
         /// </summary>
         public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath("(//input[@type='checkbox' and @name='selected[]'])[" + index + "]")).Click();
+            driver.FindElements(By.CssSelector("input[name='selected[]']"))[index-1].Click();
             return this;
         }
 
@@ -94,7 +193,7 @@ namespace WebAddressbookTests
         /// </summary>
         public ContactHelper ModifyContact(int index)
         {
-            driver.FindElement(By.XPath("(//table[@id='maintable']//a[contains(@href,'edit.php')])[" + index + "]")).Click();
+            driver.FindElements(By.CssSelector("table[id=maintable] td:nth-child(8) a"))[index-1].Click();
             return this;
         }
 
@@ -103,7 +202,7 @@ namespace WebAddressbookTests
         /// </summary>
         public ContactHelper SubmitContactModify()
         {
-            driver.FindElement(By.XPath("//input[@type='submit' and @name='update']")).Click();
+            driver.FindElement(By.CssSelector("div#content input[name='update']")).Click();
             return this;
         }
 
@@ -112,10 +211,13 @@ namespace WebAddressbookTests
         /// </summary>
         public ContactHelper RemoveContact()
         {
-            driver.FindElement(By.XPath("//input[@type='button' and @value='Delete']")).Click();
+            driver.FindElement(By.CssSelector("form[name = 'MainForm'] div:nth-child(8) input")).Click();
             return this;
         }
 
+        /// <summary>
+        /// Закрывает согласием всплывающее окно
+        /// </summary>
         public ContactHelper ContactCloseAlert()
         {
             driver.SwitchTo().Alert().Accept();
@@ -127,7 +229,7 @@ namespace WebAddressbookTests
         /// </summary>
         public ContactHelper ReturnToHomePageafterUpd()
         {
-            driver.FindElement(By.XPath("//div[@class='msgbox']//a[contains(@href,'index.php')]")).Click();
+            driver.FindElement(By.CssSelector("div.msgbox a")).Click();
             return this;
         }
     }

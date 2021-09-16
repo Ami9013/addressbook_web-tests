@@ -23,16 +23,16 @@ namespace WebAddressbookTests
         /// </summary>
         public void Login(AccountData account)
         {
-            driver.FindElement(By.XPath("//div[@id='content']/form[@id='LoginForm']/input[@name='user']")).Clear();
-            driver.FindElement(By.XPath("//div[@id='content']/form[@id='LoginForm']/input[@name='user']")).SendKeys(account.Username);
-            driver.FindElement(By.XPath("//div[@id='content']/form[@id='LoginForm']/input[@name='pass' and @type='password']")).Clear();
-            driver.FindElement(By.XPath("//div[@id='content']/form[@id='LoginForm']/input[@name='pass' and @type='password']")).SendKeys(account.Password);
-            driver.FindElement(By.XPath("//div[@id='content']/form[@id='LoginForm']/input[@type='submit' and @value='Login']")).Click();
+            driver.FindElement(By.CssSelector("form#LoginForm input[name='user']")).Clear();
+            driver.FindElement(By.CssSelector("form#LoginForm input[name='user']")).SendKeys(account.Username);
+            driver.FindElement(By.CssSelector("form#LoginForm input[name='pass']")).Clear();
+            driver.FindElement(By.CssSelector("form#LoginForm input[name='pass']")).SendKeys(account.Password);
+            driver.FindElement(By.CssSelector("form#LoginForm input[type='submit']")).Click();
         }
 
         public void Logout()
         {
-            driver.FindElement(By.XPath("//div[@id='top']/form[@name='logout']/a[contains(@href,'#')]")).Click();
+            driver.FindElement(By.CssSelector("form[name='logout'] a")).Click();
         }
     }
 }
