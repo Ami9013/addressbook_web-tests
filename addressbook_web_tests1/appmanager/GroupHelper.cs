@@ -39,7 +39,7 @@ namespace WebAddressbookTests
         public GroupHelper Remove(int p) 
         {
             manager.Navigator.GoToGroupsPage();
-            SelectGroup(1);
+            SelectGroup(p);
             RemoveGroup();
             ReturnToGroupsPage();
             return this;
@@ -49,12 +49,12 @@ namespace WebAddressbookTests
         /// Изменяет группу по переданному индексу
         /// Высокоуровневый метод. Содержит в себе все необходимые методы для изменения группы. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper
         /// </summary>
-        public GroupHelper Modify(GroupData group)
+        public GroupHelper Modify(int p, GroupData newgroupData)
         {
             manager.Navigator.GoToGroupsPage();
-            SelectGroup(3);
+            SelectGroup(p);
             EditGroup();
-            FillGroupForm(group);
+            FillGroupForm(newgroupData);
             SubmitGroupEdit();
             ReturnToGroupsPage();
             return this;

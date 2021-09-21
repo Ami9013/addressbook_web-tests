@@ -12,23 +12,15 @@ namespace WebAddressbookTests
         [Test]
         public void ContactCreationTest()
         {
-            ContactData contact = new ContactData(
-                "Ivan", 
-                "Petrov", 
-                "Nick", 
-                "Andreevich", 
-                "Title", 
-                "Magnit", 
-                "Voronezh city, Lizyukova street", 
-                "10", 
-                "+1123456", 
-                "Cashier", 
-                "54673", 
-                "petro12@mail.no", 
-                "2petro12@mail.no", 
-                "3petro12@mail.no", 
-                "N/A"
-                );
+            ContactData contact = new ContactData
+            {
+                FirstName = "Vanya",
+                LastName = "Petrov",
+                YearOfAnniversary = "1996",
+                YearOfBirth = "1971",
+                Email = "vandamm0123@mail.no",
+                Mobile = "88005553535"
+            };
             appManager.Contacts.ContactCreate(contact);
             appManager.Auth.Logout();
         }

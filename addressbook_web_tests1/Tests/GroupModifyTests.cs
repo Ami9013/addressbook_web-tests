@@ -12,10 +12,14 @@ namespace WebAddressbookTests
         [Test]
         public void GroupModifyTest()
         {
-            GroupData group = new GroupData("name after update");
-            group.Header = "header after update";
-            group.Footer = "footer after update";
-            appManager.Groups.Modify(group);
+            GroupData newgroupData = new GroupData
+            {
+                Name = "Group name after update",
+                Header = "Group header after update",
+                Footer = "Group footer after update"
+            };
+
+            appManager.Groups.Modify(2, newgroupData);
             appManager.Auth.Logout();
         }
     }

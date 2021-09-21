@@ -12,24 +12,12 @@ namespace WebAddressbookTests
         [Test]
         public void ContactModifyTest()
         {
-            ContactData contact = new ContactData(
-                "updIvan", 
-                "updPetrov", 
-                "updNick", 
-                "updAndreevich", 
-                "updTitle", 
-                "updMagnit", 
-                "upd Voronezh city, Lizyukova street", 
-                "15", 
-                "+198765", 
-                "updCashier", 
-                "121212", 
-                "updpetro12@mail.no", 
-                "upd2petro12@mail.no", 
-                "upd3petro12@mail.no", 
-                "updN/A"
-                );
-            appManager.Contacts.Modify(contact);
+            ContactData contact = new ContactData
+            {
+                FirstName = "Name after update",
+                LastName = "Lastname after update"
+            };
+            appManager.Contacts.Modify(2, contact);
             appManager.Auth.Logout();
         }
     }

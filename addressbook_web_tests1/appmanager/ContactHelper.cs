@@ -43,9 +43,9 @@ namespace WebAddressbookTests
         /// Удаляет контакт по переданному индексу
         /// Высокоуровневый метод. Содержит в себе все необходимые методы для удаления контакта. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper
         /// </summary>
-        public ContactHelper RemoveByIndex()
+        public ContactHelper RemoveByIndex(int p)
         {
-            SelectContact(1);
+            SelectContact(p);
             RemoveContact();
             ContactCloseAlert();
             manager.Navigator.ReturnToHomePage();
@@ -56,9 +56,9 @@ namespace WebAddressbookTests
         /// Удаляет первый по списку контакт
         /// Высокоуровневый метод. Содержит в себе все необходимые методы для удаления контакта. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper
         /// </summary>
-        public ContactHelper RemoveFirstContact()
+        public ContactHelper RemoveContactInEditCard(int p)
         {
-            ModifyFirstContact();
+            ModifyContact(p);
             RemoveContactInCard();
             manager.Navigator.ReturnToHomePage();
             return this;
@@ -68,9 +68,9 @@ namespace WebAddressbookTests
         /// Изменяет контакт по переданному индексу
         /// Высокоуровневый метод. Содержит в себе все необходимые методы для изменения контакта. Обращается к вспомогательным методам своего класса
         /// </summary>
-        public ContactHelper Modify(ContactData contact)
+        public ContactHelper Modify(int p, ContactData contact)
         {
-            ModifyContact(2);
+            ModifyContact(p);
             FillContactForm(contact);
             SubmitContactModify();
             ReturnToHomePageafterUpd();
@@ -206,15 +206,6 @@ namespace WebAddressbookTests
         public ContactHelper ModifyContact(int index)
         {
             driver.FindElements(By.CssSelector("table[id=maintable] td:nth-child(8) a"))[index-1].Click();
-            return this;
-        }
-
-        /// <summary>
-        /// Открывает карточку редактирования первого по списку контакта
-        /// </summary>
-        public ContactHelper ModifyFirstContact()
-        {
-            driver.FindElement(By.CssSelector("table[id=maintable] td:nth-child(8) a")).Click();
             return this;
         }
 
