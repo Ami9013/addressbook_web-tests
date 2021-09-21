@@ -40,10 +40,10 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
-        /// Удаляет контакт
+        /// Удаляет контакт по переданному индексу
         /// Высокоуровневый метод. Содержит в себе все необходимые методы для удаления контакта. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper
         /// </summary>
-        public ContactHelper Remove()
+        public ContactHelper RemoveByIndex()
         {
             SelectContact(1);
             RemoveContact();
@@ -53,12 +53,24 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
-        /// Изменяет контакт
+        /// Удаляет первый по списку контакт
+        /// Высокоуровневый метод. Содержит в себе все необходимые методы для удаления контакта. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper
+        /// </summary>
+        public ContactHelper RemoveFirstContact()
+        {
+            ModifyFirstContact();
+            RemoveContactInCard();
+            manager.Navigator.ReturnToHomePage();
+            return this;
+        }
+
+        /// <summary>
+        /// Изменяет контакт по переданному индексу
         /// Высокоуровневый метод. Содержит в себе все необходимые методы для изменения контакта. Обращается к вспомогательным методам своего класса
         /// </summary>
         public ContactHelper Modify(ContactData contact)
         {
-            ModifyContact(5);
+            ModifyContact(2);
             FillContactForm(contact);
             SubmitContactModify();
             ReturnToHomePageafterUpd();
@@ -198,6 +210,15 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
+        /// Открывает карточку редактирования первого по списку контакта
+        /// </summary>
+        public ContactHelper ModifyFirstContact()
+        {
+            driver.FindElement(By.CssSelector("table[id=maintable] td:nth-child(8) a")).Click();
+            return this;
+        }
+
+        /// <summary>
         /// Сохраняет форму редактирования контакта
         /// </summary>
         public ContactHelper SubmitContactModify()
@@ -212,6 +233,15 @@ namespace WebAddressbookTests
         public ContactHelper RemoveContact()
         {
             driver.FindElement(By.CssSelector("form[name = 'MainForm'] div:nth-child(8) input")).Click();
+            return this;
+        }
+
+        /// <summary>
+        /// Удаляет контакт (через карточку редактирования)
+        /// </summary>
+        public ContactHelper RemoveContactInCard()
+        {
+            driver.FindElement(By.CssSelector("form:nth-child(3) input[name='update']")).Click();
             return this;
         }
 

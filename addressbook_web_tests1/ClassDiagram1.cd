@@ -3,28 +3,26 @@
   <Class Name="WebAddressbookTests.ApplicationManager">
     <Position X="14.75" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAEAEAABAAAAAAAAAAAAASAAAAAAAAAIBCAABAAACA=</HashCode>
+      <HashCode>BAAEAEAABAAAAAAAAAAAAASAAAAAgAAAIBCAABAAACA=</HashCode>
       <FileName>appmanager\ApplicationManager.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="contactHelper" />
-      <Field Name="groupHelper" />
       <Field Name="loginHelper" />
       <Field Name="navigator" />
+      <Field Name="groupHelper" />
+      <Field Name="contactHelper" />
     </ShowAsAssociation>
   </Class>
   <Class Name="WebAddressbookTests.ContactHelper" Collapsed="true">
     <Position X="8.5" Y="7.5" Width="1.5" />
     <InheritanceLine Type="WebAddressbookTests.HelperBase" FixedFromPoint="true">
       <Path>
-        <Point X="6" Y="7.25" />
-        <Point X="6.375" Y="7.25" />
-        <Point X="6.375" Y="7.846" />
-        <Point X="8.5" Y="7.846" />
+        <Point X="6" Y="7.778" />
+        <Point X="8.5" Y="7.778" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AABAAAAACAQEAAAAAAIAAAAAAhAAEAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AABAIAAECAYEIAAAAAIABAAAGhCAEApAAAAAAAAAAAA=</HashCode>
       <FileName>appmanager\ContactHelper.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -32,21 +30,21 @@
     <Position X="12" Y="5.5" Width="1.5" />
     <InheritanceLine Type="WebAddressbookTests.HelperBase" FixedFromPoint="true">
       <Path>
-        <Point X="6" Y="7.25" />
-        <Point X="6.375" Y="7.25" />
+        <Point X="6" Y="7.778" />
+        <Point X="6.375" Y="7.778" />
         <Point X="6.375" Y="5.846" />
         <Point X="12" Y="5.846" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>QAACAAAAAABAAAAAAAAAAAAAAAABMAAAAAAAAABAAAI=</HashCode>
+      <HashCode>QAACIAAAAABAAAAAAAAABAAAAAABMAAAAAAAAABAAAY=</HashCode>
       <FileName>appmanager\GroupHelper.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="WebAddressbookTests.HelperBase" Collapsed="true">
+  <Class Name="WebAddressbookTests.HelperBase">
     <Position X="4.5" Y="7" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>appmanager\HelperBase.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -54,14 +52,14 @@
     <Position X="7.25" Y="8.5" Width="1.5" />
     <InheritanceLine Type="WebAddressbookTests.HelperBase" FixedFromPoint="true">
       <Path>
-        <Point X="6" Y="7.25" />
-        <Point X="6.375" Y="7.25" />
+        <Point X="6" Y="7.778" />
+        <Point X="6.375" Y="7.778" />
         <Point X="6.375" Y="8.846" />
         <Point X="7.25" Y="8.846" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAQAAAAAAA=</HashCode>
       <FileName>appmanager\LoginHelper.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -69,8 +67,8 @@
     <Position X="10.25" Y="6.5" Width="1.5" />
     <InheritanceLine Type="WebAddressbookTests.HelperBase" FixedFromPoint="true">
       <Path>
-        <Point X="6" Y="7.25" />
-        <Point X="6.375" Y="7.25" />
+        <Point X="6" Y="7.778" />
+        <Point X="6.375" Y="7.778" />
         <Point X="6.375" Y="6.846" />
         <Point X="10.25" Y="6.846" />
       </Path>
@@ -84,27 +82,27 @@
     <Position X="5.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
-      <FileName>ContactRemovalTests.cs</FileName>
+      <FileName>Tests\ContactRemovalTests.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WebAddressbookTests.AccountData" Collapsed="true">
     <Position X="17" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAQAAAAEAAAAAAAACAAAAAgAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>model\AccountData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WebAddressbookTests.ContactData" Collapsed="true">
     <Position X="17" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAABAAAAAAAAAAAAAAQAAAAEAAAAACAAAAAg=</HashCode>
+      <HashCode>EAgAAUAAgCAQAEAAAABQAAAAAAAAABGAAACABIQAAAg=</HashCode>
       <FileName>model\ContactData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WebAddressbookTests.GroupData" Collapsed="true">
     <Position X="17" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAAAAQAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>model\GroupData.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -125,7 +123,7 @@
   <Class Name="WebAddressbookTests.GroupCreationTests">
     <Position X="1.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Tests\GroupCreationTests.cs</FileName>
     </TypeIdentifier>
   </Class>
