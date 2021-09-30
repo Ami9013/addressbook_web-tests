@@ -15,11 +15,30 @@ namespace WebAddressbookTests
             ContactData contact = new ContactData
             {
                 FirstName = "Vanya",
+                MiddleName = "Petrovich",
                 LastName = "Petrov",
-                YearOfAnniversary = "1996",
-                YearOfBirth = "1971",
+                NickName = "Nick",
+                Title = "Any",
+                Company = "Magazine",
+                FirstAddress = "Any city, any street",
+                FirstHome = "111",
+                Mobile = "88005553535",
+                Work = "Main Cashier",
+                Fax = "123321",
                 Email = "vandamm0123@mail.no",
-                Mobile = "88005553535"
+                Email2 = "vandamm0133@mail.no",
+                Email3 = "vandamm0333@mail.no",
+                Homepage = "n/a",
+                DayOfBirth = 2,
+                MonthOfBirth = (int)MonthesEnumClass.Monthes.April,
+                YearOfBirth = "1971",
+                DayOfAnniversary = 2,
+                MonthOfAnniversary = (int)MonthesEnumClass.Monthes.September,
+                YearOfAnniversary = "1996",
+                GroupOfContact = 2,
+                SecondAddress = "kolotushkina street",
+                SecondHome = "101/1",
+                SecondNotes = "done"
             };
             appManager.Contacts.ContactCreate(contact);
             appManager.Auth.Logout();
