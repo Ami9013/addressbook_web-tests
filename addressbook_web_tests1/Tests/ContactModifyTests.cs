@@ -30,16 +30,16 @@ namespace WebAddressbookTests
                 Email3 = "Updvandamm0333@mail.no",
                 Homepage = "Updn/a",
                 DayOfBirth = 31,
-                MonthOfBirth = (int)MonthesEnumClass.Monthes.July,
+                MonthOfBirth = 7,
                 YearOfBirth = "1900",
                 DayOfAnniversary = 1,
-                MonthOfAnniversary = (int)MonthesEnumClass.Monthes.December,
+                MonthOfAnniversary = 12,
                 YearOfAnniversary = "2222",
                 SecondAddress = "Upd kolotushkina street",
                 SecondHome = "1/101",
                 SecondNotes = "upd done"
             };
-            appManager.Contacts.Modify(2, newContactData);
+            appManager.Contacts.Modify(1, newContactData);
             appManager.Auth.Logout();
         }
     }

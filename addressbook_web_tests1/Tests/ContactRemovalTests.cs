@@ -15,7 +15,7 @@ namespace WebAddressbookTests
         [Test]
         public void ContactRemovalTest()
         {
-            appManager.Contacts.RemoveContactInEditCard(3);
+            appManager.Contacts.RemoveContactInEditCard(1);
             appManager.Auth.Logout();
         }
 
@@ -25,7 +25,7 @@ namespace WebAddressbookTests
         [Test]
         public void ContactRemovalTestByIndex()
         {
-            appManager.Contacts.RemoveByIndex(2);
+            appManager.Contacts.RemoveByIndex(1);
             appManager.Auth.Logout();
         }
     }

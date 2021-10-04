@@ -36,9 +36,10 @@ namespace WebAddressbookTests
         /// Удаляет группу по переданному индексу
         /// Высокоуровневый метод. Содержит в себе все необходимые методы для удаления группы. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper
         /// </summary>
-        public GroupHelper Remove(int p) 
+        public GroupHelper Remove(int p)
         {
             manager.Navigator.GoToGroupsPage();
+            GroupVerification("span.group");
             SelectGroup(p);
             RemoveGroup();
             ReturnToGroupsPage();
@@ -52,12 +53,45 @@ namespace WebAddressbookTests
         public GroupHelper Modify(int p, GroupData newgroupData)
         {
             manager.Navigator.GoToGroupsPage();
+            GroupVerification("span.group");
             SelectGroup(p);
             EditGroup();
             FillGroupForm(newgroupData);
             SubmitGroupEdit();
             ReturnToGroupsPage();
             return this;
+        }
+
+        /// <summary>
+        /// Метод осуществляет проверку наличия хотя бы 1-й группы перед удалением/модификацией
+        /// </summary>
+        public void GroupVerification(string elementName)
+        {
+            // Сверяет результат, полученный после проверки на наличие элемента с false
+            if (GroupElementExists(By.CssSelector(elementName)) == false)
+            {
+                GroupData group = new GroupData
+                {
+                    Name = "Group Name",
+                    Header = "Any group header",
+                    Footer = "Any group footer"
+                };
+                CreateGroup(group);
+            }
+
+            // Проверяет наличие элемента и обрабатывает исключение
+            bool GroupElementExists(By iElementName)
+            {
+                try
+                {
+                    driver.FindElement(iElementName);
+                    return true;
+                }
+                catch (NoSuchElementException)
+                {
+                    return false;
+                }
+            }
         }
 
         /// <summary>
@@ -97,7 +131,7 @@ namespace WebAddressbookTests
         /// </summary>
         public GroupHelper SelectGroup(int index)
         {
-            driver.FindElements(By.CssSelector("input[name='selected[]']"))[index-1].Click();
+            driver.FindElements(By.CssSelector("input[name='selected[]']"))[index - 1].Click();
             return this;
         }
 
