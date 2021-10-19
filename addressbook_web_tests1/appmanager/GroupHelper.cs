@@ -39,7 +39,10 @@ namespace WebAddressbookTests
         public GroupHelper Remove(int p)
         {
             manager.Navigator.GoToGroupsPage();
-            GroupVerification("span.group");
+            if (GetGroupData() == 0)
+            {
+                CreateGroup(GroupData.groupModel);
+            }
             SelectGroup(p);
             RemoveGroup();
             ReturnToGroupsPage();
@@ -53,7 +56,10 @@ namespace WebAddressbookTests
         public GroupHelper Modify(int p, GroupData newgroupData)
         {
             manager.Navigator.GoToGroupsPage();
-            GroupVerification("span.group");
+            if(GetGroupData() == 0)
+            {
+                CreateGroup(GroupData.groupModel);
+            }
             SelectGroup(p);
             EditGroup();
             FillGroupForm(newgroupData);
@@ -62,36 +68,13 @@ namespace WebAddressbookTests
             return this;
         }
 
-        /// <summary>
-        /// Метод осуществляет проверку наличия хотя бы 1-й группы перед удалением/модификацией
-        /// </summary>
-        public void GroupVerification(string elementName)
-        {
-            // Сверяет результат, полученный после проверки на наличие элемента с false
-            if (GroupElementExists(By.CssSelector(elementName)) == false)
-            {
-                GroupData group = new GroupData
-                {
-                    Name = "Group Name",
-                    Header = "Any group header",
-                    Footer = "Any group footer"
-                };
-                CreateGroup(group);
-            }
 
-            // Проверяет наличие элемента и обрабатывает исключение
-            bool GroupElementExists(By iElementName)
-            {
-                try
-                {
-                    driver.FindElement(iElementName);
-                    return true;
-                }
-                catch (NoSuchElementException)
-                {
-                    return false;
-                }
-            }
+        /// <summary>
+        /// Возвращает количество элементов(строк) с группами
+        /// </summary>
+        public int GetGroupData()
+        {
+            return driver.FindElements(By.CssSelector("span[class='group']")).Count;
         }
 
         /// <summary>

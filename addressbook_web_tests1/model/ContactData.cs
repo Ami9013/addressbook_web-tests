@@ -33,10 +33,39 @@ namespace WebAddressbookTests
         public string SecondAddress { get; set; }
         public string SecondHome { get; set; }
         public string SecondNotes { get; set; }
-        // иные поля, такие как Mobile, Fax не int т.к. в номере может быть "+", и в целом, любое поле сохраняет символы
+        
         public ContactData()
         {
 
         }
+
+        public static ContactData contactModel = new ContactData
+        {
+            FirstName = "iAmNewVanya",
+            MiddleName = "iAmNewPetrovich",
+            LastName = "iAmNewPetrov",
+            NickName = "Nick",
+            Title = "Any",
+            Company = "Magazine",
+            FirstAddress = "Any city, any street",
+            FirstHome = "111",
+            Mobile = "88005553535",
+            Work = "Main Cashier",
+            Fax = "123321",
+            Email = "vandamm0123@mail.no",
+            Email2 = "vandamm0133@mail.no",
+            Email3 = "vandamm0333@mail.no",
+            Homepage = "n/a",
+            DayOfBirth = 2,
+            MonthOfBirth = 4,
+            YearOfBirth = "1971",
+            DayOfAnniversary = 2,
+            MonthOfAnniversary = 9,
+            YearOfAnniversary = "1996",
+            GroupOfContact = 2,
+            SecondAddress = "kolotushkina street",
+            SecondHome = "101/1",
+            SecondNotes = "done"
+        };
     }
 }

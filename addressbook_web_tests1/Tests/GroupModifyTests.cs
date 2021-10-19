@@ -18,8 +18,7 @@ namespace WebAddressbookTests
                 Header = "Group header after update",
                 Footer = "Group footer after update"
             };
-
-            appManager.Groups.Modify(2, newgroupData);
+            appManager.Groups.Modify(1, newgroupData);
             appManager.Auth.Logout();
         }
     }

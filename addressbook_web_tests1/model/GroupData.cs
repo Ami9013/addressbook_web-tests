@@ -19,5 +19,12 @@ namespace WebAddressbookTests
         {
 
         }
+
+        public static GroupData groupModel = new GroupData
+        {
+            Name = "i Am new Group Name",
+            Header = "i Am new Any group header",
+            Footer = "i Am new Any group footer"
+        };
     }
 }

@@ -37,7 +37,10 @@ namespace WebAddressbookTests
         /// </summary>
         public ContactHelper RemoveByIndex(int p)
         {
-            ContactVerification("table[id='maintable'] tr[name='entry']");
+            if (GetContactData() == 0)
+            {
+                ContactCreate(ContactData.contactModel);
+            }
             SelectContact(p);
             RemoveContact();
             ContactCloseAlert();
@@ -51,7 +54,10 @@ namespace WebAddressbookTests
         /// </summary>
         public ContactHelper RemoveContactInEditCard(int p)
         {
-            ContactVerification("table[id='maintable'] tr[name='entry']");
+            if (GetContactData() == 0)
+            {
+                ContactCreate(ContactData.contactModel);
+            }
             ModifyContact(p);
             RemoveContactInCard();
             manager.Navigator.ReturnToHomePage();
@@ -62,67 +68,25 @@ namespace WebAddressbookTests
         /// Изменяет контакт по переданному индексу
         /// Высокоуровневый метод. Содержит в себе все необходимые методы для изменения контакта. Обращается к вспомогательным методам своего класса
         /// </summary>
-        public ContactHelper Modify(int p, ContactData contact)
+        public ContactHelper Modify(int p, ContactData newContactData)
         {
-            ContactVerification("table[id='maintable'] tr[name='entry']");
+            if (GetContactData() == 0)
+            {
+                ContactCreate(ContactData.contactModel);
+            }
             ModifyContact(p);
-            FillContactForm(contact);
+            FillModifyContactForm(newContactData);
             SubmitContactModify();
             ReturnToHomePageafterUpd();
             return this;
         }
 
         /// <summary>
-        /// Метод осуществляет проверку наличия хотя бы 1-го контакта перед удалением/модификацией
+        /// Возвращает количество элементов(строк) с контактами
         /// </summary>
-        public void ContactVerification(string elementName)
+        public int GetContactData()
         {
-            if (ContactElementExists(By.CssSelector(elementName)) == false)
-            {
-                ContactData contact = new ContactData
-                {
-                    FirstName = "Vanya",
-                    MiddleName = "Petrovich",
-                    LastName = "Petrov",
-                    NickName = "Nick",
-                    Title = "Any",
-                    Company = "Magazine",
-                    FirstAddress = "Any city, any street",
-                    FirstHome = "111",
-                    Mobile = "88005553535",
-                    Work = "Main Cashier",
-                    Fax = "123321",
-                    Email = "vandamm0123@mail.no",
-                    Email2 = "vandamm0133@mail.no",
-                    Email3 = "vandamm0333@mail.no",
-                    Homepage = "n/a",
-                    DayOfBirth = 2,
-                    MonthOfBirth = 4,
-                    YearOfBirth = "1971",
-                    DayOfAnniversary = 2,
-                    MonthOfAnniversary = 9,
-                    YearOfAnniversary = "1996",
-                    GroupOfContact = 2,
-                    SecondAddress = "kolotushkina street",
-                    SecondHome = "101/1",
-                    SecondNotes = "done"
-                };
-                ContactCreate(contact);
-            }
-
-            // Проверяет наличие элемента и обрабатывает исключение
-            bool ContactElementExists(By iElementName)
-            {
-                try
-                {
-                    driver.FindElement(iElementName);
-                    return true;
-                }
-                catch (NoSuchElementException)
-                {
-                    return false;
-                }
-            }
+            return driver.FindElements(By.CssSelector("table[id='maintable'] tr[name='entry']")).Count;
         }
 
         /// <summary>
