@@ -21,7 +21,9 @@ namespace WebAddressbookTests
         protected GroupHelper groupHelper;
         protected ContactHelper contactHelper;
 
-        public ApplicationManager()
+        private static ThreadLocal<ApplicationManager> appManager = new ThreadLocal<ApplicationManager>();
+
+        private ApplicationManager()
         {
             driver = new ChromeDriver();
             baseURL = "http://localhost";
@@ -30,6 +32,22 @@ namespace WebAddressbookTests
             navigator = new NavigationHelper(this, baseURL);
             groupHelper = new GroupHelper(this);
             contactHelper = new ContactHelper(this);
+        }
+
+        ~ApplicationManager()
+        {
+            driver.Quit();
+        }
+
+        public static ApplicationManager GetInstance()
+        {
+            if (! appManager.IsValueCreated)
+            {
+                ApplicationManager newInstance = new ApplicationManager();
+                newInstance.Navigator.GoToHomePage();
+                appManager.Value = newInstance;
+            }
+            return appManager.Value;
         }
 
         public IWebDriver Driver
@@ -41,13 +59,7 @@ namespace WebAddressbookTests
         }
 
 
-        public void Stop()
-        {
-            driver.Quit();
-        }
-
-
-        public LoginHelper Auth 
+        public LoginHelper Auth
         {
             get
             {

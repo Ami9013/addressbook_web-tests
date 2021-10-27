@@ -22,5 +22,21 @@ namespace WebAddressbookTests
             this.manager = manager;
             driver = manager.Driver;
         }
+
+        /// <summary>
+        /// Проверяет наличие элемента. Обрабатывает исключение если элемента нет
+        /// </summary>
+        public bool IsElementExists(By iElementName)
+        {
+            try
+            {
+                driver.FindElement(iElementName);
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
     }
 }
