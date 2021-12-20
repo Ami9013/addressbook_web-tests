@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
@@ -16,6 +17,75 @@ namespace WebAddressbookTests
     {
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
+        }
+
+        private List<ContactData> contactCache = null;
+
+        /// <summary>
+        /// Получаем и формируем список контактов, в список записываем First Name, Last Name, Full Name и Id контакта. 
+        /// Возвращаем копию кеша основанного на сформированном списке
+        /// </summary>
+        public List<ContactData> GetContactList()
+        {
+            if (contactCache == null)
+            {
+                contactCache = new List<ContactData>();
+                manager.Navigator.GoToHomePage();
+                ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
+                foreach (IWebElement element in elements)
+                {
+                    ContactData contact = new ContactData();
+                    var tdElements = element.FindElements(By.CssSelector("td"));
+                    var contactIDs = element.FindElement(By.TagName("input")).GetAttribute("id");
+                    string textFirstName = tdElements[2].Text;
+                    contact.FirstName = textFirstName;
+                    string textLastName = tdElements[1].Text;
+                    contact.LastName = textLastName;
+                    string textFullName = tdElements[1].Text + " " + tdElements[2].Text;
+                    contact.FullName = textFullName;
+                    contact.Id = contactIDs;
+
+                    contactCache.Add(contact);
+                }
+            }
+
+            return new List<ContactData>(contactCache);
+        }
+
+
+        // Думаю сравнивать контакты по ID тоже нужно, реализовал в методе выше, работает. На всякий случай оставил метод без ID ниже до апрува
+
+        //public List<ContactData> GetContactList()
+        //{
+        //    if (contactCache == null)
+        //    {
+        //        contactCache = new List<ContactData>();
+        //        manager.Navigator.GoToHomePage();
+        //        ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
+        //        foreach (IWebElement element in elements)
+        //        {
+        //            ContactData contact = new ContactData();
+        //            var tdElements = element.FindElements(By.CssSelector("td"));
+        //            string textFirstName = tdElements[2].Text;
+        //            contact.FirstName = textFirstName;
+        //            string textLastName = tdElements[1].Text;
+        //            contact.LastName = textLastName;
+        //            string textFullName = tdElements[1].Text + " " + tdElements[2].Text;
+        //            contact.FullName = textFullName;
+        //            contactCache.Add(contact);
+        //        }
+        //    }
+
+        //    return new List<ContactData>(contactCache);
+        //}
+
+
+        /// <summary>
+        /// Возвращает количество элементов(строк) с контактами
+        /// </summary>
+        public int GetContactCount()
+        {
+            return driver.FindElements(By.Name("entry")).Count;
         }
 
         /// <summary>
@@ -37,7 +107,8 @@ namespace WebAddressbookTests
         /// </summary>
         public ContactHelper RemoveByIndex(int p)
         {
-            if (GetContactData() == 0)
+            manager.Navigator.GoToHomePage();
+            if (GetContactCount() == 0)
             {
                 ContactCreate(ContactData.contactModel);
             }
@@ -54,7 +125,8 @@ namespace WebAddressbookTests
         /// </summary>
         public ContactHelper RemoveContactInEditCard(int p)
         {
-            if (GetContactData() == 0)
+            manager.Navigator.GoToHomePage();
+            if (GetContactCount() == 0)
             {
                 ContactCreate(ContactData.contactModel);
             }
@@ -70,7 +142,8 @@ namespace WebAddressbookTests
         /// </summary>
         public ContactHelper Modify(int p, ContactData newContactData)
         {
-            if (GetContactData() == 0)
+            manager.Navigator.GoToHomePage();
+            if (GetContactCount() == 0)
             {
                 ContactCreate(ContactData.contactModel);
             }
@@ -79,14 +152,6 @@ namespace WebAddressbookTests
             SubmitContactModify();
             ReturnToHomePageafterUpd();
             return this;
-        }
-
-        /// <summary>
-        /// Возвращает количество элементов(строк) с контактами
-        /// </summary>
-        public int GetContactData()
-        {
-            return driver.FindElements(By.CssSelector("table[id='maintable'] tr[name='entry']")).Count;
         }
 
         /// <summary>
@@ -209,6 +274,7 @@ namespace WebAddressbookTests
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.CssSelector("form[name='theform'] input[name='submit']")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -217,7 +283,7 @@ namespace WebAddressbookTests
         /// </summary>
         public ContactHelper SelectContact(int index)
         {
-            driver.FindElements(By.CssSelector("input[name='selected[]']"))[index-1].Click();
+            driver.FindElements(By.CssSelector("input[name='selected[]']"))[index].Click();
             return this;
         }
 
@@ -226,7 +292,7 @@ namespace WebAddressbookTests
         /// </summary>
         public ContactHelper ModifyContact(int index)
         {
-            driver.FindElements(By.CssSelector("table[id=maintable] td:nth-child(8) a"))[index-1].Click();
+            driver.FindElements(By.CssSelector("table[id=maintable] td:nth-child(8) a"))[index].Click();
             return this;
         }
 
@@ -236,6 +302,7 @@ namespace WebAddressbookTests
         public ContactHelper SubmitContactModify()
         {
             driver.FindElement(By.CssSelector("div#content input[name='update']")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -245,6 +312,7 @@ namespace WebAddressbookTests
         public ContactHelper RemoveContact()
         {
             driver.FindElement(By.CssSelector("form[name = 'MainForm'] div:nth-child(8) input")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -254,6 +322,7 @@ namespace WebAddressbookTests
         public ContactHelper RemoveContactInCard()
         {
             driver.FindElement(By.CssSelector("form:nth-child(3) input[name='update']")).Click();
+            contactCache = null;
             return this;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -16,6 +17,37 @@ namespace WebAddressbookTests
     {
         public GroupHelper(ApplicationManager manager) : base(manager)
         {
+        }
+
+        private List<GroupData> groupCache = null;
+
+        public List<GroupData> GetGroupList()
+        {
+            if (groupCache == null)
+            {
+                groupCache = new List<GroupData>();
+                manager.Navigator.GoToGroupsPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+                foreach (IWebElement element in elements)
+                {
+
+                    groupCache.Add(new GroupData(element.Text)
+                    {
+                        Name = element.Text,
+                        Id = element.FindElement(By.CssSelector("span.group input")).GetAttribute("value")
+                    });
+                }
+            }
+
+            return new List<GroupData>(groupCache);
+        }
+
+        /// <summary>
+        /// Возвращает количество элементов(строк) с группами
+        /// </summary>
+        public int GetGroupCount()
+        {
+            return driver.FindElements(By.CssSelector("span.group")).Count;
         }
 
         /// <summary>
@@ -39,7 +71,7 @@ namespace WebAddressbookTests
         public GroupHelper Remove(int p)
         {
             manager.Navigator.GoToGroupsPage();
-            if (GetGroupData() == 0)
+            if (GetGroupCount() == 0)
             {
                 CreateGroup(GroupData.groupModel);
             }
@@ -56,7 +88,7 @@ namespace WebAddressbookTests
         public GroupHelper Modify(int p, GroupData newgroupData)
         {
             manager.Navigator.GoToGroupsPage();
-            if(GetGroupData() == 0)
+            if (GetGroupCount() == 0)
             {
                 CreateGroup(GroupData.groupModel);
             }
@@ -68,14 +100,6 @@ namespace WebAddressbookTests
             return this;
         }
 
-
-        /// <summary>
-        /// Возвращает количество элементов(строк) с группами
-        /// </summary>
-        public int GetGroupData()
-        {
-            return driver.FindElements(By.CssSelector("span[class='group']")).Count;
-        }
 
         /// <summary>
         /// Открывает форму создания группы
@@ -106,6 +130,7 @@ namespace WebAddressbookTests
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.CssSelector("form input[name='submit']")).Click();
+            groupCache = null;
             return this;
         }
 
@@ -114,7 +139,7 @@ namespace WebAddressbookTests
         /// </summary>
         public GroupHelper SelectGroup(int index)
         {
-            driver.FindElements(By.CssSelector("input[name='selected[]']"))[index - 1].Click();
+            driver.FindElements(By.CssSelector("input[name='selected[]']"))[index].Click();
             return this;
         }
 
@@ -124,6 +149,7 @@ namespace WebAddressbookTests
         public GroupHelper RemoveGroup()
         {
             driver.FindElement(By.CssSelector("div#content input[name='delete']")).Click();
+            groupCache = null;
             return this;
         }
 
@@ -142,6 +168,7 @@ namespace WebAddressbookTests
         public GroupHelper SubmitGroupEdit()
         {
             driver.FindElement(By.CssSelector("div#content input[name='update']")).Click();
+            groupCache = null;
             return this;
         }
 

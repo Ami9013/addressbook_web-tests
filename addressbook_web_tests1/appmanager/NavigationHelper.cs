@@ -25,6 +25,10 @@ namespace WebAddressbookTests
         /// </summary>
         public void GoToHomePage()
         {
+            if (driver.Url == baseURL + "/addressbook/")
+            {
+                return;
+            }
             driver.Navigate().GoToUrl(baseURL + "/addressbook/");
         }
 
@@ -33,6 +37,10 @@ namespace WebAddressbookTests
         /// </summary>
         public void GoToGroupsPage()
         {
+            if (driver.Url == baseURL + "/addressbook/group.php" && IsElementExists(By.CssSelector("input[name='new']")))
+            {
+                return;
+            }
             driver.FindElement(By.CssSelector("div#nav li.admin a")).Click();
         }
 
@@ -41,6 +49,10 @@ namespace WebAddressbookTests
         /// </summary>
         public void GoToAddContactPage()
         {
+            if (driver.Url == baseURL + "/addressbook/edit.php")
+            {
+                return;
+            }
             driver.FindElement(By.CssSelector("div#nav li.all a")).Click();
         }
 
@@ -49,6 +61,10 @@ namespace WebAddressbookTests
         /// </summary>
         public void ReturnToHomePage()
         {
+            if (driver.Url == baseURL + "/addressbook/")
+            {
+                return;
+            }
             driver.FindElement(By.CssSelector("div#nav li a")).Click();
         }
     }

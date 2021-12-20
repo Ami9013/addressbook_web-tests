@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAddressbookTests
 {
-    public class ContactData
+    public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -33,11 +33,62 @@ namespace WebAddressbookTests
         public string SecondAddress { get; set; }
         public string SecondHome { get; set; }
         public string SecondNotes { get; set; }
-        
+        public string FullName { get; set; }
+        public string Id { get; set; }
+
+
         public ContactData()
         {
 
         }
+
+        public ContactData(string text)
+        {
+
+        }
+
+        
+        public bool Equals(ContactData other)
+        {
+            if (ReferenceEquals(other, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            return FirstName == other.FirstName & LastName == other.LastName;
+            // Или просто return FirstName == other.FirstName; ??
+        }
+
+        /// Метод сравнения Хэш-кодов имени контактов
+        public override int GetHashCode()
+        {
+            return FirstName.GetHashCode() & LastName.GetHashCode();
+            // Или просто return FirstName.GetHashCode(); ??
+        }
+
+
+
+        // Возвращает строковое представление объектов типа GroupData
+        public override string ToString()
+        {
+            return 
+                "\n" + "firstName=" + FirstName + ", " +
+                "\n" + "lastName=" + LastName +  "\n";
+        }
+
+        public int CompareTo(ContactData other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+                return 1;
+            }
+            return FirstName.CompareTo(other.FirstName) & LastName.CompareTo(other.LastName);
+            // или просто return FirstName.CompareTo(other.FirstName); ??
+        }
+
 
         public static ContactData contactModel = new ContactData
         {

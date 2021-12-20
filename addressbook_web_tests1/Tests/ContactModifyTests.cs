@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace WebAddressbookTests
@@ -39,7 +40,31 @@ namespace WebAddressbookTests
                 SecondHome = "1/101",
                 SecondNotes = "upd done"
             };
+
+            List<ContactData> oldContacts = appManager.Contacts.GetContactList();
+            ContactData oldData = oldContacts[1];
+
             appManager.Contacts.Modify(1, newContactData);
+
+            Assert.AreEqual(oldContacts.Count, appManager.Contacts.GetContactCount());
+
+            List<ContactData> newContacts = appManager.Contacts.GetContactList();
+            oldContacts[1].FirstName = newContactData.FirstName;
+            oldContacts[1].LastName = newContactData.LastName;
+            oldContacts.Sort();
+            newContacts.Sort();
+
+            Assert.AreEqual(oldContacts, newContacts);
+
+            foreach (ContactData contact in newContacts)
+            {
+                if (contact.Id == oldData.Id)
+                {
+                    Assert.AreEqual(newContactData.FirstName, contact.FirstName);
+                    Assert.AreEqual(newContactData.LastName, contact.LastName);
+                }
+            }
+
             appManager.Auth.Logout();
         }
     }
