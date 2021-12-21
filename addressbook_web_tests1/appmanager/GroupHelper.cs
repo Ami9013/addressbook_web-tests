@@ -43,7 +43,7 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
-        /// Возвращает количество элементов(строк) с группами
+        /// Возвращает количество элементов(строк) с группами 
         /// </summary>
         public int GetGroupCount()
         {
