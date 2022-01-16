@@ -19,6 +19,63 @@ namespace WebAddressbookTests
         {
         }
 
+        /// <summary>
+        /// Получает и возвращает информацию о контакте, полученную из формы редактирования
+        /// </summary>
+        public ContactData GetContactInformationFromEditForm(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            ModifyContact(index);
+            string firstName = driver.FindElement(By.CssSelector("div#content input[name='firstname']")).GetAttribute("value");
+            string lastName = driver.FindElement(By.CssSelector("div#content input[name='lastname']")).GetAttribute("value");
+            string address = driver.FindElement(By.CssSelector("div#content textarea[name='address']")).GetAttribute("value");
+            string homePhone = driver.FindElement(By.CssSelector("div#content input[name='home']")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.CssSelector("div#content input[name='mobile']")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.CssSelector("div#content input[name='work']")).GetAttribute("value");
+            string homePhone2 = driver.FindElement(By.CssSelector("div#content input[name='phone2']")).GetAttribute("value");
+            string email1 = driver.FindElement(By.CssSelector("div#content input[name='email']")).GetAttribute("value");
+            string email2 = driver.FindElement(By.CssSelector("div#content input[name='email2']")).GetAttribute("value");
+            string email3 = driver.FindElement(By.CssSelector("div#content input[name='email3']")).GetAttribute("value");
+
+            return new ContactData()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                FirstAddress = address,
+                FirstHomePhone = homePhone,
+                Mobile = mobilePhone,
+                WorkPhone = workPhone,
+                SecondHomePhone = homePhone2,
+                Email = email1,
+                Email2 = email2,
+                Email3 = email3
+            };
+        }
+
+        /// <summary>
+        /// Получает и возвращает информацию о контакте, полученную из таблицы на главной странице(home)
+        /// </summary>
+        public ContactData GetContactInformationFromTable(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"));
+            string lastName = cells[1].Text;
+            string firstName = cells[2].Text;
+            string address = cells[3].Text;
+            string allEmails = cells[4].Text;
+            string allPhones = cells[5].Text;
+
+            return new ContactData()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                FirstAddress = address,
+                AllEmails = allEmails,
+                AllPhones = allPhones
+            };
+
+        }
+
         private List<ContactData> contactCache = null;
 
         /// <summary>
@@ -174,11 +231,11 @@ namespace WebAddressbookTests
             driver.FindElement(By.CssSelector("div#content textarea[name='address']")).Clear();
             driver.FindElement(By.CssSelector("div#content textarea[name='address']")).SendKeys(contact.FirstAddress);
             driver.FindElement(By.CssSelector("div#content input[name='home']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='home']")).SendKeys(contact.FirstHome);
+            driver.FindElement(By.CssSelector("div#content input[name='home']")).SendKeys(contact.FirstHomePhone);
             driver.FindElement(By.CssSelector("div#content input[name='mobile']")).Clear();
             driver.FindElement(By.CssSelector("div#content input[name='mobile']")).SendKeys(contact.Mobile);
             driver.FindElement(By.CssSelector("div#content input[name='work']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='work']")).SendKeys(contact.Work);
+            driver.FindElement(By.CssSelector("div#content input[name='work']")).SendKeys(contact.WorkPhone);
             driver.FindElement(By.CssSelector("div#content input[name='fax']")).Clear();
             driver.FindElement(By.CssSelector("div#content input[name='fax']")).SendKeys(contact.Fax);
             driver.FindElement(By.CssSelector("div#content input[name='email']")).Clear();
@@ -206,7 +263,7 @@ namespace WebAddressbookTests
             driver.FindElement(By.CssSelector("div#content textarea[name='address2']")).Clear();
             driver.FindElement(By.CssSelector("div#content textarea[name='address2']")).SendKeys(contact.SecondAddress);
             driver.FindElement(By.CssSelector("div#content input[name='phone2']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='phone2']")).SendKeys(contact.SecondHome);
+            driver.FindElement(By.CssSelector("div#content input[name='phone2']")).SendKeys(contact.SecondHomePhone);
             driver.FindElement(By.CssSelector("div#content textarea[name='notes']")).Clear();
             driver.FindElement(By.CssSelector("div#content textarea[name='notes']")).SendKeys(contact.SecondNotes);
             return this;
@@ -232,11 +289,11 @@ namespace WebAddressbookTests
             driver.FindElement(By.CssSelector("div#content textarea[name='address']")).Clear();
             driver.FindElement(By.CssSelector("div#content textarea[name='address']")).SendKeys(newContactData.FirstAddress);
             driver.FindElement(By.CssSelector("div#content input[name='home']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='home']")).SendKeys(newContactData.FirstHome);
+            driver.FindElement(By.CssSelector("div#content input[name='home']")).SendKeys(newContactData.FirstHomePhone);
             driver.FindElement(By.CssSelector("div#content input[name='mobile']")).Clear();
             driver.FindElement(By.CssSelector("div#content input[name='mobile']")).SendKeys(newContactData.Mobile);
             driver.FindElement(By.CssSelector("div#content input[name='work']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='work']")).SendKeys(newContactData.Work);
+            driver.FindElement(By.CssSelector("div#content input[name='work']")).SendKeys(newContactData.WorkPhone);
             driver.FindElement(By.CssSelector("div#content input[name='fax']")).Clear();
             driver.FindElement(By.CssSelector("div#content input[name='fax']")).SendKeys(newContactData.Fax);
             driver.FindElement(By.CssSelector("div#content input[name='email']")).Clear();
@@ -262,7 +319,7 @@ namespace WebAddressbookTests
             driver.FindElement(By.CssSelector("div#content textarea[name='address2']")).Clear();
             driver.FindElement(By.CssSelector("div#content textarea[name='address2']")).SendKeys(newContactData.SecondAddress);
             driver.FindElement(By.CssSelector("div#content input[name='phone2']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='phone2']")).SendKeys(newContactData.SecondHome);
+            driver.FindElement(By.CssSelector("div#content input[name='phone2']")).SendKeys(newContactData.SecondHomePhone);
             driver.FindElement(By.CssSelector("div#content textarea[name='notes']")).Clear();
             driver.FindElement(By.CssSelector("div#content textarea[name='notes']")).SendKeys(newContactData.SecondNotes);
             return this;
@@ -343,5 +400,6 @@ namespace WebAddressbookTests
             driver.FindElement(By.CssSelector("div.msgbox a")).Click();
             return this;
         }
+
     }
 }

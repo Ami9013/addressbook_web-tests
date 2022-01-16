@@ -62,15 +62,17 @@ namespace WebAddressbookTests
         /// </summary>
         public bool IsLoggedIn(AccountData account)
         {
-            return IsLoggedIn() && GetLoggedUserName(account);
+            return IsLoggedIn() && GetLoggedUserName() == account.Username;
+            //GetLoggedUserName(account);
         }
 
         /// <summary>
-        /// Возвращает логин(Username) аккаунта, под которым осуществлен вход
+        /// Получаем содержимое элемента без первого и последнего символа
         /// </summary>
-        public bool GetLoggedUserName(AccountData account)
+        public string GetLoggedUserName()
         {
-            return driver.FindElement(By.CssSelector("form[name='logout'] b")).Text == "(" + account.Username + ")";
+            string text = driver.FindElement(By.CssSelector("form[name='logout'] b")).Text;
+            return text.Substring(1, text.Length - 2);
         }
     }
 }
