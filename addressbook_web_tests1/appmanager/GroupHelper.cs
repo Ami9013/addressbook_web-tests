@@ -21,26 +21,43 @@ namespace WebAddressbookTests
 
         private List<GroupData> groupCache = null;
 
-        public List<GroupData> GetGroupList()
+
+        /// <summary>
+        /// Получаем и формируем список групп, в список записываем Name, Header, Footer и Id группы. 
+        /// Возвращаем копию кеша основанного на сформированном списке
+        /// </summary>
+        public List<GroupData> GetGroupFullData()
         {
             if (groupCache == null)
             {
-                groupCache = new List<GroupData>();
                 manager.Navigator.GoToGroupsPage();
+                groupCache = new List<GroupData>();
                 ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+                List<string> groupIDsList = new List<string>();
                 foreach (IWebElement element in elements)
                 {
+                    groupIDsList.Add(element.FindElement(By.CssSelector("span.group input")).GetAttribute("value"));
+                }
 
-                    groupCache.Add(new GroupData(element.Text)
-                    {
-                        Name = element.Text,
-                        Id = element.FindElement(By.CssSelector("span.group input")).GetAttribute("value")
-                    });
+
+                
+                foreach (var item in groupIDsList)
+                {
+                    GroupData fullGroupModel = new GroupData();
+                    driver.FindElement(By.CssSelector("input[name='selected[]'][value='" + item + "']")).Click();
+                    EditGroup();
+                    fullGroupModel.Id = item;
+                    fullGroupModel.Name = driver.FindElement(By.CssSelector("form input[name='group_name']")).GetAttribute("value");
+                    fullGroupModel.Header = driver.FindElement(By.CssSelector("form textarea[name='group_header']")).GetAttribute("value");
+                    fullGroupModel.Footer = driver.FindElement(By.CssSelector("form textarea[name='group_footer']")).GetAttribute("value");
+                    manager.Navigator.GoToGroupsPage();
+                    groupCache.Add(fullGroupModel);
                 }
             }
-
             return new List<GroupData>(groupCache);
         }
+
+
 
         /// <summary>
         /// Возвращает количество элементов(строк) с группами 

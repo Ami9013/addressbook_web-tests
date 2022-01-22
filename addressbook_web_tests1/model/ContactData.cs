@@ -24,10 +24,10 @@ namespace WebAddressbookTests
         public string Email3 { get; set; }
         public string Homepage { get; set; }
         public int DayOfBirth { get; set; }
-        public int MonthOfBirth { get; set; } // int, т.к. выбираю месяц в селекте по индексу, который получаю от выбранного в Enum значения, приведенного в int
+        public int MonthOfBirth { get; set; }
         public string YearOfBirth { get; set; }
         public int DayOfAnniversary { get; set; }
-        public int MonthOfAnniversary { get; set; } // также как и в MonthOfBirth
+        public int MonthOfAnniversary { get; set; }
         public string YearOfAnniversary { get; set; }
         public int GroupOfContact { get; set; } 
         public string SecondAddress { get; set; }
@@ -58,15 +58,14 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return FirstName == other.FirstName & LastName == other.LastName;
-            // Или просто return FirstName == other.FirstName; ??
+            return FirstName == other.FirstName && LastName == other.LastName;
         }
+
 
         /// Метод сравнения Хэш-кодов имени контактов
         public override int GetHashCode()
         {
-            return FirstName.GetHashCode() & LastName.GetHashCode();
-            // Или просто return FirstName.GetHashCode(); ??
+            return (FirstName + LastName).GetHashCode();
         }
 
 
@@ -85,8 +84,7 @@ namespace WebAddressbookTests
             {
                 return 1;
             }
-            return FirstName.CompareTo(other.FirstName) & LastName.CompareTo(other.LastName);
-            // или просто return FirstName.CompareTo(other.FirstName); ??
+            return FirstName.CompareTo(other.FirstName);
         }
 
 

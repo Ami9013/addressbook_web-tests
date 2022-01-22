@@ -53,33 +53,6 @@ namespace WebAddressbookTests
         }
 
 
-        // Думаю сравнивать контакты по ID тоже нужно, реализовал в методе выше, работает. На всякий случай оставил метод без ID ниже до апрува
-
-        //public List<ContactData> GetContactList()
-        //{
-        //    if (contactCache == null)
-        //    {
-        //        contactCache = new List<ContactData>();
-        //        manager.Navigator.GoToHomePage();
-        //        ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
-        //        foreach (IWebElement element in elements)
-        //        {
-        //            ContactData contact = new ContactData();
-        //            var tdElements = element.FindElements(By.CssSelector("td"));
-        //            string textFirstName = tdElements[2].Text;
-        //            contact.FirstName = textFirstName;
-        //            string textLastName = tdElements[1].Text;
-        //            contact.LastName = textLastName;
-        //            string textFullName = tdElements[1].Text + " " + tdElements[2].Text;
-        //            contact.FullName = textFullName;
-        //            contactCache.Add(contact);
-        //        }
-        //    }
-
-        //    return new List<ContactData>(contactCache);
-        //}
-
-
         /// <summary>
         /// Возвращает количество элементов(строк) с контактами
         /// </summary>

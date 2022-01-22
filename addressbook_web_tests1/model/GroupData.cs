@@ -28,13 +28,6 @@ namespace WebAddressbookTests
 
         }
 
-        //Оставил на всякий случай
-        //public GroupData(IWebElement elem)
-        //{
-        //    Name = elem.Text;
-        //}
-
-
 
         // Метод сравнения Имени групп
         public bool Equals(GroupData other)
@@ -47,13 +40,13 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return Name == other.Name;
+            return Name == other.Name && Header == other.Header && Footer == other.Footer;
         }
 
         // Метод сравнения Хэш-кодов имени. Составляет числовой хэш по объекту
         public override int GetHashCode()
         {
-            return Name.GetHashCode();
+            return (Name + Header + Footer).GetHashCode();
         }
 
         // Возвращает строковое представление объектов типа GroupData
