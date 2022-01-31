@@ -17,16 +17,16 @@ namespace WebAddressbookTests
             {
                 Name = "Group Name",
                 Header = "Any group header",
-                Footer = "Any group footer"
+                Footer = "Any group footer",
             };
 
-            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
+            List<GroupData> oldGroups = appManager.Groups.GetGroupFullData();
 
             appManager.Groups.CreateGroup(group);
 
             Assert.AreEqual(oldGroups.Count + 1, appManager.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = appManager.Groups.GetGroupList();
+            List<GroupData> newGroups = appManager.Groups.GetGroupFullData();
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
@@ -46,13 +46,13 @@ namespace WebAddressbookTests
                 Footer = ""
             };
 
-            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
+            List<GroupData> oldGroups = appManager.Groups.GetGroupFullData();
 
             appManager.Groups.CreateGroup(group);
 
             Assert.AreEqual(oldGroups.Count + 1, appManager.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = appManager.Groups.GetGroupList();
+            List<GroupData> newGroups = appManager.Groups.GetGroupFullData();
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
@@ -65,18 +65,17 @@ namespace WebAddressbookTests
             GroupData group = new GroupData
             {
                 Name = "a'a",
-                Header = "",
-                Footer = ""
+                Header = "b'b",
+                Footer = "c'c"
             };
 
-            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
+            List<GroupData> oldGroups = appManager.Groups.GetGroupFullData();
 
             appManager.Groups.CreateGroup(group);
 
             Assert.AreEqual(oldGroups.Count, appManager.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = appManager.Groups.GetGroupList();
-            // Т.к. группу с именем "a'a" создать нельзя - старый и новый списки, по количеству, будут равны. Поэтому я их просто сортирую и сравниваю 
+            List<GroupData> newGroups = appManager.Groups.GetGroupFullData();
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
