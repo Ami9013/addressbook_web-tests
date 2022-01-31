@@ -22,9 +22,9 @@ namespace WebAddressbookTests
                 Title = "Any",
                 Company = "Magazine",
                 FirstAddress = "Any city, any street",
-                FirstHome = "111",
-                Mobile = "88005553535",
-                Work = "Main Cashier",
+                FirstHomePhone = "+(111)",
+                Mobile = "+7(800)5553535",
+                WorkPhone = "+7(900)",
                 Fax = "123321",
                 Email = "vandamm0123@mail.no",
                 Email2 = "vandamm0133@mail.no",
@@ -38,7 +38,7 @@ namespace WebAddressbookTests
                 YearOfAnniversary = "1996",
                 GroupOfContact = 2,
                 SecondAddress = "kolotushkina street",
-                SecondHome = "101/1",
+                SecondHomePhone = "+7(902)",
                 SecondNotes = "done"
             };
 

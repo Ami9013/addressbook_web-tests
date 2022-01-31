@@ -22,9 +22,9 @@ namespace WebAddressbookTests
                 Title = "UpdAny",
                 Company = "UpdMagazine",
                 FirstAddress = "Upd Any city, any street",
-                FirstHome = "Upd 111",
-                Mobile = "123321123",
-                Work = "Upd Main Cashier",
+                FirstHomePhone = "+7(111)",
+                Mobile = "+1(2)3321123",
+                WorkPhone = "+7(901)",
                 Fax = "987654",
                 Email = "Updvandamm0123@mail.no",
                 Email2 = "Updvandamm0133@mail.no",
@@ -37,7 +37,7 @@ namespace WebAddressbookTests
                 MonthOfAnniversary = 12,
                 YearOfAnniversary = "2222",
                 SecondAddress = "Upd kolotushkina street",
-                SecondHome = "1/101",
+                SecondHomePhone = "+7(902)",
                 SecondNotes = "upd done"
             };
 
