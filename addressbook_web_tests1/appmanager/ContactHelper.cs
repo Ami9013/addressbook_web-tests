@@ -19,6 +19,23 @@ namespace WebAddressbookTests
         {
         }
 
+        // С ключем коллекции месяцев сопоставляется string monthOfBirth / string monthOfAnniversary и получаем int значение месяца, которое присваиваем в соотв. поле
+        Dictionary<string, int> MonthsOfYear = new Dictionary<string, int>()
+        {
+            { "January", 1 },
+            { "February", 2 },
+            { "March", 3 },
+            { "April", 4 },
+            { "May", 5 },
+            { "June", 6 },
+            { "July", 7 },
+            { "August", 8 },
+            { "September", 9 },
+            { "October", 10 },
+            { "November", 11 },
+            { "December", 12 }
+        };
+
         /// <summary>
         /// Получает и возвращает информацию о контакте, полученную из формы редактирования
         /// </summary>
@@ -27,28 +44,56 @@ namespace WebAddressbookTests
             manager.Navigator.GoToHomePage();
             ModifyContact(index);
             string firstName = driver.FindElement(By.CssSelector("div#content input[name='firstname']")).GetAttribute("value");
+            string middleName = driver.FindElement(By.CssSelector("div#content input[name='middlename']")).GetAttribute("value");
             string lastName = driver.FindElement(By.CssSelector("div#content input[name='lastname']")).GetAttribute("value");
+            string nickName = driver.FindElement(By.CssSelector("div#content input[name='nickname']")).GetAttribute("value");
+            string companyName = driver.FindElement(By.CssSelector("div#content input[name='company']")).GetAttribute("value");
+            string title = driver.FindElement(By.CssSelector("div#content input[name='title']")).GetAttribute("value");
             string address = driver.FindElement(By.CssSelector("div#content textarea[name='address']")).GetAttribute("value");
             string homePhone = driver.FindElement(By.CssSelector("div#content input[name='home']")).GetAttribute("value");
             string mobilePhone = driver.FindElement(By.CssSelector("div#content input[name='mobile']")).GetAttribute("value");
             string workPhone = driver.FindElement(By.CssSelector("div#content input[name='work']")).GetAttribute("value");
-            string homePhone2 = driver.FindElement(By.CssSelector("div#content input[name='phone2']")).GetAttribute("value");
+            string fax = driver.FindElement(By.CssSelector("div#content input[name='fax']")).GetAttribute("value");
             string email1 = driver.FindElement(By.CssSelector("div#content input[name='email']")).GetAttribute("value");
             string email2 = driver.FindElement(By.CssSelector("div#content input[name='email2']")).GetAttribute("value");
             string email3 = driver.FindElement(By.CssSelector("div#content input[name='email3']")).GetAttribute("value");
+            string homePage = driver.FindElement(By.CssSelector("div#content input[name='homepage']")).GetAttribute("value");
+            string dayOfBirth = driver.FindElement(By.CssSelector("div#content select[name='bday'] option[selected]")).GetAttribute("value");
+            string monthOfBirth = driver.FindElement(By.CssSelector("div#content select[name='bmonth'] option[selected]")).GetAttribute("value");
+            string yearOfBirth = driver.FindElement(By.CssSelector("div#content input[name='byear']")).GetAttribute("value");
+            string dayOfAnniversary = driver.FindElement(By.CssSelector("div#content select[name='aday'] option[selected]")).GetAttribute("value");
+            string monthOfAnniversary = driver.FindElement(By.CssSelector("div#content select[name='amonth'] option[selected]")).GetAttribute("value");
+            string yearOfAnniversary = driver.FindElement(By.CssSelector("div#content input[name='ayear']")).GetAttribute("value");
+            string secondAddress = driver.FindElement(By.CssSelector("div#content textarea[name='address2']")).GetAttribute("value");
+            string homePhone2 = driver.FindElement(By.CssSelector("div#content input[name='phone2']")).GetAttribute("value");
+            string secondNotes = driver.FindElement(By.CssSelector("div#content textarea[name='notes']")).GetAttribute("value");
 
             return new ContactData()
             {
                 FirstName = firstName,
+                MiddleName = middleName,
                 LastName = lastName,
+                NickName = nickName,
+                Company = companyName,
+                Title = title,
                 FirstAddress = address,
                 FirstHomePhone = homePhone,
                 Mobile = mobilePhone,
                 WorkPhone = workPhone,
-                SecondHomePhone = homePhone2,
+                Fax = fax,
                 Email = email1,
                 Email2 = email2,
-                Email3 = email3
+                Email3 = email3,
+                Homepage = homePage,
+                DayOfBirth = Convert.ToInt32(dayOfBirth),
+                MonthOfBirth = MonthsOfYear[monthOfBirth],
+                YearOfBirth = yearOfBirth,
+                DayOfAnniversary = Convert.ToInt32(dayOfAnniversary),
+                MonthOfAnniversary = MonthsOfYear[monthOfAnniversary],
+                YearOfAnniversary = yearOfAnniversary,
+                SecondAddress = secondAddress,
+                SecondHomePhone = homePhone2,
+                SecondNotes = secondNotes
             };
         }
 
@@ -178,7 +223,7 @@ namespace WebAddressbookTests
                 ContactCreate(ContactData.contactModel);
             }
             ModifyContact(p);
-            FillModifyContactForm(newContactData);
+            FillContactForm(newContactData, false);
             SubmitContactModify();
             ReturnToHomePageafterUpd();
             return this;
@@ -187,7 +232,7 @@ namespace WebAddressbookTests
         /// <summary>
         /// Заполняет форму создания контакта переданными значениями
         /// </summary>
-        public ContactHelper FillContactForm(ContactData contact)
+        public ContactHelper FillContactForm(ContactData contact, bool DoModifyGroup = true)
         {
             driver.FindElement(By.CssSelector("div#content input[name='firstname']")).Clear();
             driver.FindElement(By.CssSelector("div#content input[name='firstname']")).SendKeys(contact.FirstName);
@@ -231,8 +276,11 @@ namespace WebAddressbookTests
             new SelectElement(driver.FindElement(By.CssSelector("div#content select[name='amonth']"))).SelectByIndex(contact.MonthOfAnniversary);
             driver.FindElement(By.CssSelector("div#content input[name='ayear']")).Clear();
             driver.FindElement(By.CssSelector("div#content input[name='ayear']")).SendKeys(contact.YearOfAnniversary);
-            driver.FindElement(By.CssSelector("div#content select[name='new_group']")).Click();
-            new SelectElement(driver.FindElement(By.CssSelector("div#content select[name='new_group']"))).SelectByIndex(contact.GroupOfContact);
+            if (DoModifyGroup)
+            {
+                driver.FindElement(By.CssSelector("div#content select[name='new_group']")).Click();
+                new SelectElement(driver.FindElement(By.CssSelector("div#content select[name='new_group']"))).SelectByIndex(contact.GroupOfContact);
+            }
             driver.FindElement(By.CssSelector("div#content textarea[name='address2']")).Clear();
             driver.FindElement(By.CssSelector("div#content textarea[name='address2']")).SendKeys(contact.SecondAddress);
             driver.FindElement(By.CssSelector("div#content input[name='phone2']")).Clear();
@@ -242,61 +290,6 @@ namespace WebAddressbookTests
             return this;
         }
 
-        /// <summary>
-        /// Заполняет форму редактирования контакта переданными значениями
-        /// </summary>
-        public ContactHelper FillModifyContactForm(ContactData newContactData) 
-        {
-            driver.FindElement(By.CssSelector("div#content input[name='firstname']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='firstname']")).SendKeys(newContactData.FirstName);
-            driver.FindElement(By.CssSelector("div#content input[name='middlename']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='middlename']")).SendKeys(newContactData.MiddleName);
-            driver.FindElement(By.CssSelector("div#content input[name='lastname']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='lastname']")).SendKeys(newContactData.LastName);
-            driver.FindElement(By.CssSelector("div#content input[name='nickname']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='nickname']")).SendKeys(newContactData.NickName);
-            driver.FindElement(By.CssSelector("div#content input[name='company']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='company']")).SendKeys(newContactData.Company);
-            driver.FindElement(By.CssSelector("div#content input[name='title']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='title']")).SendKeys(newContactData.Title);
-            driver.FindElement(By.CssSelector("div#content textarea[name='address']")).Clear();
-            driver.FindElement(By.CssSelector("div#content textarea[name='address']")).SendKeys(newContactData.FirstAddress);
-            driver.FindElement(By.CssSelector("div#content input[name='home']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='home']")).SendKeys(newContactData.FirstHomePhone);
-            driver.FindElement(By.CssSelector("div#content input[name='mobile']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='mobile']")).SendKeys(newContactData.Mobile);
-            driver.FindElement(By.CssSelector("div#content input[name='work']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='work']")).SendKeys(newContactData.WorkPhone);
-            driver.FindElement(By.CssSelector("div#content input[name='fax']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='fax']")).SendKeys(newContactData.Fax);
-            driver.FindElement(By.CssSelector("div#content input[name='email']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='email']")).SendKeys(newContactData.Email);
-            driver.FindElement(By.CssSelector("div#content input[name='email2']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='email2']")).SendKeys(newContactData.Email2);
-            driver.FindElement(By.CssSelector("div#content input[name='email3']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='email3']")).SendKeys(newContactData.Email3);
-            driver.FindElement(By.CssSelector("div#content input[name='homepage']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='homepage']")).SendKeys(newContactData.Homepage);
-            driver.FindElement(By.CssSelector("div#content select[name='bday']")).Click();
-            new SelectElement(driver.FindElement(By.CssSelector("div#content select[name='bday']"))).SelectByIndex(newContactData.DayOfBirth + 1);
-            driver.FindElement(By.CssSelector("div#content select[name='bmonth']")).Click();
-            new SelectElement(driver.FindElement(By.CssSelector("div#content select[name='bmonth']"))).SelectByIndex(newContactData.MonthOfBirth + 1);
-            driver.FindElement(By.CssSelector("div#content input[name='byear']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='byear']")).SendKeys(newContactData.YearOfBirth);
-            driver.FindElement(By.CssSelector("div#content select[name='aday']")).Click();
-            new SelectElement(driver.FindElement(By.CssSelector("div#content select[name='aday']"))).SelectByIndex(newContactData.DayOfAnniversary + 1);
-            driver.FindElement(By.CssSelector("div#content select[name='amonth']")).Click();
-            new SelectElement(driver.FindElement(By.CssSelector("div#content select[name='amonth']"))).SelectByIndex(newContactData.MonthOfAnniversary + 1);
-            driver.FindElement(By.CssSelector("div#content input[name='ayear']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='ayear']")).SendKeys(newContactData.YearOfAnniversary);
-            driver.FindElement(By.CssSelector("div#content textarea[name='address2']")).Clear();
-            driver.FindElement(By.CssSelector("div#content textarea[name='address2']")).SendKeys(newContactData.SecondAddress);
-            driver.FindElement(By.CssSelector("div#content input[name='phone2']")).Clear();
-            driver.FindElement(By.CssSelector("div#content input[name='phone2']")).SendKeys(newContactData.SecondHomePhone);
-            driver.FindElement(By.CssSelector("div#content textarea[name='notes']")).Clear();
-            driver.FindElement(By.CssSelector("div#content textarea[name='notes']")).SendKeys(newContactData.SecondNotes);
-            return this;
-        }
 
         /// <summary>
         /// Сохраняет форму создания контакта 
