@@ -19,22 +19,6 @@ namespace WebAddressbookTests
         {
         }
 
-        // С ключем коллекции месяцев сопоставляется string monthOfBirth / string monthOfAnniversary и получаем int значение месяца, которое присваиваем в соотв. поле
-        Dictionary<string, int> MonthsOfYear = new Dictionary<string, int>()
-        {
-            { "January", 1 },
-            { "February", 2 },
-            { "March", 3 },
-            { "April", 4 },
-            { "May", 5 },
-            { "June", 6 },
-            { "July", 7 },
-            { "August", 8 },
-            { "September", 9 },
-            { "October", 10 },
-            { "November", 11 },
-            { "December", 12 }
-        };
 
         /// <summary>
         /// Получает и возвращает информацию о контакте, полученную из формы редактирования
@@ -86,10 +70,10 @@ namespace WebAddressbookTests
                 Email3 = email3,
                 Homepage = homePage,
                 DayOfBirth = Convert.ToInt32(dayOfBirth),
-                MonthOfBirth = MonthsOfYear[monthOfBirth],
+                MonthOfBirth = ContactData.MonthsOfYear[monthOfBirth],
                 YearOfBirth = yearOfBirth,
                 DayOfAnniversary = Convert.ToInt32(dayOfAnniversary),
-                MonthOfAnniversary = MonthsOfYear[monthOfAnniversary],
+                MonthOfAnniversary = ContactData.MonthsOfYear[monthOfAnniversary],
                 YearOfAnniversary = yearOfAnniversary,
                 SecondAddress = secondAddress,
                 SecondHomePhone = homePhone2,
@@ -118,11 +102,21 @@ namespace WebAddressbookTests
                 AllEmails = allEmails,
                 AllPhones = allPhones
             };
-
         }
 
-        private List<ContactData> contactCache = null;
+        /// <summary>
+        /// Получаем всё содержимое страницы с детальной информацией о контакте
+        /// </summary>
+        public string GetFullDetails(int p)
+        {
+            manager.Navigator.GoToHomePage();
+            GoToDetailsPage(p);
+            string allDetails = driver.FindElement(By.CssSelector("div[id='content']")).Text;
+            return allDetails;
+        }
 
+
+        private List<ContactData> contactCache = null;
         /// <summary>
         /// Получаем и формируем список контактов, в список записываем First Name, Last Name, Full Name и Id контакта. 
         /// Возвращаем копию кеша основанного на сформированном списке
@@ -320,6 +314,15 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
+        /// Осуществляет переход в карточку просмотра детальной информации о контакте
+        /// </summary>
+        public ContactHelper GoToDetailsPage(int index)
+        {
+            driver.FindElements(By.CssSelector("table[id=maintable] td:nth-child(7) a "))[index].Click();
+            return this;
+        }
+
+        /// <summary>
         /// Сохраняет форму редактирования контакта
         /// </summary>
         public ContactHelper SubmitContactModify()
@@ -366,6 +369,5 @@ namespace WebAddressbookTests
             driver.FindElement(By.CssSelector("div.msgbox a")).Click();
             return this;
         }
-
     }
 }

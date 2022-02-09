@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace WebAddressbookTests
 {
@@ -35,8 +36,115 @@ namespace WebAddressbookTests
         public string SecondAddress { get; set; }
         public string SecondHomePhone { get; set; }
         public string SecondNotes { get; set; }
-        public string FullName { get; set; }
         public string Id { get; set; }
+
+        //С ключем коллекции месяцев сопоставляется string monthOfBirth / string monthOfAnniversary и получаем int значение месяца, которое присваиваем в соотв.поле
+        public static Dictionary<string, int> MonthsOfYear = new Dictionary<string, int>()
+        {
+            { "January", 1 },
+            { "February", 2 },
+            { "March", 3 },
+            { "April", 4 },
+            { "May", 5 },
+            { "June", 6 },
+            { "July", 7 },
+            { "August", 8 },
+            { "September", 9 },
+            { "October", 10 },
+            { "November", 11 },
+            { "December", 12 }
+        };
+
+
+
+        private string allDetails;
+        public string AllDetails
+        {
+            get
+            {
+                if (allDetails != null)
+                {
+                    return allDetails;
+                }
+                else
+                {
+                    return
+                        //Приведение данных, полученных из формы редактирования контакта к виду, полученному при просмотре детальной информации о контакте
+                        FirstName + " " + MiddleName + " " + LastName + "\r\n" +
+                        NickName + "\r\n" +
+                        Title + "\r\n" +
+                        Company + "\r\n" +
+                        FirstAddress + "\r\n" +
+                        "\r\n" +
+                        "H: " + FirstHomePhone + "\r\n" +
+                        "M: " + Mobile + "\r\n" +
+                        "W: " + WorkPhone + "\r\n" +
+                        "F: " + Fax + "\r\n" +
+                        "\r\n" +
+                        Email + "\r\n" +
+                        Email2 + "\r\n" +
+                        Email3 + "\r\n" +
+                        "Homepage:" + "\r\n" +
+                        Homepage + "\r\n" +
+                        "\r\n" +
+                        $"Birthday {DayOfBirth}. {new DateTime().AddMonths(MonthOfBirth - 1).ToString("MMMM", new CultureInfo("en-US"))} {YearOfBirth} ({CalculateYearOfBirth()})" +
+                        "\r\n" +
+                        $"Anniversary {DayOfAnniversary}. {new DateTime().AddMonths(MonthOfAnniversary - 1).ToString("MMMM", new CultureInfo("en-US"))} {YearOfAnniversary} ({CalculateYearOfAnnivers()})" + "\r\n" +
+                        "\r\n" +
+                        SecondAddress + "\r\n" +
+                        "\r\n" +
+                        "P: " + SecondHomePhone + "\r\n" +
+                        "\r\n" +
+                        SecondNotes;
+                }
+            }
+            set
+            {
+                allDetails = value;
+            }
+        }
+
+        /// <summary>
+        /// Калькулятор расчета прожитых лет
+        /// </summary>
+        private int CalculateYearOfBirth()
+        {
+            var now = DateTime.Today;
+            return now.Year - Convert.ToInt32(YearOfBirth) - 1 + ((now.Month > MonthOfBirth || now.Month == MonthOfBirth && now.Day >= DayOfBirth) ? 1 : 0);
+        }
+
+        /// <summary>
+        /// Калькулятор расчета годовщины
+        /// </summary>
+        private int CalculateYearOfAnnivers()
+        {
+            var now = DateTime.Today;
+            return now.Year - Convert.ToInt32(YearOfAnniversary) - 1 + ((now.Month > MonthOfAnniversary || now.Month == MonthOfAnniversary && now.Day >= DayOfAnniversary) ? 1 : 0);
+        }
+
+
+        private string fullName;
+        public string FullName
+        {
+
+            get
+            {
+                if (fullName != null)
+                {
+                    return fullName;
+                }
+                else
+                {
+                    // склеиваем имя + отчество + фамилию, а также удаляет лишние разделители в начале и в конце строки
+                    return (FirstName + MiddleName + LastName).Trim();
+                }
+            }
+
+            set
+            {
+                fullName = value;
+            }
+        }
 
         private string allEmails;
         public string AllEmails
@@ -93,8 +201,8 @@ namespace WebAddressbookTests
             {
                 allPhones = value;
             }
-
         }
+
 
         /// <summary>
         /// В полученном значении(телефон) преобразует пробел, тире и круглые скобки в пустую строку, а также добавляет отступ
@@ -141,12 +249,34 @@ namespace WebAddressbookTests
         }
 
 
-        // Возвращает строковое представление объектов типа GroupData
+        // Возвращает строковое представление объектов типа ContactData
         public override string ToString()
         {
-            return 
+            return
                 "\n" + "firstName=" + FirstName + ", " +
-                "\n" + "lastName=" + LastName +  "\n";
+                "\n" + "lastName=" + LastName + "\n" +
+                "\n" + "middleName=" + MiddleName + "\n" +
+                "\n" + "nickName=" + NickName + "\n" +
+                "\n" + "title=" + Title + "\n" +
+                "\n" + "companyName=" + Company + "\n" + 
+                "\n" + "firstAddress=" + FirstAddress + "\n" + 
+                "\n" + "firstHomePhone=" + FirstHomePhone + "\n" +
+                "\n" + "mobilePhone=" + Mobile +"\n" +
+                "\n" + "workPhone=" + WorkPhone +"\n" +
+                "\n" + "fax=" + Fax +"\n" +
+                "\n" + "email1=" + Email +"\n" +
+                "\n" + "email2=" + Email2 +"\n" +
+                "\n" + "email3=" + Email3 +"\n" +
+                "\n" + "homePage=" + Homepage + "\n" +
+                "\n" + "dayOfBirth=" + DayOfBirth + "\n" +
+                "\n" + "monthOfBirth=" + MonthOfBirth + "\n" +
+                "\n" + "yearOfBirth=" + YearOfBirth + "\n" +
+                "\n" + "dayOfAnniversary=" + DayOfAnniversary + "\n" +
+                "\n" + "monthOfAnniversary=" + MonthOfAnniversary + "\n" +
+                "\n" + "yearOfAnniversary=" + YearOfAnniversary + "\n" +
+                "\n" + "secondAddress=" + SecondAddress + "\n" +
+                "\n" + "secondHomePhone=" + SecondHomePhone + "\n" +
+                "\n" + "secondNotes=" + SecondNotes + "\n";                
         }
 
 
