@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebAddressbookTests
 {
@@ -41,6 +42,8 @@ namespace WebAddressbookTests
         //С ключем коллекции месяцев сопоставляется string monthOfBirth / string monthOfAnniversary и получаем int значение месяца, которое присваиваем в соотв.поле
         public static Dictionary<string, int> MonthsOfYear = new Dictionary<string, int>()
         {
+            
+            { "-", 0 },
             { "January", 1 },
             { "February", 2 },
             { "March", 3 },
@@ -55,8 +58,8 @@ namespace WebAddressbookTests
             { "December", 12 }
         };
 
-
-
+        
+        //Хоть и не используется, но пока оставлю
         private string allDetails;
         public string AllDetails
         {
@@ -71,8 +74,8 @@ namespace WebAddressbookTests
                     return
                         //Приведение данных, полученных из формы редактирования контакта к виду, полученному при просмотре детальной информации о контакте
                         FirstName + " " + MiddleName + " " + LastName + "\r\n" +
-                        NickName + "\r\n" +
-                        Title + "\r\n" +
+                        NickName + "\r\n" +// лучше делать переход на след строку а не /r/n
+                        Title + Environment.NewLine + "\r\n" +//вернуть пока как было, т.к. это отрабатывает в хелпере
                         Company + "\r\n" +
                         FirstAddress + "\r\n" +
                         "\r\n" +
@@ -104,6 +107,7 @@ namespace WebAddressbookTests
             }
         }
 
+        //Калькуляторы тоже пока оставил
         /// <summary>
         /// Калькулятор расчета прожитых лет
         /// </summary>

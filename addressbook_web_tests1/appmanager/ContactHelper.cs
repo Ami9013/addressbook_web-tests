@@ -7,6 +7,8 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using System.Globalization;
+
 
 namespace WebAddressbookTests
 {
@@ -46,7 +48,7 @@ namespace WebAddressbookTests
             string monthOfBirth = driver.FindElement(By.CssSelector("div#content select[name='bmonth'] option[selected]")).GetAttribute("value");
             string yearOfBirth = driver.FindElement(By.CssSelector("div#content input[name='byear']")).GetAttribute("value");
             string dayOfAnniversary = driver.FindElement(By.CssSelector("div#content select[name='aday'] option[selected]")).GetAttribute("value");
-            string monthOfAnniversary = driver.FindElement(By.CssSelector("div#content select[name='amonth'] option[selected]")).GetAttribute("value");
+            string monthOfAnniversary = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(driver.FindElement(By.CssSelector("div#content select[name='amonth'] option[selected]")).GetAttribute("value"));
             string yearOfAnniversary = driver.FindElement(By.CssSelector("div#content input[name='ayear']")).GetAttribute("value");
             string secondAddress = driver.FindElement(By.CssSelector("div#content textarea[name='address2']")).GetAttribute("value");
             string homePhone2 = driver.FindElement(By.CssSelector("div#content input[name='phone2']")).GetAttribute("value");
@@ -82,6 +84,104 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
+        /// Принимает объект типа ContactData, преобразует его в строку и возвращает её
+        /// </summary>
+        public string FromModelToStringConvert(ContactData modelToConvert)
+        {
+
+            string convertResult =
+
+            modelToConvert.FirstName + EmptyStringCheck(" ", modelToConvert.MiddleName) + EmptyStringCheck(" ", modelToConvert.LastName) + Environment.NewLine +
+            modelToConvert.NickName + Environment.NewLine +
+            modelToConvert.Title + Environment.NewLine +
+            modelToConvert.Company + Environment.NewLine +
+            modelToConvert.FirstAddress + Environment.NewLine +
+            EmptyStringCheck("H: ", modelToConvert.FirstHomePhone) + Environment.NewLine + 
+            EmptyStringCheck("M: ", modelToConvert.Mobile) + Environment.NewLine +
+            EmptyStringCheck("W: ", modelToConvert.WorkPhone) + Environment.NewLine +
+            EmptyStringCheck("F: ", modelToConvert.Fax) + Environment.NewLine +
+            modelToConvert.AllEmails + Environment.NewLine +
+            EmptyStringCheck($"{ "Homepage:" + Environment.NewLine}", modelToConvert.Homepage) + Environment.NewLine +
+            EmptyStringCheck($"Birthday", $"{DayValidate(modelToConvert.DayOfBirth)}{MonthValidate(modelToConvert.MonthOfBirth)} {modelToConvert.YearOfBirth}{CalculateYearOfBirth(modelToConvert)}") + Environment.NewLine +
+            EmptyStringCheck($"Anniversary", $"{DayValidate(modelToConvert.DayOfAnniversary)}{MonthValidate(modelToConvert.MonthOfAnniversary)} {modelToConvert.YearOfAnniversary}{CalculateYearOfAnniversary(modelToConvert)}") + Environment.NewLine +
+            modelToConvert.SecondAddress + Environment.NewLine +
+            EmptyStringCheck("P: ", modelToConvert.SecondHomePhone) + Environment.NewLine +
+            modelToConvert.SecondNotes;
+
+            return convertResult.Trim();
+        }
+
+        
+        
+        // Валидатор дня рождения и годовщины
+        string DayValidate(int day)
+        {
+            if (day == 0)
+            {
+                return "";
+            }
+            return Convert.ToString($" {day}.");
+        }
+
+        //Валидатор месяца рождения и годовщины
+        string MonthValidate(int months)
+        {
+            if (months == 0)
+            {
+                return "";
+            }
+            return $" { new DateTime().AddMonths(months - 1).ToString("MMMM", new CultureInfo("en-US"))}";
+        }
+
+        /// <summary>
+        /// Калькулятор  прожитых лет
+        /// </summary>
+        string CalculateYearOfBirth(ContactData getModel)
+        {
+            var currentDate = DateTime.Today;
+            bool valueIsDigit = int.TryParse(getModel.YearOfBirth, out int validYear);
+
+            // если полученную строку(ГОД) не удалось конвертировать в целое число, то расчет прожитых лет не выполняется. Возраст в скобках, следовательно, не выводится
+            if (valueIsDigit)
+            {
+                int yearCalculate = currentDate.Year - validYear - 1 + ((currentDate.Month > getModel.MonthOfBirth || currentDate.Month == getModel.MonthOfBirth && currentDate.Day >= getModel.DayOfBirth) ? 1 : 0);
+                                
+                
+                if (yearCalculate <= 149)
+                {
+                    string result = $" ({Convert.ToString(yearCalculate)})";
+                    return result;
+                }
+            }                        
+            return "";
+        }
+
+        /// <summary>
+        /// Калькулятор годовщины
+        /// </summary>
+        string CalculateYearOfAnniversary(ContactData getModel)
+        {
+            var currentDate = DateTime.Today;
+            bool valueIsDigit = int.TryParse(getModel.YearOfAnniversary, out int validYear);
+
+            // если полученную строку(ГОД) не удалось конвертировать в целое число, то расчет годовщины лет не выполняется. Результат в скобках, следовательно, не выводится
+            if (valueIsDigit)
+            {
+                // приложение вычисляет результат только по году
+                int yearCalculate = currentDate.Year - validYear;
+
+
+                if (yearCalculate <= 149)
+                {
+                    string result = $" ({Convert.ToString(yearCalculate)})";
+                    return result;
+                }
+            }
+            return "";
+        }
+
+        
+        /// <summary>
         /// Получает и возвращает информацию о контакте, полученную из таблицы на главной странице(home)
         /// </summary>
         public ContactData GetContactInformationFromTable(int index)
@@ -111,7 +211,7 @@ namespace WebAddressbookTests
         {
             manager.Navigator.GoToHomePage();
             GoToDetailsPage(p);
-            string allDetails = driver.FindElement(By.CssSelector("div[id='content']")).Text;
+            string allDetails = driver.FindElement(By.CssSelector("div[id='content']")).Text.Trim();
             return allDetails;
         }
 
