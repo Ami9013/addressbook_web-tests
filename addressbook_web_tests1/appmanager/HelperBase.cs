@@ -38,5 +38,14 @@ namespace WebAddressbookTests
                 return false;
             }
         }
+
+        public string EmptyStringCheck(string symbolValue, string valueOfField)
+        {
+            string validFiled = default;
+            if (!string.IsNullOrEmpty(valueOfField))
+                validFiled = symbolValue + valueOfField;
+
+            return validFiled;
+        }
     }
 }
