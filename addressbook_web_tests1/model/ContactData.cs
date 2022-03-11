@@ -58,75 +58,8 @@ namespace WebAddressbookTests
             { "December", 12 }
         };
 
-        
-        //Хоть и не используется, но пока оставлю
-        private string allDetails;
-        public string AllDetails
-        {
-            get
-            {
-                if (allDetails != null)
-                {
-                    return allDetails;
-                }
-                else
-                {
-                    return
-                        //Приведение данных, полученных из формы редактирования контакта к виду, полученному при просмотре детальной информации о контакте
-                        FirstName + " " + MiddleName + " " + LastName + "\r\n" +
-                        NickName + "\r\n" +// лучше делать переход на след строку а не /r/n
-                        Title + Environment.NewLine + "\r\n" +//вернуть пока как было, т.к. это отрабатывает в хелпере
-                        Company + "\r\n" +
-                        FirstAddress + "\r\n" +
-                        "\r\n" +
-                        "H: " + FirstHomePhone + "\r\n" +
-                        "M: " + Mobile + "\r\n" +
-                        "W: " + WorkPhone + "\r\n" +
-                        "F: " + Fax + "\r\n" +
-                        "\r\n" +
-                        Email + "\r\n" +
-                        Email2 + "\r\n" +
-                        Email3 + "\r\n" +
-                        "Homepage:" + "\r\n" +
-                        Homepage + "\r\n" +
-                        "\r\n" +
-                        $"Birthday {DayOfBirth}. {new DateTime().AddMonths(MonthOfBirth - 1).ToString("MMMM", new CultureInfo("en-US"))} {YearOfBirth} ({CalculateYearOfBirth()})" +
-                        "\r\n" +
-                        $"Anniversary {DayOfAnniversary}. {new DateTime().AddMonths(MonthOfAnniversary - 1).ToString("MMMM", new CultureInfo("en-US"))} {YearOfAnniversary} ({CalculateYearOfAnnivers()})" + "\r\n" +
-                        "\r\n" +
-                        SecondAddress + "\r\n" +
-                        "\r\n" +
-                        "P: " + SecondHomePhone + "\r\n" +
-                        "\r\n" +
-                        SecondNotes;
-                }
-            }
-            set
-            {
-                allDetails = value;
-            }
-        }
 
-        //Калькуляторы тоже пока оставил
-        /// <summary>
-        /// Калькулятор расчета прожитых лет
-        /// </summary>
-        private int CalculateYearOfBirth()
-        {
-            var now = DateTime.Today;
-            return now.Year - Convert.ToInt32(YearOfBirth) - 1 + ((now.Month > MonthOfBirth || now.Month == MonthOfBirth && now.Day >= DayOfBirth) ? 1 : 0);
-        }
-
-        /// <summary>
-        /// Калькулятор расчета годовщины
-        /// </summary>
-        private int CalculateYearOfAnnivers()
-        {
-            var now = DateTime.Today;
-            return now.Year - Convert.ToInt32(YearOfAnniversary) - 1 + ((now.Month > MonthOfAnniversary || now.Month == MonthOfAnniversary && now.Day >= DayOfAnniversary) ? 1 : 0);
-        }
-
-
+                
         private string fullName;
         public string FullName
         {

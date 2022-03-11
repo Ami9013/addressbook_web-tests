@@ -39,6 +39,9 @@ namespace WebAddressbookTests
             }
         }
 
+        /// <summary>
+        /// Метод проверяет наличие содержимого в полученной строке после символа. Используется в методе FromModelToStringConvert
+        /// </summary>
         public string EmptyStringCheck(string symbolValue, string valueOfField)
         {
             string validFiled = default;

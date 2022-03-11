@@ -20,7 +20,8 @@ namespace WebAddressbookTests
             // Получаем информацию о контакте из формы редактирования и приводим ее к виду сплошного текста(клеим), который получили из Details(человечек)
             ContactData fromForm = appManager.Contacts.GetContactInformationFromEditForm(0);
 
-            
+
+            //Ниже полученные значения из детальной информации о контакте и из формы редактирования приводятся к виду массивов строк разделением после переносов строк
             var fromformToString = appManager.Contacts.FromModelToStringConvert(fromForm).Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                     
             var fromDetailsToValid = fromDetails.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
