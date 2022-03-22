@@ -1,7 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Xml;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using NUnit.Framework;
 
@@ -9,17 +13,75 @@ namespace WebAddressbookTests
 {
     [TestFixture]
     public class GroupCreationTests : AuthTestBase
-    {   
-        [Test]
-        public void GroupCreationTest()
-        {
-            GroupData group = new GroupData
-            {
-                Name = "Group Name",
-                Header = "Any group header",
-                Footer = "Any group footer",
-            };
+    {
+        //неиспользуемый провайдер тестовых данных, но пока оставлю
 
+        //public static IEnumerable<GroupData> RandomGroupDataProvider() 
+        //{
+        //    List<GroupData> groups = new List<GroupData>();
+
+        //    for (int i = 0; i < 5; i++)
+        //    {
+        //        groups.Add(new GroupData()
+        //        {
+        //            Name = GenerateRandomString(30),
+        //            Header = GenerateRandomString(100),
+        //            Footer = GenerateRandomString(100)
+        //        });
+        //    }
+        //    return groups;
+        //}
+
+
+        /// <summary>
+        /// Читает данные из CSV файла
+        /// </summary>
+        public static IEnumerable<GroupData> GroupDataFromCsvFile()
+        {
+            List<GroupData> groups = new List<GroupData>();
+
+            string[] lines = File.ReadAllLines(@"groups.csv");
+
+            foreach (string l in lines)
+            {
+                string[] parts = l.Split(',');
+                groups.Add(new GroupData()
+                {
+                    Name = parts[0],
+                    Header = parts[1],
+                    Footer = parts[2]
+                });
+            }
+            return groups;
+        }
+
+        /// <summary>
+        /// Читает данные из XML файла
+        /// </summary>
+        public static IEnumerable<GroupData> GroupDataFromXmlFile()
+        {
+            //возвращаем, приведенный в явном виде к типу List<GroupData>, результат десериализации(прочтения) из файла
+            //XmlSerializer читает данные типа List<GroupData>
+            return (List<GroupData>) new XmlSerializer(typeof(List<GroupData>)).Deserialize(new StreamReader(@"groups.xml"));
+            
+        }
+
+        /// <summary>
+        /// Читает данные из JSON файла
+        /// </summary>
+        public static IEnumerable<GroupData> GroupDataFromJsonFile()
+        {
+            //возвращает результат десериализации(прочтения) объекта типа<List<GroupData>>
+            //в качестве параметра для прочтения передается текст, полученный ReadAllText(из файла)
+            return JsonConvert.DeserializeObject<List<GroupData>>(File.ReadAllText(@"groups.json"));
+
+        }
+
+
+
+        [Test, TestCaseSource("GroupDataFromJsonFile")] //определяем провайдера, который будет читать данные из файла
+        public void GroupCreationTest(GroupData group)
+        {
             List<GroupData> oldGroups = appManager.Groups.GetGroupFullData();
 
             appManager.Groups.CreateGroup(group);
