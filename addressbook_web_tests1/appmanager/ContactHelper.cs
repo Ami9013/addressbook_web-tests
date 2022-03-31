@@ -168,7 +168,9 @@ namespace WebAddressbookTests
             if (valueIsDigit)
             {
                 // приложение вычисляет результат только по году
-                int yearCalculate = currentDate.Year - validYear;
+                //int yearCalculate = currentDate.Year - validYear;
+                int yearCalculate = currentDate.Year - validYear - 1 + ((currentDate.Month > getModel.MonthOfAnniversary || currentDate.Month == getModel.MonthOfAnniversary && currentDate.Day >= getModel.DayOfAnniversary) ? 1 : 0);
+
 
 
                 if (yearCalculate <= 149)
@@ -212,6 +214,10 @@ namespace WebAddressbookTests
             manager.Navigator.GoToHomePage();
             GoToDetailsPage(p);
             string allDetails = driver.FindElement(By.CssSelector("div[id='content']")).Text.Trim();
+            if (allDetails.Contains("Member of"))
+            {
+                return allDetails.Remove(allDetails.IndexOf("Member of"));
+            }
             return allDetails;
         }
 
