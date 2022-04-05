@@ -38,102 +38,122 @@ namespace WebAddressbookTests
 
 
         /// <summary>
-        /// Генератор рандомных буквенно-цифровых строк рандомной длины, но не больше заданной с захардкоженным наобором символов и цифр.
+        /// Генератор рандомных буквенно-цифровых строк рандомной длины, но не больше заданной с захардкоженным наобором символов и цифр. ------ убрать
         /// </summary>
         /// <param name="max"></param>
         /// <returns></returns>
-        public static string RandomDataGenerator(int max)
-        {
-            int length = Convert.ToInt32(rnd.NextDouble() * max);
-            StringBuilder builder = new StringBuilder();
-            string words = "abcdefghijklomnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            for (int i = 0; i < length; i++)
-                builder.Append(words[rnd.Next(words.Length)]);
-            return builder.ToString();
-        }
+        //public static string RandomDataGenerator(int max)
+        //{
+        //    int length = Convert.ToInt32(rnd.NextDouble() * max);
+        //    StringBuilder builder = new StringBuilder();
+        //    string words = "abcdefghijklomnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        //    for (int i = 0; i < length; i++)
+        //        builder.Append(words[rnd.Next(words.Length)]);
+        //    return builder.ToString();
+        //}
 
 
         /// <summary>
-        /// Что-то похожее на метод по Баранцеву, но также всё упирается в заданный диапазон символов, в который входят всякие !"№;%:?*()
+        /// Что-то похожее на метод по Баранцеву, но также всё упирается в заданный диапазон символов, в который входят всякие !"№;%:?*() ------ убрать
         /// </summary>
-        public static string GenerateRandomDataAscII(int length)
-        {
-            Random random = new Random();
-            StringBuilder sbuilder = new StringBuilder();
-            for (int x = 0; x < length; ++x)
-                sbuilder.Append((char)random.Next(48, 91));
+        //public static string GenerateRandomDataAscII(int length)
+        //{
+        //    Random random = new Random();
+        //    StringBuilder sbuilder = new StringBuilder();
+        //    for (int x = 0; x < length; ++x)
+        //        sbuilder.Append((char)random.Next(48, 91));
 
-            return sbuilder.ToString();
-        }
+        //    return sbuilder.ToString();
+        //}
 
 
         /// <summary>
         /// Генератор данных для номеров телефонов. Собирает строку рандомной длины, но не более переданной (int max) из символов, допустимых для формирования номера телефона(хоть и в перемешку).
         /// </summary>
-        public static string RandomPhoneData(int max)
-        {
-            int length = Convert.ToInt32(rnd.NextDouble() * max);
-            StringBuilder builder = new StringBuilder();
-            string words = "1234567890()-+";
-            for (int i = 0; i < length; i++)
-                builder.Append(words[rnd.Next(words.Length)]);
-            return builder.ToString();
-        }
+        //public static string RandomPhoneData(int max)
+        //{
+        //    int length = Convert.ToInt32(rnd.NextDouble() * max);
+        //    StringBuilder builder = new StringBuilder();
+        //    string words = "1234567890()-+";
+        //    for (int i = 0; i < length; i++)
+        //        builder.Append(words[rnd.Next(words.Length)]);
+        //    return builder.ToString();
+        //}
 
 
         /// <summary>
         /// Генератор данных для года рождения и годовщины. 
         /// </summary>
-        public static string RandomYearData()
+        //public static string RandomYearData()
+        //{
+        //    Random rand = new Random();
+        //    int validOrNotValue = rand.Next(0, 2); // определяем, будет ли значения валидным или нет
+        //    StringBuilder yearBuild = new StringBuilder();
+
+        //    if (validOrNotValue == 1) // если рандомом определено, что значение валидное, то Год составляется из чисел, не выходящих за заданный диапазон
+        //    {
+        //        int a;
+        //        int b = 0;
+        //        int c;
+        //        int d;
+        //        a = rand.Next(1, 3);
+
+        //        if (a == 1) // если год начинается с 1, то минимальный диапазон - 1874
+        //        {
+        //            b = rand.Next(8, 10);
+
+        //            if (b == 8)
+        //            {
+        //                c = rand.Next(7, 10);
+        //                d = rand.Next(4, 10);
+        //            }
+        //            else
+        //            {
+        //                c = rand.Next(1, 10);
+        //                d = rand.Next(1, 10);
+        //            }
+        //        }
+        //        else //если год начинается с 2, то максимальный диапазон - 2022
+        //        {
+
+        //            c = rand.Next(0, 3);
+        //            if (c == 2)
+        //                d = rand.Next(0, 3);
+        //            else
+        //                d = rand.Next(0, 10);
+        //        }
+        //        return $"{a}{b}{c}{d}";
+        //    }
+        //    else     // если рандомом определено, что значение должно быть невалидным, то составляем значение длиной = 4 символам из рандомных символов в заданном диапазоне таблицы ASCII
+        //    {
+        //        for (int x = 0; x < 4; ++x)
+        //            yearBuild.Append((char)rand.Next(48, 91));
+        //        return yearBuild.ToString();
+        //    }
+        //}
+
+
+        /// <summary>
+        /// Генератор данных для года рождения и годовщины. 
+        /// </summary>
+        /// <returns>Возвращает строку, представляющую собой год</returns>
+        public static string RndYearBuilder() //добавить кейс с невалидными(граничными) значениями
         {
-            Random rand = new Random();
-            int validOrNoteValue = rand.Next(0, 2); // определяем, будет ли значения валидным или нет
+            int validOrNotValue = rnd.Next(0, 2); 
             StringBuilder yearBuild = new StringBuilder();
 
-            if (validOrNoteValue == 1) // если рандомом определено, что значение валидное, то Год составляется из чисел, не выходящих за заданный диапазон
+            if (validOrNotValue == 1) 
             {
-                int a;
-                int b = 0;
-                int c;
-                int d;
-                a = rand.Next(1, 3);
-
-                if (a == 1) // если год начинается с 1, то минимальный диапазон - 1874
-                {
-                    b = rand.Next(8, 10);
-
-                    if (b == 8)
-                    {
-                        c = rand.Next(7, 10);
-                        d = rand.Next(4, 10);
-                    }
-                    else
-                    {
-                        c = rand.Next(1, 10);
-                        d = rand.Next(1, 10);
-                    }
-                }
-                else //если год начинается с 2, то максимальный диапазон - 2022
-                {
-
-                    c = rand.Next(0, 3);
-                    if (c == 2)
-                        d = rand.Next(0, 3);
-                    else
-                        d = rand.Next(0, 10);
-                }
-                return $"{a}{b}{c}{d}";
+                int year = rnd.Next(DateTime.Now.Year - 148, DateTime.Now.Year + 1);
+                return year.ToString();
             }
-            else     // если рандомом определено, что значение должно быть невалидным, то составляем значение длиной = 4 символам из рандомных символов в заданном диапазоне таблицы ASCII
+            else     
             {
                 for (int x = 0; x < 4; ++x)
-                    yearBuild.Append((char)rand.Next(48, 91));
+                    yearBuild.Append((char)rnd.Next(48, 91));
                 return yearBuild.ToString();
             }
         }
-
-        //TODO: 
-        //Сделать рандомайзер дней месяца(включая 0) и добавить файлы JSON и XML контакта в проект
 
         /// <summary>
         /// Генератор рандомного месяца

@@ -16,23 +16,30 @@ namespace addressbook_test_data_generators
     {
         static void Main(string[] args)
         {
-            string obj = args[0];
-            int count = Convert.ToInt32(args[1]);
+            /*
+             * string subject - сущность для которой генерируются тестовые наборы: groups или contacts
+             * int countOfSets - количество генерируемых комплектов
+             * StreamWriter writer - имя файла, в который будут записываться данные
+             * string format - формат файла, в которые записываются данные
+             */
+
+            string typeOfData = args[0];
+            int countOfSets = Convert.ToInt32(args[1]);
             StreamWriter writer = new StreamWriter(args[2]);
             string format = args[3];
 
-            if (obj == "groups")
+            if (typeOfData == "groups")
             {
                 List<GroupData> groups = new List<GroupData>();
-                for (int i = 0; i < count; i++)
+                for (int i = 0; i < countOfSets; i++)
                 {
                     //создаём объекты и добавляем их в список groups
                     groups.Add(new GroupData()
                     {
                         // в поля записываются значения сгенерированные функцией создающей случайную строку некоторой длинны
-                        Name = TestBase.RandomDataGenerator(10),
-                        Header = TestBase.RandomDataGenerator(10),
-                        Footer = TestBase.RandomDataGenerator(10)
+                        Name = TestBase.GenerateRandomString(10),
+                        Header = TestBase.GenerateRandomString(10),
+                        Footer = TestBase.GenerateRandomString(10)
                     });
                 }
 
@@ -56,38 +63,39 @@ namespace addressbook_test_data_generators
 
                 writer.Close();
             }
-            else if (obj == "contacts")
+
+            else if (typeOfData == "contacts")
             {
                 List<ContactData> contacts = new List<ContactData>();
-                for (int i = 0; i < count; i++)
+                for (int i = 0; i < countOfSets; i++)
                 {
                     contacts.Add(new ContactData()
                     {
-                        FirstName = TestBase.RandomDataGenerator(10),
-                        MiddleName = TestBase.RandomDataGenerator(10),
-                        LastName = TestBase.RandomDataGenerator(10),
-                        NickName = TestBase.RandomDataGenerator(10),
-                        Title = TestBase.RandomDataGenerator(10),
-                        Company = TestBase.RandomDataGenerator(10),
-                        FirstAddress = TestBase.RandomDataGenerator(10),
-                        FirstHomePhone = TestBase.RandomPhoneData(11),
-                        Mobile = TestBase.RandomPhoneData(11),
-                        WorkPhone = TestBase.RandomPhoneData(11),
-                        Fax = TestBase.RandomDataGenerator(10),
-                        Email = ($"{ TestBase.RandomDataGenerator(10)}@mail.no"),
-                        Email2 = ($"{ TestBase.RandomDataGenerator(10)}@mail.no"),
-                        Email3 = ($"{ TestBase.RandomDataGenerator(10)}@mail.no"),
-                        Homepage = TestBase.RandomDataGenerator(10),
+                        FirstName = TestBase.GenerateRandomString(10),
+                        MiddleName = TestBase.GenerateRandomString(10),
+                        LastName = TestBase.GenerateRandomString(10),
+                        NickName = TestBase.GenerateRandomString(10),
+                        Title = TestBase.GenerateRandomString(10),
+                        Company = TestBase.GenerateRandomString(10),
+                        FirstAddress = TestBase.GenerateRandomString(10),
+                        FirstHomePhone = TestBase.GenerateRandomString(11),
+                        Mobile = TestBase.GenerateRandomString(11),
+                        WorkPhone = TestBase.GenerateRandomString(11),
+                        Fax = TestBase.GenerateRandomString(10),
+                        Email = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+                        Email2 = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+                        Email3 = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+                        Homepage = TestBase.GenerateRandomString(10),
                         DayOfBirth = TestBase.RandomDigit(32),
                         MonthOfBirth = TestBase.RandomMonth(),
-                        YearOfBirth = TestBase.RandomYearData(),
+                        YearOfBirth = TestBase.RndYearBuilder(),
                         DayOfAnniversary = TestBase.RandomDigit(32),
                         MonthOfAnniversary = TestBase.RandomMonth(),
-                        YearOfAnniversary = TestBase.RandomYearData(),
+                        YearOfAnniversary = TestBase.RndYearBuilder(),
                         GroupOfContact = TestBase.RandomDigit(5),
-                        SecondAddress = TestBase.RandomDataGenerator(10),
-                        SecondHomePhone = TestBase.RandomPhoneData(11),
-                        SecondNotes = TestBase.RandomDataGenerator(10)
+                        SecondAddress = TestBase.GenerateRandomString(10),
+                        SecondHomePhone = TestBase.GenerateRandomString(11),
+                        SecondNotes = TestBase.GenerateRandomString(10)
                     });
                 }
 
@@ -109,7 +117,7 @@ namespace addressbook_test_data_generators
 
             else
             {
-                System.Console.Out.Write("Unrecogonized object " + obj);
+                System.Console.Out.Write("Unrecogonized object " + typeOfData);
                 writer.Close();
             }
         }

@@ -37,38 +37,9 @@ namespace WebAddressbookTests
 
         }
 
-        [Test, TestCaseSource("ContactDataFromJsonFile")]
+        [Test, TestCaseSource("ContactDataFromJsonFile")] //добавить генератор как в группах(+ там раскомментировать)
         public void ContactCreationTest(ContactData contact)
-        {
-            //ContactData contact = new ContactData
-            //{
-            //    FirstName = "Vanya",
-            //    MiddleName = "Petrovich",
-            //    LastName = "Petrov",
-            //    NickName = "Nick",
-            //    Title = "Any",
-            //    Company = "Magazine",
-            //    FirstAddress = "Any city, any street",
-            //    FirstHomePhone = "+(111)",
-            //    Mobile = "+7(800)5553535",
-            //    WorkPhone = "+7(900)",
-            //    Fax = "123321",
-            //    Email = "vandamm0123@mail.no",
-            //    Email2 = "vandamm0133@mail.no",
-            //    Email3 = "vandamm0333@mail.no",
-            //    Homepage = "n/a",
-            //    DayOfBirth = 2,
-            //    MonthOfBirth = 4,
-            //    YearOfBirth = "1971",
-            //    DayOfAnniversary = 2,
-            //    MonthOfAnniversary = 9,
-            //    YearOfAnniversary = "1996",
-            //    GroupOfContact = 2,
-            //    SecondAddress = "kolotushkina street",
-            //    SecondHomePhone = "+7(902)",
-            //    SecondNotes = "done"
-            //};
-
+        {   
             List<ContactData> oldContacts = appManager.Contacts.GetContactList();
 
             appManager.Contacts.ContactCreate(contact);
