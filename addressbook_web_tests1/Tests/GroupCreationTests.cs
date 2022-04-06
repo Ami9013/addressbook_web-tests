@@ -14,23 +14,24 @@ namespace WebAddressbookTests
     [TestFixture]
     public class GroupCreationTests : AuthTestBase
     {
-        //неиспользуемый провайдер тестовых данных, но пока оставлю
+        /// <summary>
+        /// Провайдер тестовых данных для групп без использования файла
+        /// </summary>
+        public static IEnumerable<GroupData> RandomGroupDataProvider()
+        {
+            List<GroupData> groups = new List<GroupData>();
 
-        //public static IEnumerable<GroupData> RandomGroupDataProvider() 
-        //{
-        //    List<GroupData> groups = new List<GroupData>();
-
-        //    for (int i = 0; i < 5; i++)
-        //    {
-        //        groups.Add(new GroupData()
-        //        {
-        //            Name = GenerateRandomString(30),
-        //            Header = GenerateRandomString(100),
-        //            Footer = GenerateRandomString(100)
-        //        });
-        //    }
-        //    return groups;
-        //}
+            for (int i = 0; i < 5; i++)
+            {
+                groups.Add(new GroupData()
+                {
+                    Name = GenerateRandomString(30),
+                    Header = GenerateRandomString(100),
+                    Footer = GenerateRandomString(100)
+                });
+            }
+            return groups;
+        }
 
 
         /// <summary>

@@ -22,7 +22,7 @@ namespace addressbook_test_data_generators
              * StreamWriter writer - имя файла, в который будут записываться данные
              * string format - формат файла, в которые записываются данные
              */
-
+            
             string typeOfData = args[0];
             int countOfSets = Convert.ToInt32(args[1]);
             StreamWriter writer = new StreamWriter(args[2]);
@@ -123,9 +123,11 @@ namespace addressbook_test_data_generators
         }
 
 
-            
 
-        // метод, осуществляющий запись в файл формата CSV
+
+        /// <summary>
+        /// Метод, осуществляющий запись в файл формата CSV
+        /// </summary>
         static void writeGroupsToCsvFile(List<GroupData> groups, StreamWriter writer)
         {
             foreach (GroupData group in groups)
@@ -136,33 +138,36 @@ namespace addressbook_test_data_generators
 
         }
 
-        // метод, осуществляющий запись в файл формата XML
+        /// <summary>
+        /// Метод, осуществляющий запись в файл формата XML
+        /// </summary>
         static void writeGroupsToXmlFile(List<GroupData> groups, StreamWriter writer)
         {
             //Создаём новый сериализатор(указываем данные какого типа он будет сериализовывать), затем в Serialize передаём (куда, что)
             new XmlSerializer(typeof(List<GroupData>)).Serialize(writer, groups);
         }
 
-        // метод, осуществляющий запись в файл формата JSON
+        /// <summary>
+        /// Метод, осуществляющий запись в файл формата JSON
+        /// </summary>
         static void writeGroupsToJsonFile(List<GroupData> groups, StreamWriter writer)
         {
             writer.Write(JsonConvert.SerializeObject(groups, Newtonsoft.Json.Formatting.Indented));
         }
 
 
-
-
-
-
-
-        // метод, осуществляющий запись в файл формата XML
+        /// <summary>
+        /// Метод, осуществляющий запись в файл формата XML
+        /// </summary>
         static void writeContactsToXmlFile(List<ContactData> contacts, StreamWriter writer)
         {
             //Создаём новый сериализатор(указываем данные какого типа он будет сериализовывать), затем в Serialize передаём (куда, что)
             new XmlSerializer(typeof(List<ContactData>)).Serialize(writer, contacts);
         }
 
-        // метод, осуществляющий запись в файл формата JSON
+        /// <summary>
+        /// Метод, осуществляющий запись в файл формата JSON
+        /// </summary>
         static void writeContactsToJsonFile(List<ContactData> contacts, StreamWriter writer)
         {
             writer.Write(JsonConvert.SerializeObject(contacts, Newtonsoft.Json.Formatting.Indented));

@@ -167,7 +167,6 @@ namespace WebAddressbookTests
             // если полученную строку(ГОД) не удалось конвертировать в целое число, то расчет годовщины лет не выполняется. Результат в скобках, следовательно, не выводится
             if (valueIsDigit)
             {
-                // приложение вычисляет результат только по году
                 //int yearCalculate = currentDate.Year - validYear;
                 int yearCalculate = currentDate.Year - validYear - 1 + ((currentDate.Month > getModel.MonthOfAnniversary || currentDate.Month == getModel.MonthOfAnniversary && currentDate.Day >= getModel.DayOfAnniversary) ? 1 : 0);
 

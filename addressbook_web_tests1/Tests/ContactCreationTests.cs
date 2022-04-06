@@ -14,6 +14,47 @@ namespace WebAddressbookTests
     [TestFixture]
     public class ContactCreationTests : AuthTestBase
     {
+        /// <summary>
+        /// Провайдер тестовых данных для контактов без использования файла
+        /// </summary>
+        public static IEnumerable<ContactData> RandomGroupDataProvider()
+        {
+            List<ContactData> groups = new List<ContactData>();
+
+            for (int i = 0; i < 2; i++)
+            {
+                groups.Add(new ContactData()
+                {
+                    FirstName = TestBase.GenerateRandomString(10),
+                    MiddleName = TestBase.GenerateRandomString(10),
+                    LastName = TestBase.GenerateRandomString(10),
+                    NickName = TestBase.GenerateRandomString(10),
+                    Title = TestBase.GenerateRandomString(10),
+                    Company = TestBase.GenerateRandomString(10),
+                    FirstAddress = TestBase.GenerateRandomString(10),
+                    FirstHomePhone = TestBase.GenerateRandomString(11),
+                    Mobile = TestBase.GenerateRandomString(11),
+                    WorkPhone = TestBase.GenerateRandomString(11),
+                    Fax = TestBase.GenerateRandomString(10),
+                    Email = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+                    Email2 = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+                    Email3 = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+                    Homepage = TestBase.GenerateRandomString(10),
+                    DayOfBirth = TestBase.RandomDigit(32),
+                    MonthOfBirth = TestBase.RandomMonth(),
+                    YearOfBirth = TestBase.RndYearBuilder(),
+                    DayOfAnniversary = TestBase.RandomDigit(32),
+                    MonthOfAnniversary = TestBase.RandomMonth(),
+                    YearOfAnniversary = TestBase.RndYearBuilder(),
+                    GroupOfContact = TestBase.RandomDigit(5),
+                    SecondAddress = TestBase.GenerateRandomString(10),
+                    SecondHomePhone = TestBase.GenerateRandomString(11),
+                    SecondNotes = TestBase.GenerateRandomString(10)
+                });
+            }
+            return groups;
+        }
+
 
         /// <summary>
         /// Читает данные из XML файла
@@ -37,7 +78,8 @@ namespace WebAddressbookTests
 
         }
 
-        [Test, TestCaseSource("ContactDataFromJsonFile")] //добавить генератор как в группах(+ там раскомментировать)
+
+        [Test, TestCaseSource("ContactDataFromJsonFile")]
         public void ContactCreationTest(ContactData contact)
         {   
             List<ContactData> oldContacts = appManager.Contacts.GetContactList();
