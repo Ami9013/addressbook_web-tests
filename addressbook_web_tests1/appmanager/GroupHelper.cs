@@ -99,6 +99,43 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
+        /// Удаляет группу по id переданного объекта(группы) 
+        /// </summary>
+        public GroupHelper Remove(GroupData group)
+        {
+            manager.Navigator.GoToGroupsPage();
+            if (GetGroupCount() == 0)
+            {
+                CreateGroup(GroupData.groupModel);
+            }
+            SelectGroup(group.Id);
+            RemoveGroup();
+            ReturnToGroupsPage();
+            return this;
+        }
+
+        /// <summary>
+        /// Изменяет группу по id переданного объекта(группы)
+        /// </summary>
+        /// <param name="group"></param>
+        /// <param name="newgroupData"></param>
+        /// <returns></returns>
+        public GroupHelper Modify(GroupData group, GroupData newgroupData)
+        {
+            manager.Navigator.GoToGroupsPage();
+            if (GetGroupCount() == 0)
+            {
+                CreateGroup(GroupData.groupModel);
+            }
+            SelectGroup(group.Id);
+            EditGroup();
+            FillGroupForm(newgroupData);
+            SubmitGroupEdit();
+            ReturnToGroupsPage();
+            return this;
+        }
+
+        /// <summary>
         /// Изменяет группу по переданному индексу
         /// Высокоуровневый метод. Содержит в себе все необходимые методы для изменения группы. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper
         /// </summary>
@@ -161,6 +198,18 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
+        /// Отмечает(выбирает) группу по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public GroupHelper SelectGroup(String id)
+        {
+            driver.FindElement(By.CssSelector("input[name='selected[]'][value='" + id + "']")).Click();
+            return this;
+        }
+
+
+        /// <summary>
         /// Удаляет выбранную группу
         /// </summary>
         public GroupHelper RemoveGroup()
@@ -197,5 +246,6 @@ namespace WebAddressbookTests
             driver.FindElement(By.CssSelector("div.msgbox a")).Click();
             return this;
         }
+
     }
 }

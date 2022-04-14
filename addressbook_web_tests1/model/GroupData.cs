@@ -4,17 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LinqToDB.Mapping;
 
 namespace WebAddressbookTests
 {
+    [Table(Name = "group_list")]
     public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
+        [Column(Name = "group_name")]
         public string Name { get; set; }
 
+        [Column(Name = "group_header")]
         public string Header { get; set; }
 
+        [Column(Name = "group_footer")]
         public string Footer { get; set; }
 
+        [Column(Name = "group_id"), PrimaryKey, Identity]
         public string Id { get; set; }
 
 
@@ -70,5 +76,13 @@ namespace WebAddressbookTests
             Header = "i Am new Any group header",
             Footer = "i Am new Any group footer"
         };
+
+        public static List<GroupData> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from g in db.Groups select g).ToList();                
+            }
+        }
     }
 }

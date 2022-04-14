@@ -5,11 +5,16 @@ using System.Threading;
 using NUnit.Framework;
 using System.Globalization;
 using System.Collections.Generic;
+using System.IO;
 
 namespace WebAddressbookTests
 {
     public class TestBase
     {
+        /// <summary>
+        /// Вкл/выкл длинную проверку: если состояние - true, в конце тестов, которые наследуются от GroupTestBase или ContactTestBase будет выполняться проверка списка полученного через UI со списком, полученным через БД
+        /// </summary>
+        public static bool PERFORM_LONG_UI_CHECKS = true;
         protected ApplicationManager appManager;
 
         [SetUp]

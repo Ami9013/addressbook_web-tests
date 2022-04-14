@@ -2,13 +2,14 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Linq;
 using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactRemovalTests : AuthTestBase
+    public class ContactRemovalTests : ContactTestBase
     {
         /// <summary>
         /// Удаление через карточку редактирования
@@ -16,15 +17,15 @@ namespace WebAddressbookTests
         [Test]
         public void ContactRemovalTest() 
         {
-            List<ContactData> oldContacts = appManager.Contacts.GetContactList();
-            ContactData toBeRemoved = oldContacts[1];
+            List<ContactData> oldContacts = ContactData.GetAll();
+            ContactData toBeRemoved = oldContacts[0];
 
-            appManager.Contacts.RemoveContactInEditCard(1);
+            appManager.Contacts.RemoveContactInEditCard(toBeRemoved);
 
             Assert.AreEqual(oldContacts.Count - 1, appManager.Contacts.GetContactCount());
 
-            List<ContactData> newContacts = appManager.Contacts.GetContactList();
-            oldContacts.RemoveAt(1);
+            List<ContactData> newContacts = ContactData.GetAll();
+            oldContacts.RemoveAt(0);
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
@@ -43,14 +44,14 @@ namespace WebAddressbookTests
         [Test]
         public void ContactRemovalTestByIndex()
         {
-            List<ContactData> oldContacts = appManager.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
             ContactData toBeRemoved = oldContacts[1];
 
             appManager.Contacts.RemoveByIndex(1);
 
             Assert.AreEqual(oldContacts.Count - 1, appManager.Contacts.GetContactCount());
 
-            List<ContactData> newContacts = appManager.Contacts.GetContactList();
+            List<ContactData> newContacts = ContactData.GetAll();
             oldContacts.RemoveAt(1);
             oldContacts.Sort();
             newContacts.Sort();

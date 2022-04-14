@@ -4,40 +4,130 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using LinqToDB.Mapping;
 using System.Globalization;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebAddressbookTests
 {
+    [Table(Name = "addressbook")]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        
+        [Column(Name = "firstname")]
         public string FirstName { get; set; }
+
+        [Column(Name = "middlename")]
         public string MiddleName { get; set; }
+
+        [Column(Name = "lastname")]
         public string LastName { get; set; }
+
+        [Column(Name = "nickname")]
         public string NickName { get; set; }
+
+        [Column(Name = "title")]
         public string Title { get; set; }
+
+        [Column(Name = "company")]
         public string Company { get; set; }
+
+        [Column(Name = "address")]
         public string FirstAddress { get; set; }
+
+        [Column(Name = "home")]
         public string FirstHomePhone { get; set; }
+
+        [Column(Name = "mobile")]
         public string Mobile { get; set; }
+
+        [Column(Name = "work")]
         public string WorkPhone { get; set; }
+
+        [Column(Name = "fax")]
         public string Fax { get; set; }
+
+        [Column(Name = "email")]
         public string Email { get; set; }
+
+        [Column(Name = "email2")]
         public string Email2 { get; set; }
+
+        [Column(Name = "email3")]
         public string Email3 { get; set; }
+
+        [Column(Name = "homepage")]
         public string Homepage { get; set; }
+
+        [Column(Name = "bday")]
         public int DayOfBirth { get; set; }
+
         public int MonthOfBirth { get; set; }
+
+        [Column(Name = "bmonth")]
+        public string monthOfBirth
+        {
+            get
+            {
+                return MonthsOfYear[monthOfBirth].ToString();
+            }
+            set
+            {
+                MonthOfBirth = MonthsOfYear[value];
+            }
+        }
+
+        [Column(Name = "byear")]
         public string YearOfBirth { get; set; }
+
+        [Column(Name = "aday")]
         public int DayOfAnniversary { get; set; }
+
         public int MonthOfAnniversary { get; set; }
+
+        [Column(Name = "amonth")]
+        public string monthOfAnniversary
+        {
+            get
+            {
+                return MonthsOfYear[monthOfAnniversary].ToString();
+            }
+            set
+            {
+                value = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(value);
+                MonthOfAnniversary = MonthsOfYear[value];
+            }
+        }
+
+        [Column(Name = "ayear")]
         public string YearOfAnniversary { get; set; }
-        public int GroupOfContact { get; set; } 
+
+        public int GroupOfContact { get; set; }
+
+        [Column(Name = "address2")]
         public string SecondAddress { get; set; }
+
+        [Column(Name = "phone2")]
         public string SecondHomePhone { get; set; }
+
+        [Column(Name = "notes")]
         public string SecondNotes { get; set; }
+
+        [Column(Name = "id")]
         public string Id { get; set; }
+
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
+
+
+
+        public static List<ContactData> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from c in db.Contacts.Where(x => x.Deprecated == "0000-00-00 00:00:00") select c).ToList();
+            }
+        }
+
 
         //С ключем коллекции месяцев сопоставляется string monthOfBirth / string monthOfAnniversary и получаем int значение месяца, которое присваиваем в соотв.поле
         public static Dictionary<string, int> MonthsOfYear = new Dictionary<string, int>()
@@ -59,7 +149,8 @@ namespace WebAddressbookTests
         };
 
 
-                
+        
+
         private string fullName;
         public string FullName
         {

@@ -12,18 +12,18 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactCreationTests : AuthTestBase
+    public class ContactCreationTests : ContactTestBase
     {
         /// <summary>
         /// Провайдер тестовых данных для контактов без использования файла
         /// </summary>
-        public static IEnumerable<ContactData> RandomGroupDataProvider()
+        public static IEnumerable<ContactData> RandomContactsDataProvider()
         {
-            List<ContactData> groups = new List<ContactData>();
+            List<ContactData> contacts = new List<ContactData>();
 
             for (int i = 0; i < 2; i++)
             {
-                groups.Add(new ContactData()
+                contacts.Add(new ContactData()
                 {
                     FirstName = TestBase.GenerateRandomString(10),
                     MiddleName = TestBase.GenerateRandomString(10),
@@ -52,8 +52,9 @@ namespace WebAddressbookTests
                     SecondNotes = TestBase.GenerateRandomString(10)
                 });
             }
-            return groups;
+            return contacts;
         }
+
 
 
         /// <summary>
@@ -79,16 +80,17 @@ namespace WebAddressbookTests
         }
 
 
-        [Test, TestCaseSource("ContactDataFromJsonFile")]
+        [Test, TestCaseSource("RandomContactsDataProvider")]
         public void ContactCreationTest(ContactData contact)
-        {   
-            List<ContactData> oldContacts = appManager.Contacts.GetContactList();
+        {
+
+            List<ContactData> oldContacts = ContactData.GetAll();
 
             appManager.Contacts.ContactCreate(contact);
 
             Assert.AreEqual(oldContacts.Count + 1, appManager.Contacts.GetContactCount());
 
-            List<ContactData> newContacts = appManager.Contacts.GetContactList();
+            List<ContactData> newContacts = ContactData.GetAll();
             oldContacts.Add(contact);
             oldContacts.Sort();
             newContacts.Sort();

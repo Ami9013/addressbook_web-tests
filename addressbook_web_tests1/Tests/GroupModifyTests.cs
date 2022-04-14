@@ -8,27 +8,26 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupModifyTests : AuthTestBase
+    public class GroupModifyTests : GroupTestBase
     {
         [Test]
         public void GroupModifyTest()
         {
             GroupData newgroupData = new GroupData
             {
-                Name = "Group name after update",
-                Header = "Group header after update",
-                Footer = "Group footer after update"
+                Name = GenerateRandomString(20),
+                Header = GenerateRandomString(20),
+                Footer = GenerateRandomString(20)
             };
 
-            List<GroupData> oldGroups = appManager.Groups.GetGroupFullData();
-            GroupData oldData = oldGroups[0]; 
+            List<GroupData> oldGroups = GroupData.GetAll();
+            GroupData oldData = oldGroups[0]; //группа для модификации
 
-            appManager.Groups.Modify(0, newgroupData);
+            appManager.Groups.Modify(oldData, newgroupData);
 
             Assert.AreEqual(oldGroups.Count, appManager.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = appManager.Groups.GetGroupFullData();
-            //реализация ниже именно такая, а не "oldGroups[0] = newgroupData;", т.к. в таком случае мы не теряем Id группы, хоть по нему и нет сравнения в Equals
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups[0].Name = newgroupData.Name;
             oldGroups[0].Header = newgroupData.Header;
             oldGroups[0].Footer = newgroupData.Footer;
