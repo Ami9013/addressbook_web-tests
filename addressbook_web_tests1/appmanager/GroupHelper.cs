@@ -68,6 +68,20 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
+        /// Проверяет наличие групп, если их нет - создает
+        /// </summary>
+        /// <returns></returns>
+        public GroupHelper GroupCheck()
+        {
+            manager.Navigator.GoToGroupsPage();
+            if (GetGroupCount() == 0)
+            {
+                CreateGroup(GroupData.groupModel);
+            }
+            return this;
+        }
+
+        /// <summary>
         /// Создает группу
         /// Высокоуровневый метод. Содержит в себе все необходимые методы для создания группы. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper
         /// </summary>

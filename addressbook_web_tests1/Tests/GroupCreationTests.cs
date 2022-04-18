@@ -157,5 +157,14 @@ namespace WebAddressbookTests
             end = DateTime.Now;
             System.Console.Out.WriteLine(end.Subtract(start));
         }
+
+        [Test]
+        public void GetGCRTest()
+        {
+            foreach (ContactData contact in GroupData.GetAll()[1].GetContacts())
+            {
+                System.Console.Out.WriteLine(contact);
+            }
+        }
     }
 }
