@@ -21,6 +21,79 @@ namespace WebAddressbookTests
         {
         }
 
+        public void AddContactToGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            ClearGroupFilter();
+            SelectContact(contact.Id);
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(5)).Until(d => driver.FindElements(By.CssSelector("div[id='content'] div.msgbox")).Count > 0);
+        }
+
+        public void RemoveContactFromGroup(ContactData contact, GroupData groupToRemove)
+        {
+            manager.Navigator.GoToHomePage();
+            ClearGroupFilter();
+            SelectGroupInDropDown(groupToRemove.Id);
+            SelectContact(contact.Id);
+            RemoveFromGroup();
+        }
+
+
+        /// <summary>
+        /// Нажимает на кнопку удаления контакта из группы
+        /// </summary>
+        public void RemoveFromGroup()
+        {
+            driver.FindElement(By.CssSelector("input[name='remove']")).Click();
+        }
+
+        /// <summary>
+        /// Выбирает группу в дропдауне по переданному ID группы(в дропдауне - value)
+        /// </summary>
+        /// <param name="groupId"></param>
+        public void SelectGroupInDropDown(string groupId)
+        {
+            new SelectElement(driver.FindElement(By.CssSelector("form[id='right'] select[name='group']"))).SelectByValue(groupId);
+        }
+
+
+        /// <summary>
+        /// Метод осуществляет сброс(выбор по умолчанию) в селекторе выбора групп на странице со списком контактов
+        /// </summary>
+        public void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.CssSelector("form[id='right'] select[name='group']"))).SelectByText("[all]");
+        }
+
+
+        /// <summary>
+        /// Отмечает(выбирает) контакт чек-боксом в списке котактов
+        /// </summary>
+        /// <param name="contactId"></param>
+        public void SelectContact(string contactId)
+        {
+            driver.FindElement(By.Id(contactId)).Click();
+        }
+
+        /// <summary>
+        /// В списке групп выбирает группу, в которую будет добавлен контакт 
+        /// </summary>
+        /// <param name="nameOfGroup"></param>
+        public void SelectGroupToAdd(string nameOfGroup)
+        {
+            new SelectElement(driver.FindElement(By.CssSelector("select[name='to_group']"))).SelectByText(nameOfGroup);
+        }
+
+        /// <summary>
+        /// Кликает по кнопке добавления контакта в выбранную группу
+        /// </summary>
+        public void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.CssSelector("input[name='add']")).Click();
+        }
+
 
         /// <summary>
         /// Получает и возвращает информацию о контакте, полученную из формы редактирования
