@@ -112,7 +112,7 @@ namespace WebAddressbookTests
         [Column(Name = "notes")]
         public string SecondNotes { get; set; }
 
-        [Column(Name = "id")]
+        [Column(Name = "id"), PrimaryKey]
         public string Id { get; set; }
 
         [Column(Name = "deprecated")]
@@ -128,6 +128,13 @@ namespace WebAddressbookTests
             }
         }
 
+        public List<GroupData> GetGroupRelationToRemove()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from g in db.Groups from gcr in db.GCR.Where(p => p.ContactId == Id && p.GroupId == g.Id && g.Deprecated == "0000-00-00 00:00:00") select g).Distinct().ToList();
+            }
+        }
 
         //С ключем коллекции месяцев сопоставляется string monthOfBirth / string monthOfAnniversary и получаем int значение месяца, которое присваиваем в соотв.поле
         public static Dictionary<string, int> MonthsOfYear = new Dictionary<string, int>()
@@ -341,7 +348,7 @@ namespace WebAddressbookTests
             DayOfAnniversary = TestBase.RandomDigit(32),
             MonthOfAnniversary = TestBase.RandomMonth(),
             YearOfAnniversary = TestBase.RndYearBuilder(),
-            GroupOfContact = TestBase.RandomDigit(5),
+            GroupOfContact = TestBase.RandomDigit(3),
             SecondAddress = TestBase.GenerateRandomString(10),
             SecondHomePhone = TestBase.GenerateRandomString(11),
             SecondNotes = TestBase.GenerateRandomString(10)

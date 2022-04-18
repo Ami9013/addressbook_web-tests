@@ -23,6 +23,9 @@ namespace WebAddressbookTests
         [Column(Name = "group_id"), PrimaryKey, Identity]
         public string Id { get; set; }
 
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
+
 
         public GroupData()
         {
@@ -48,6 +51,7 @@ namespace WebAddressbookTests
             }
             return Name == other.Name && Header == other.Header && Footer == other.Footer;
         }
+
 
         // Метод сравнения Хэш-кодов имени. Составляет числовой хэш по объекту
         public override int GetHashCode()
@@ -82,6 +86,14 @@ namespace WebAddressbookTests
             using (AddressBookDB db = new AddressBookDB())
             {
                 return (from g in db.Groups select g).ToList();                
+            }
+        }
+
+        public List<ContactData> GetContacts()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from c in db.Contacts from gcr in db.GCR.Where(p => p.GroupId == Id && p.ContactId == c.Id && c.Deprecated == "0000-00-00 00:00:00") select c).ToList();
             }
         }
     }
