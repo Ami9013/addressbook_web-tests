@@ -21,20 +21,15 @@ namespace WebAddressbookTests
         {
             if (PERFORM_LONG_UI_CHECKS)
             {
-                appManager.Auth.Login(new AccountData("admin", "secret"));
-                List<ContactData> fromUIList = new List<ContactData>();
-                int contactCount = appManager.Contacts.GetContactCount();
-                for (int i = 0; i < contactCount; i++)
-                {
-                    ContactData fromUIinForeache = appManager.Contacts.GetContactInformationFromEditForm(i);
-                    fromUIList.Add(fromUIinForeache);
-                }
+                List<ContactData> fromUIList = appManager.Contacts.GetContactList();
 
                 List<ContactData> fromDB = ContactData.GetAll();
                 fromUIList.Sort();
                 fromDB.Sort();
                 Assert.AreEqual(fromUIList, fromDB);
             }
-        }        
+
+            appManager.Auth.Logout();
+        }      
     }
 }

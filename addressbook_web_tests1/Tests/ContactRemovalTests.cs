@@ -18,6 +18,11 @@ namespace WebAddressbookTests
         public void ContactRemovalTest() 
         {
             List<ContactData> oldContacts = ContactData.GetAll();
+            if (oldContacts.Count == 0)
+            {
+                appManager.Contacts.ContactCreate(ContactData.contactModel);
+                oldContacts = ContactData.GetAll();
+            }
             ContactData toBeRemoved = oldContacts[0];
 
             appManager.Contacts.RemoveContactInEditCard(toBeRemoved);
@@ -34,8 +39,6 @@ namespace WebAddressbookTests
             {
                 Assert.AreNotEqual(contact.Id, toBeRemoved);
             }
-
-            appManager.Auth.Logout();
         }
 
         /// <summary>
@@ -45,6 +48,11 @@ namespace WebAddressbookTests
         public void ContactRemovalTestByIndex()
         {
             List<ContactData> oldContacts = ContactData.GetAll();
+            if (oldContacts.Count == 0)
+            {
+                appManager.Contacts.ContactCreate(ContactData.contactModel);
+                oldContacts = ContactData.GetAll();
+            }
             ContactData toBeRemoved = oldContacts[1];
 
             appManager.Contacts.RemoveByIndex(1);
@@ -61,8 +69,6 @@ namespace WebAddressbookTests
             {
                 Assert.AreNotEqual(contact.Id, toBeRemoved);
             }
-
-            appManager.Auth.Logout();
         }
     }
 }

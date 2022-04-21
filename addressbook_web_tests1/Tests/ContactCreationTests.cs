@@ -97,7 +97,6 @@ namespace WebAddressbookTests
 
             Assert.AreEqual(oldContacts, newContacts);
 
-            appManager.Auth.Logout();
         }
     }
 }

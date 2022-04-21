@@ -96,9 +96,6 @@ namespace WebAddressbookTests
             newGroups.Sort();
 
             Assert.AreEqual(oldGroups, newGroups);
-
-
-            appManager.Auth.Logout();
         }
 
         [Test]
@@ -145,7 +142,6 @@ namespace WebAddressbookTests
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
 
-            appManager.Auth.Logout();
         }
 
         [Test]

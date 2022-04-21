@@ -262,6 +262,7 @@ namespace WebAddressbookTests
             return driver.FindElements(By.Name("entry")).Count;
         }
 
+        
         /// <summary>
         /// Создает контакт
         /// Высокоуровневый метод. Содержит в себе все необходимые методы для создания контакта. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper

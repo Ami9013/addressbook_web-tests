@@ -266,7 +266,7 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return FirstName == other.FirstName && LastName == other.LastName;
+            return FirstName == other.FirstName && LastName == other.LastName && Id == other.Id;
         }
 
 
@@ -320,31 +320,31 @@ namespace WebAddressbookTests
 
         public static ContactData contactModel = new ContactData
         {
-            FirstName = "iAmNewVanya",
-            MiddleName = "iAmNewPetrovich",
-            LastName = "iAmNewPetrov",
-            NickName = "Nick",
-            Title = "Any",
-            Company = "Magazine",
-            FirstAddress = "Any city, any street",
-            FirstHomePhone = "+111",
-            Mobile = "+7(800)5553535",
-            WorkPhone = "+7(900)",
-            Fax = "123321",
-            Email = "vandamm0123@mail.no",
-            Email2 = "vandamm0133@mail.no",
-            Email3 = "vandamm0333@mail.no",
-            Homepage = "n/a",
-            DayOfBirth = 2,
-            MonthOfBirth = 4,
-            YearOfBirth = "1971",
-            DayOfAnniversary = 2,
-            MonthOfAnniversary = 9,
-            YearOfAnniversary = "1996",
-            GroupOfContact = 2,
-            SecondAddress = "kolotushkina street",
-            SecondHomePhone = "+(7800)",
-            SecondNotes = "done"
+            FirstName = TestBase.GenerateRandomString(10),
+            MiddleName = TestBase.GenerateRandomString(10),
+            LastName = TestBase.GenerateRandomString(10),
+            NickName = TestBase.GenerateRandomString(10),
+            Title = TestBase.GenerateRandomString(10),
+            Company = TestBase.GenerateRandomString(10),
+            FirstAddress = TestBase.GenerateRandomString(10),
+            FirstHomePhone = TestBase.GenerateRandomString(11),
+            Mobile = TestBase.GenerateRandomString(11),
+            WorkPhone = TestBase.GenerateRandomString(11),
+            Fax = TestBase.GenerateRandomString(10),
+            Email = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+            Email2 = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+            Email3 = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+            Homepage = TestBase.GenerateRandomString(10),
+            DayOfBirth = TestBase.RandomDigit(32),
+            MonthOfBirth = TestBase.RandomMonth(),
+            YearOfBirth = TestBase.RndYearBuilder(),
+            DayOfAnniversary = TestBase.RandomDigit(32),
+            MonthOfAnniversary = TestBase.RandomMonth(),
+            YearOfAnniversary = TestBase.RndYearBuilder(),
+            GroupOfContact = TestBase.RandomDigit(5),
+            SecondAddress = TestBase.GenerateRandomString(10),
+            SecondHomePhone = TestBase.GenerateRandomString(11),
+            SecondNotes = TestBase.GenerateRandomString(10)
         };
     }
 }

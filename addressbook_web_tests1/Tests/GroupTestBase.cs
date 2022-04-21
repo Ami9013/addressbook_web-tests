@@ -17,13 +17,14 @@ namespace WebAddressbookTests
         {
             if (PERFORM_LONG_UI_CHECKS)
             {
-                appManager.Auth.Login(new AccountData("admin", "secret"));
                 List<GroupData> fromUI = appManager.Groups.GetGroupFullData();
                 List<GroupData> fromDB = GroupData.GetAll();
                 fromUI.Sort();
                 fromDB.Sort();
                 Assert.AreEqual(fromUI, fromDB);
-            }            
+            }
+
+            appManager.Auth.Logout();
         }
     }
 }

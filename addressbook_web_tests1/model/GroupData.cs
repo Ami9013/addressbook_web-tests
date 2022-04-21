@@ -72,9 +72,9 @@ namespace WebAddressbookTests
 
         public static GroupData groupModel = new GroupData
         {
-            Name = "i Am new Group Name",
-            Header = "i Am new Any group header",
-            Footer = "i Am new Any group footer"
+            Name = TestBase.GenerateRandomString(10),
+            Header = TestBase.GenerateRandomString(10),
+            Footer = TestBase.GenerateRandomString(10)
         };
 
         public static List<GroupData> GetAll()

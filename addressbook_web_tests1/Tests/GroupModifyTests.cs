@@ -21,7 +21,12 @@ namespace WebAddressbookTests
             };
 
             List<GroupData> oldGroups = GroupData.GetAll();
-            GroupData oldData = oldGroups[0]; //группа для модификации
+            if (oldGroups.Count == 0)
+            {
+                appManager.Groups.CreateGroup(GroupData.groupModel);
+                oldGroups = GroupData.GetAll();
+            }
+            GroupData oldData = oldGroups[0];
 
             appManager.Groups.Modify(oldData, newgroupData);
 
@@ -42,9 +47,6 @@ namespace WebAddressbookTests
                     Assert.AreEqual(newgroupData, group);
                 }
             }
-
-            appManager.Auth.Logout();
-
         }
     }
 }

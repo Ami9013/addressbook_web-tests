@@ -42,7 +42,15 @@ namespace WebAddressbookTests
                 SecondNotes = TestBase.GenerateRandomString(10)
             };
 
+
             List<ContactData> oldContacts = ContactData.GetAll();
+
+            if (oldContacts.Count == 0)
+            {
+                appManager.Contacts.ContactCreate(ContactData.contactModel);
+                oldContacts = ContactData.GetAll();
+            }
+
             ContactData oldData = oldContacts[0];
 
             appManager.Contacts.Modify(oldData, newContactData);
@@ -65,8 +73,6 @@ namespace WebAddressbookTests
                     Assert.AreEqual(newContactData.LastName, contact.LastName);
                 }
             }
-
-            appManager.Auth.Logout();
         }
     }
 }

@@ -14,6 +14,11 @@ namespace WebAddressbookTests
         public void GroupRemovalTest()
         {
             List<GroupData> oldGroups = GroupData.GetAll();
+            if (oldGroups.Count == 0)
+            {
+                appManager.Groups.CreateGroup(GroupData.groupModel);
+                oldGroups = GroupData.GetAll();
+            }
             GroupData toBeRemoved = oldGroups[0];
 
             appManager.Groups.Remove(toBeRemoved);
@@ -30,8 +35,6 @@ namespace WebAddressbookTests
             {
                 Assert.AreNotEqual(group.Id, toBeRemoved.Id);
             }
-
-            appManager.Auth.Logout();
         }
     }
 }
