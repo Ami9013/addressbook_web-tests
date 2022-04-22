@@ -22,5 +22,10 @@ namespace WebAddressbookTests
         /// </summary>
         public ITable<ContactData> Contacts { get { return GetTable<ContactData>(); } }
 
+        /// <summary>
+        /// Извлекаем данные из таблицы БД, привязка к которой описана в GroupContactRelation
+        /// </summary>
+        public ITable<GroupContactRelation> GCR { get { return GetTable<GroupContactRelation>(); } }
+
     }
 }
