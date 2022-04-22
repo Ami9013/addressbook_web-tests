@@ -16,81 +16,118 @@ namespace addressbook_test_data_generators
     {
         static void Main(string[] args)
         {
+            /*
+             * string subject - сущность для которой генерируются тестовые наборы: groups или contacts
+             * int countOfSets - количество генерируемых комплектов
+             * StreamWriter writer - имя файла, в который будут записываться данные
+             * string format - формат файла, в которые записываются данные
+             */
+            
             string typeOfData = args[0];
-            int count = Convert.ToInt32(args[1]);
+            int countOfSets = Convert.ToInt32(args[1]);
             StreamWriter writer = new StreamWriter(args[2]);
             string format = args[3];
 
-            List<GroupData> groups = new List<GroupData>();
-            for (int i = 0; i < count; i++)
+            if (typeOfData == "groups")
             {
-                //создаём объекты и добавляем их в список groups
-                groups.Add(new GroupData()
+                List<GroupData> groups = new List<GroupData>();
+                for (int i = 0; i < countOfSets; i++)
                 {
-                    // в поля записываются значения сгенерированные функцией создающей случайную строку некоторой длинны
-                    Name = TestBase.GenerateRandomString(10),
-                    Header = TestBase.GenerateRandomString(10),
-                    Footer = TestBase.GenerateRandomString(10)
-                });
-            }
+                    //создаём объекты и добавляем их в список groups
+                    groups.Add(new GroupData()
+                    {
+                        // в поля записываются значения сгенерированные функцией создающей случайную строку некоторой длинны
+                        Name = TestBase.GenerateRandomString(10),
+                        Header = TestBase.GenerateRandomString(10),
+                        Footer = TestBase.GenerateRandomString(10)
+                    });
+                }
 
-            List<ContactData> contacts = new List<ContactData>();
-            for (int i = 0; i < count; i++)
-            {
-                contacts.Add(new ContactData()
+
+                if (format == "csv")
                 {
-                    FirstName = TestBase.GenerateRandomString(10),
-                    MiddleName = TestBase.GenerateRandomString(10),
-                    LastName = TestBase.GenerateRandomString(10),
-                    NickName = TestBase.GenerateRandomString(10),
-                    Title = TestBase.GenerateRandomString(10),
-                    Company = TestBase.GenerateRandomString(10),
-                    FirstAddress = TestBase.GenerateRandomString(10),
-                    FirstHomePhone = TestBase.GenerateRandomString(10), //нужны цифры, допустимы скобки, тире и +
-                    Mobile = TestBase.GenerateRandomString(10), //нужны цифры, допустимы скобки, тире и +
-                    WorkPhone = TestBase.GenerateRandomString(10), //нужны цифры, допустимы скобки, тире и +
-                    Fax = TestBase.GenerateRandomString(10), //нужны цифры + буквы
-                    Email = TestBase.GenerateRandomString(10), //нужны цифры, допустимы скобки, тире и + //нужно делать с окончанием @mail.no
-                    Email2 = TestBase.GenerateRandomString(10), //нужны цифры, допустимы скобки, тире и + //нужно делать с окончанием @mail.no
-                    Email3 = TestBase.GenerateRandomString(10), //нужны цифры, допустимы скобки, тире и + //нужно делать с окончанием @mail.no
-                    Homepage = TestBase.GenerateRandomString(10), //нужны цифры, допустимы скобки, тире и + //нужно делать с окончанием @mail.no
-                    DayOfBirth = 2, //int 0-31
-                    MonthOfBirth = 4, //int 0-12
-                    YearOfBirth = TestBase.GenerateRandomString(10), //наверное желательны только цифры
-                    DayOfAnniversary = 2,//int 0-31
-                    MonthOfAnniversary = 9,//int 0-12
-                    YearOfAnniversary = TestBase.GenerateRandomString(10), //наверное желательны только цифры
-                    GroupOfContact = 2, //рандомное число от 0 до скольки то
-                    SecondAddress = TestBase.GenerateRandomString(10),
-                    SecondHomePhone = TestBase.GenerateRandomString(10), //нужны цифры, допустимы скобки, тире и +
-                    SecondNotes = TestBase.GenerateRandomString(10),
-                });
+                    writeGroupsToCsvFile(groups, writer);
+                }
+                else if (format == "xml")
+                {
+                    writeGroupsToXmlFile(groups, writer);
+                }
+                else if (format == "json")
+                {
+                    writeGroupsToJsonFile(groups, writer);
+                }
+                else
+                {
+                    System.Console.Out.Write("Unrecogonized format " + format);
+                }
+
+                writer.Close();
             }
 
+            else if (typeOfData == "contacts")
+            {
+                List<ContactData> contacts = new List<ContactData>();
+                for (int i = 0; i < countOfSets; i++)
+                {
+                    contacts.Add(new ContactData()
+                    {
+                        FirstName = TestBase.GenerateRandomString(10),
+                        MiddleName = TestBase.GenerateRandomString(10),
+                        LastName = TestBase.GenerateRandomString(10),
+                        NickName = TestBase.GenerateRandomString(10),
+                        Title = TestBase.GenerateRandomString(10),
+                        Company = TestBase.GenerateRandomString(10),
+                        FirstAddress = TestBase.GenerateRandomString(10),
+                        FirstHomePhone = TestBase.GenerateRandomString(11),
+                        Mobile = TestBase.GenerateRandomString(11),
+                        WorkPhone = TestBase.GenerateRandomString(11),
+                        Fax = TestBase.GenerateRandomString(10),
+                        Email = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+                        Email2 = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+                        Email3 = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+                        Homepage = TestBase.GenerateRandomString(10),
+                        DayOfBirth = TestBase.RandomDigit(32),
+                        MonthOfBirth = TestBase.RandomMonth(),
+                        YearOfBirth = TestBase.RndYearBuilder(),
+                        DayOfAnniversary = TestBase.RandomDigit(32),
+                        MonthOfAnniversary = TestBase.RandomMonth(),
+                        YearOfAnniversary = TestBase.RndYearBuilder(),
+                        GroupOfContact = TestBase.RandomDigit(5),
+                        SecondAddress = TestBase.GenerateRandomString(10),
+                        SecondHomePhone = TestBase.GenerateRandomString(11),
+                        SecondNotes = TestBase.GenerateRandomString(10)
+                    });
+                }
 
+                if (format == "xml")
+                {
+                    writeContactsToXmlFile(contacts, writer);
+                }
+                else if (format == "json")
+                {
+                    writeContactsToJsonFile(contacts, writer);
+                }
+                else
+                {
+                    System.Console.Out.Write("Unrecogonized format " + format);
+                }
 
-            if (format == "csv")
-            {
-                writeGroupsToCsvFile(groups, writer);
+                writer.Close();
             }
-            else if (format == "xml")
-            {
-                writeGroupsToXmlFile(groups, writer);
-            }
-            else if (format == "json")
-            {
-                writeGroupsToJsonFile(groups, writer);
-            }
+
             else
             {
-                System.Console.Out.Write("Unrecogonized format " + format);
+                System.Console.Out.Write("Unrecogonized object " + typeOfData);
+                writer.Close();
             }
-
-            
-            writer.Close();
         }
 
-        // метод, осуществляющий запись в файл формата CSV
+
+
+
+        /// <summary>
+        /// Метод, осуществляющий запись в файл формата CSV
+        /// </summary>
         static void writeGroupsToCsvFile(List<GroupData> groups, StreamWriter writer)
         {
             foreach (GroupData group in groups)
@@ -98,20 +135,42 @@ namespace addressbook_test_data_generators
                 writer.WriteLine(String.Format("${0},${1},${2}",
                     group.Name, group.Header, group.Footer));
             }
-                
+
         }
 
-        // метод, осуществляющий запись в файл формата XML
+        /// <summary>
+        /// Метод, осуществляющий запись в файл формата XML
+        /// </summary>
         static void writeGroupsToXmlFile(List<GroupData> groups, StreamWriter writer)
         {
             //Создаём новый сериализатор(указываем данные какого типа он будет сериализовывать), затем в Serialize передаём (куда, что)
             new XmlSerializer(typeof(List<GroupData>)).Serialize(writer, groups);
         }
 
-        // метод, осуществляющий запись в файл формата JSON
+        /// <summary>
+        /// Метод, осуществляющий запись в файл формата JSON
+        /// </summary>
         static void writeGroupsToJsonFile(List<GroupData> groups, StreamWriter writer)
         {
             writer.Write(JsonConvert.SerializeObject(groups, Newtonsoft.Json.Formatting.Indented));
+        }
+
+
+        /// <summary>
+        /// Метод, осуществляющий запись в файл формата XML
+        /// </summary>
+        static void writeContactsToXmlFile(List<ContactData> contacts, StreamWriter writer)
+        {
+            //Создаём новый сериализатор(указываем данные какого типа он будет сериализовывать), затем в Serialize передаём (куда, что)
+            new XmlSerializer(typeof(List<ContactData>)).Serialize(writer, contacts);
+        }
+
+        /// <summary>
+        /// Метод, осуществляющий запись в файл формата JSON
+        /// </summary>
+        static void writeContactsToJsonFile(List<ContactData> contacts, StreamWriter writer)
+        {
+            writer.Write(JsonConvert.SerializeObject(contacts, Newtonsoft.Json.Formatting.Indented));
         }
 
     }

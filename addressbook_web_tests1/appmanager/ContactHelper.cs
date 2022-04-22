@@ -167,8 +167,9 @@ namespace WebAddressbookTests
             // если полученную строку(ГОД) не удалось конвертировать в целое число, то расчет годовщины лет не выполняется. Результат в скобках, следовательно, не выводится
             if (valueIsDigit)
             {
-                // приложение вычисляет результат только по году
-                int yearCalculate = currentDate.Year - validYear;
+                //int yearCalculate = currentDate.Year - validYear;
+                int yearCalculate = currentDate.Year - validYear - 1 + ((currentDate.Month > getModel.MonthOfAnniversary || currentDate.Month == getModel.MonthOfAnniversary && currentDate.Day >= getModel.DayOfAnniversary) ? 1 : 0);
+
 
 
                 if (yearCalculate <= 149)
@@ -212,6 +213,10 @@ namespace WebAddressbookTests
             manager.Navigator.GoToHomePage();
             GoToDetailsPage(p);
             string allDetails = driver.FindElement(By.CssSelector("div[id='content']")).Text.Trim();
+            if (allDetails.Contains("Member of"))
+            {
+                return allDetails.Remove(allDetails.IndexOf("Member of"));
+            }
             return allDetails;
         }
 
@@ -257,6 +262,7 @@ namespace WebAddressbookTests
             return driver.FindElements(By.Name("entry")).Count;
         }
 
+        
         /// <summary>
         /// Создает контакт
         /// Высокоуровневый метод. Содержит в себе все необходимые методы для создания контакта. Обращается к вспомогательным методам своего класса и к методам класса NavigationHelper
@@ -306,6 +312,24 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
+        /// Удаляет контакт по id переданного объекта
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public ContactHelper RemoveContactInEditCard(ContactData contact)
+        {
+            manager.Navigator.GoToHomePage();
+            if (GetContactCount() == 0)
+            {
+                ContactCreate(ContactData.contactModel);
+            }
+            ModifyContact(contact.Id);
+            RemoveContactInCard();
+            manager.Navigator.ReturnToHomePage();
+            return this;
+        }
+
+        /// <summary>
         /// Изменяет контакт по переданному индексу
         /// Высокоуровневый метод. Содержит в себе все необходимые методы для изменения контакта. Обращается к вспомогательным методам своего класса
         /// </summary>
@@ -317,6 +341,26 @@ namespace WebAddressbookTests
                 ContactCreate(ContactData.contactModel);
             }
             ModifyContact(p);
+            FillContactForm(newContactData, false);
+            SubmitContactModify();
+            ReturnToHomePageafterUpd();
+            return this;
+        }
+
+        /// <summary>
+        /// Изменяет контакт по переданному id 
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <param name="newContactData"></param>
+        /// <returns></returns>
+        public ContactHelper Modify(ContactData contact, ContactData newContactData)
+        {
+            manager.Navigator.GoToHomePage();
+            if (GetContactCount() == 0)
+            {
+                ContactCreate(ContactData.contactModel);
+            }
+            ModifyContact(contact.Id);
             FillContactForm(newContactData, false);
             SubmitContactModify();
             ReturnToHomePageafterUpd();
@@ -410,6 +454,17 @@ namespace WebAddressbookTests
         public ContactHelper ModifyContact(int index)
         {
             driver.FindElements(By.CssSelector("table[id=maintable] td:nth-child(8) a"))[index].Click();
+            return this;
+        }
+
+        /// <summary>
+        /// Открывает форму редактирования контакта по переданному id 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ContactHelper ModifyContact(String id)
+        {
+            driver.FindElement(By.CssSelector("table[id=maintable] td:nth-child(8) a[href$='" + id + "']")).Click();
             return this;
         }
 

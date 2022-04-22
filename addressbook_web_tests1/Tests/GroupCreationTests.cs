@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
@@ -12,25 +13,26 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupCreationTests : AuthTestBase
+    public class GroupCreationTests : GroupTestBase
     {
-        //неиспользуемый провайдер тестовых данных, но пока оставлю
+        /// <summary>
+        /// Провайдер тестовых данных для групп без использования файла
+        /// </summary>
+        public static IEnumerable<GroupData> RandomGroupDataProvider()
+        {
+            List<GroupData> groups = new List<GroupData>();
 
-        //public static IEnumerable<GroupData> RandomGroupDataProvider() 
-        //{
-        //    List<GroupData> groups = new List<GroupData>();
-
-        //    for (int i = 0; i < 5; i++)
-        //    {
-        //        groups.Add(new GroupData()
-        //        {
-        //            Name = GenerateRandomString(30),
-        //            Header = GenerateRandomString(100),
-        //            Footer = GenerateRandomString(100)
-        //        });
-        //    }
-        //    return groups;
-        //}
+            for (int i = 0; i < 5; i++)
+            {
+                groups.Add(new GroupData()
+                {
+                    Name = GenerateRandomString(30),
+                    Header = GenerateRandomString(100),
+                    Footer = GenerateRandomString(100)
+                });
+            }
+            return groups;
+        }
 
 
         /// <summary>
@@ -82,20 +84,18 @@ namespace WebAddressbookTests
         [Test, TestCaseSource("GroupDataFromJsonFile")] //определяем провайдера, который будет читать данные из файла
         public void GroupCreationTest(GroupData group)
         {
-            List<GroupData> oldGroups = appManager.Groups.GetGroupFullData();
+            List<GroupData> oldGroups = GroupData.GetAll();
 
             appManager.Groups.CreateGroup(group);
 
             Assert.AreEqual(oldGroups.Count + 1, appManager.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = appManager.Groups.GetGroupFullData();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
 
             Assert.AreEqual(oldGroups, newGroups);
-
-            appManager.Auth.Logout();
         }
 
         [Test]
@@ -142,7 +142,20 @@ namespace WebAddressbookTests
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
 
-            appManager.Auth.Logout();
+        }
+
+        [Test]
+        public void TestDBConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<GroupData> fromUi = appManager.Groups.GetGroupFullData();
+            DateTime end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+
+            start = DateTime.Now;
+            List<GroupData> fromDb = GroupData.GetAll();
+            end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
         }
     }
 }

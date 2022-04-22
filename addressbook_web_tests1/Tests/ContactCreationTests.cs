@@ -2,60 +2,101 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Xml;
+using System.IO;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactCreationTests : AuthTestBase
+    public class ContactCreationTests : ContactTestBase
     {
-        [Test]
-        public void ContactCreationTest()
+        /// <summary>
+        /// Провайдер тестовых данных для контактов без использования файла
+        /// </summary>
+        public static IEnumerable<ContactData> RandomContactsDataProvider()
         {
-            ContactData contact = new ContactData
-            {
-                FirstName = "Vanya",
-                MiddleName = "Petrovich",
-                LastName = "Petrov",
-                NickName = "Nick",
-                Title = "Any",
-                Company = "Magazine",
-                FirstAddress = "Any city, any street",
-                FirstHomePhone = "+(111)",
-                Mobile = "+7(800)5553535",
-                WorkPhone = "+7(900)",
-                Fax = "123321",
-                Email = "vandamm0123@mail.no",
-                Email2 = "vandamm0133@mail.no",
-                Email3 = "vandamm0333@mail.no",
-                Homepage = "n/a",
-                DayOfBirth = 2,
-                MonthOfBirth = 4,
-                YearOfBirth = "1971",
-                DayOfAnniversary = 2,
-                MonthOfAnniversary = 9,
-                YearOfAnniversary = "1996",
-                GroupOfContact = 2,
-                SecondAddress = "kolotushkina street",
-                SecondHomePhone = "+7(902)",
-                SecondNotes = "done"
-            };
+            List<ContactData> contacts = new List<ContactData>();
 
-            List<ContactData> oldContacts = appManager.Contacts.GetContactList();
+            for (int i = 0; i < 2; i++)
+            {
+                contacts.Add(new ContactData()
+                {
+                    FirstName = TestBase.GenerateRandomString(10),
+                    MiddleName = TestBase.GenerateRandomString(10),
+                    LastName = TestBase.GenerateRandomString(10),
+                    NickName = TestBase.GenerateRandomString(10),
+                    Title = TestBase.GenerateRandomString(10),
+                    Company = TestBase.GenerateRandomString(10),
+                    FirstAddress = TestBase.GenerateRandomString(10),
+                    FirstHomePhone = TestBase.GenerateRandomString(11),
+                    Mobile = TestBase.GenerateRandomString(11),
+                    WorkPhone = TestBase.GenerateRandomString(11),
+                    Fax = TestBase.GenerateRandomString(10),
+                    Email = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+                    Email2 = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+                    Email3 = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+                    Homepage = TestBase.GenerateRandomString(10),
+                    DayOfBirth = TestBase.RandomDigit(32),
+                    MonthOfBirth = TestBase.RandomMonth(),
+                    YearOfBirth = TestBase.RndYearBuilder(),
+                    DayOfAnniversary = TestBase.RandomDigit(32),
+                    MonthOfAnniversary = TestBase.RandomMonth(),
+                    YearOfAnniversary = TestBase.RndYearBuilder(),
+                    GroupOfContact = TestBase.RandomDigit(5),
+                    SecondAddress = TestBase.GenerateRandomString(10),
+                    SecondHomePhone = TestBase.GenerateRandomString(11),
+                    SecondNotes = TestBase.GenerateRandomString(10)
+                });
+            }
+            return contacts;
+        }
+
+
+
+        /// <summary>
+        /// Читает данные из XML файла
+        /// </summary>
+        public static IEnumerable<ContactData> ContactDataFromXmlFile()
+        {
+            //возвращаем, приведенный в явном виде к типу List<ContactData>, результат десериализации(прочтения) из файла
+            //XmlSerializer читает данные типа List<ContactData>
+            return (List<ContactData>)new XmlSerializer(typeof(List<ContactData>)).Deserialize(new StreamReader(@"contacts.xml"));
+
+        }
+
+        /// <summary>
+        /// Читает данные из JSON файла
+        /// </summary>
+        public static IEnumerable<ContactData> ContactDataFromJsonFile()
+        {
+            //возвращает результат десериализации(прочтения) объекта типа<List<ContactData>>
+            //в качестве параметра для прочтения передается текст, полученный ReadAllText(из файла)
+            return JsonConvert.DeserializeObject<List<ContactData>>(File.ReadAllText(@"contacts.json"));
+
+        }
+
+
+        [Test, TestCaseSource("RandomContactsDataProvider")]
+        public void ContactCreationTest(ContactData contact)
+        {
+
+            List<ContactData> oldContacts = ContactData.GetAll();
 
             appManager.Contacts.ContactCreate(contact);
 
             Assert.AreEqual(oldContacts.Count + 1, appManager.Contacts.GetContactCount());
 
-            List<ContactData> newContacts = appManager.Contacts.GetContactList();
+            List<ContactData> newContacts = ContactData.GetAll();
             oldContacts.Add(contact);
             oldContacts.Sort();
             newContacts.Sort();
 
             Assert.AreEqual(oldContacts, newContacts);
 
-            appManager.Auth.Logout();
         }
     }
 }

@@ -8,49 +8,58 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactModifyTests : AuthTestBase
+    public class ContactModifyTests : ContactTestBase
     {
         [Test]
         public void ContactModifyTest()
         {
             ContactData newContactData = new ContactData
             {
-                FirstName = "UpdVanya",
-                MiddleName = "UpdPetrovich",
-                LastName = "UpdPetrov",
-                NickName = "UpdNick",
-                Title = "UpdAny",
-                Company = "UpdMagazine",
-                FirstAddress = "Upd Any city, any street",
-                FirstHomePhone = "+7(111)",
-                Mobile = "+1(2)3321123",
-                WorkPhone = "+7(901)",
-                Fax = "987654",
-                Email = "Updvandamm0123@mail.no",
-                Email2 = "Updvandamm0133@mail.no",
-                Email3 = "Updvandamm0333@mail.no",
-                Homepage = "Updn/a",
-                DayOfBirth = 31,
-                MonthOfBirth = 7,
-                YearOfBirth = "1900",
-                DayOfAnniversary = 1,
-                MonthOfAnniversary = 12,
-                YearOfAnniversary = "2222",
-                SecondAddress = "Upd kolotushkina street",
-                SecondHomePhone = "+7(902)",
-                SecondNotes = "upd done"
+                FirstName = TestBase.GenerateRandomString(10),
+                MiddleName = TestBase.GenerateRandomString(10),
+                LastName = TestBase.GenerateRandomString(10),
+                NickName = TestBase.GenerateRandomString(10),
+                Title = TestBase.GenerateRandomString(10),
+                Company = TestBase.GenerateRandomString(10),
+                FirstAddress = TestBase.GenerateRandomString(10),
+                FirstHomePhone = TestBase.GenerateRandomString(11),
+                Mobile = TestBase.GenerateRandomString(11),
+                WorkPhone = TestBase.GenerateRandomString(11),
+                Fax = TestBase.GenerateRandomString(10),
+                Email = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+                Email2 = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+                Email3 = ($"{ TestBase.GenerateRandomString(10)}@mail.no"),
+                Homepage = TestBase.GenerateRandomString(10),
+                DayOfBirth = TestBase.RandomDigit(32),
+                MonthOfBirth = TestBase.RandomMonth(),
+                YearOfBirth = TestBase.RndYearBuilder(),
+                DayOfAnniversary = TestBase.RandomDigit(32),
+                MonthOfAnniversary = TestBase.RandomMonth(),
+                YearOfAnniversary = TestBase.RndYearBuilder(),
+                GroupOfContact = TestBase.RandomDigit(5),
+                SecondAddress = TestBase.GenerateRandomString(10),
+                SecondHomePhone = TestBase.GenerateRandomString(11),
+                SecondNotes = TestBase.GenerateRandomString(10)
             };
 
-            List<ContactData> oldContacts = appManager.Contacts.GetContactList();
-            ContactData oldData = oldContacts[1];
 
-            appManager.Contacts.Modify(1, newContactData);
+            List<ContactData> oldContacts = ContactData.GetAll();
+
+            if (oldContacts.Count == 0)
+            {
+                appManager.Contacts.ContactCreate(ContactData.contactModel);
+                oldContacts = ContactData.GetAll();
+            }
+
+            ContactData oldData = oldContacts[0];
+
+            appManager.Contacts.Modify(oldData, newContactData);
 
             Assert.AreEqual(oldContacts.Count, appManager.Contacts.GetContactCount());
 
-            List<ContactData> newContacts = appManager.Contacts.GetContactList();
-            oldContacts[1].FirstName = newContactData.FirstName;
-            oldContacts[1].LastName = newContactData.LastName;
+            List<ContactData> newContacts = ContactData.GetAll();
+            oldContacts[0].FirstName = newContactData.FirstName;
+            oldContacts[0].LastName = newContactData.LastName;
             oldContacts.Sort();
             newContacts.Sort();
 
@@ -64,8 +73,6 @@ namespace WebAddressbookTests
                     Assert.AreEqual(newContactData.LastName, contact.LastName);
                 }
             }
-
-            appManager.Auth.Logout();
         }
     }
 }
