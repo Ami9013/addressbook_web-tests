@@ -71,13 +71,13 @@ namespace WebAddressbookTests
         /// <summary>
         /// Читает данные из JSON файла
         /// </summary>
-        public static IEnumerable<GroupData> GroupDataFromJsonFile()
-        {
-            //возвращает результат десериализации(прочтения) объекта типа<List<GroupData>>
-            //в качестве параметра для прочтения передается текст, полученный ReadAllText(из файла)
-            return JsonConvert.DeserializeObject<List<GroupData>>(File.ReadAllText(@"groups.json"));
+        //public static IEnumerable<GroupData> GroupDataFromJsonFile()
+        //{
+        //    //возвращает результат десериализации(прочтения) объекта типа<List<GroupData>>
+        //    //в качестве параметра для прочтения передается текст, полученный ReadAllText(из файла)
+        //    return JsonConvert.DeserializeObject<List<GroupData>>(File.ReadAllText(@"groups.json"));
 
-        }
+        //}
 
 
 

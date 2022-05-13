@@ -15,11 +15,16 @@ namespace WebAddressbookTests
     {
         protected IWebDriver driver;
         protected string baseURL;
+        protected string testFundistUrl;
 
         protected LoginHelper loginHelper;
         protected NavigationHelper navigator;
         protected GroupHelper groupHelper;
         protected ContactHelper contactHelper;
+        protected FundistNavigationHelper fundistNavigator;
+        protected FundistLoginHelper fundistLogin;
+        protected FundistFilterElementHelper fundistFilter;
+        protected UserSummaryHelper fundistUserHelper;
 
         private static ThreadLocal<ApplicationManager> appManager = new ThreadLocal<ApplicationManager>();
 
@@ -27,8 +32,13 @@ namespace WebAddressbookTests
         {
             driver = new ChromeDriver();
             baseURL = "http://localhost";
+            testFundistUrl = "https://test.fundist.org";
 
             loginHelper = new LoginHelper(this);
+            fundistNavigator = new FundistNavigationHelper(this, testFundistUrl);
+            fundistLogin = new FundistLoginHelper(this);
+            fundistFilter = new FundistFilterElementHelper(this);
+            fundistUserHelper = new UserSummaryHelper(this);
             navigator = new NavigationHelper(this, baseURL);
             groupHelper = new GroupHelper(this);
             contactHelper = new ContactHelper(this);
@@ -45,6 +55,17 @@ namespace WebAddressbookTests
             {
                 ApplicationManager newInstance = new ApplicationManager();
                 newInstance.Navigator.GoToHomePage();
+                appManager.Value = newInstance;
+            }
+            return appManager.Value;
+        }
+
+        public static ApplicationManager GetFundistInstance()
+        {
+            if (! appManager.IsValueCreated)
+            {
+                ApplicationManager newInstance = new ApplicationManager();
+                newInstance.FundistNavigator.GoToMainPage();
                 appManager.Value = newInstance;
             }
             return appManager.Value;
@@ -88,6 +109,38 @@ namespace WebAddressbookTests
             get
             {
                 return contactHelper;
+            }
+        }
+
+        public FundistNavigationHelper FundistNavigator
+        {
+            get
+            {
+                return fundistNavigator;
+            }
+        }
+
+        public FundistLoginHelper FundistAuth
+        {
+            get
+            {
+                return fundistLogin;
+            }
+        }
+
+        public UserSummaryHelper UserHelper
+        {
+            get
+            {
+                return fundistUserHelper;
+            }
+        }
+
+        public FundistFilterElementHelper FundistFilter
+        {
+            get
+            {
+                return fundistFilter;
             }
         }
     }
